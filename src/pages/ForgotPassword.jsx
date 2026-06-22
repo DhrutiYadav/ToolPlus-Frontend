@@ -2,28 +2,23 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import api from "../api/axiosInstance";
+import { forgotPassword } from "../api/authApi";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const handleForgotPassword = async (data) => {
-    if (data.newPassword !== data.confirmPassword) {
-      toast.error("Passwords do not match.");
-      return;
-    }
-
     setLoading(true);
     try {
-      await api.post("/profile/forgot-password", data);
-      toast.success("Password reset successfully! You can now log in.");
-      navigate("/login");
+      await forgotPassword(data.email);
+      setEmailSent(true);
+      toast.success("If an account exists, a password reset email has been sent.");
     } catch (error) {
       console.error("Forgot password failure:", error);
-      const errorMessage = error.response?.data?.message || "Failed to reset password.";
-      toast.error(errorMessage);
+      toast.success("If an account exists, a password reset email has been sent.");
     } finally {
       setLoading(false);
     }
@@ -44,71 +39,61 @@ const ForgotPassword = () => {
         </div>
 
         <div className="text-center mb-4">
-          <h2 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">Reset Password</h2>
-          <p className="text-slate-500 dark:text-slate-400 fs-6 transition-colors">Enter your email and a new password</p>
+          <h2 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">Forgot Password</h2>
+          <p className="text-slate-500 dark:text-slate-400 fs-6 transition-colors">Enter your email to receive a reset link</p>
         </div>
 
-        <form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
-          <div className="mb-3">
-            <label className="form-label fw-bold text-slate-900 dark:text-white fs-7 transition-colors">Email Address</label>
-            <input
-              type="email"
-              className={`form-control py-2 px-3 border ${errors.email ? 'is-invalid border-danger' : 'border-slate-200 dark:border-slate-700'} bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors`}
-              placeholder="name@example.com"
-              disabled={loading}
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && <div className="invalid-feedback d-block">{errors.email.message}</div>}
-          </div>
+        {emailSent ? (
+            <div className="text-center">
+                <div className="alert alert-success border-0 bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded-4 py-3 mb-4">
+                    <i className="bi bi-check-circle-fill me-2 fs-5 align-middle"></i>
+                    Check your email for the reset link!
+                </div>
+                <Link to="/login" className="btn btn-outline-primary w-100 py-3 rounded-pill fw-bold text-uppercase tracking-wider">
+                    Return to Log In
+                </Link>
+            </div>
+        ) : (
+            <form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
+            <div className="mb-4">
+                <label className="form-label fw-bold text-slate-900 dark:text-white fs-7 transition-colors">Email Address</label>
+                <input
+                type="email"
+                className={`form-control py-2 px-3 border ${errors.email ? 'is-invalid border-danger' : 'border-slate-200 dark:border-slate-700'} bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors`}
+                placeholder="name@example.com"
+                disabled={loading}
+                {...register("email", { required: "Email is required" })}
+                />
+                {errors.email && <div className="invalid-feedback d-block">{errors.email.message}</div>}
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label fw-bold text-slate-900 dark:text-white fs-7 transition-colors">New Password</label>
-            <input
-              type="password"
-              className={`form-control py-2 px-3 border ${errors.newPassword ? 'is-invalid border-danger' : 'border-slate-200 dark:border-slate-700'} bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors`}
-              placeholder="••••••••"
-              disabled={loading}
-              {...register("newPassword", { required: "New Password is required" })}
-            />
-            {errors.newPassword && <div className="invalid-feedback d-block">{errors.newPassword.message}</div>}
-          </div>
+            <button
+                className="btn btn-primary w-100 py-3 rounded-pill fw-bold text-uppercase tracking-wider d-flex justify-content-center align-items-center mb-3 shadow-sm hover-lift"
+                type="submit"
+                disabled={loading}
+            >
+                {loading ? (
+                <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Sending...
+                </>
+                ) : (
+                "Send Reset Link"
+                )}
+            </button>
+            </form>
+        )}
 
-          <div className="mb-4">
-            <label className="form-label fw-bold text-slate-900 dark:text-white fs-7 transition-colors">Confirm New Password</label>
-            <input
-              type="password"
-              className={`form-control py-2 px-3 border ${errors.confirmPassword ? 'is-invalid border-danger' : 'border-slate-200 dark:border-slate-700'} bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors`}
-              placeholder="••••••••"
-              disabled={loading}
-              {...register("confirmPassword", { required: "Confirm Password is required" })}
-            />
-            {errors.confirmPassword && <div className="invalid-feedback d-block">{errors.confirmPassword.message}</div>}
-          </div>
-
-          <button
-            className="btn btn-primary w-100 py-3 rounded-pill fw-bold text-uppercase tracking-wider d-flex justify-content-center align-items-center mb-3 shadow-sm hover-lift"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                Resetting...
-              </>
-            ) : (
-              "Reset Password"
-            )}
-          </button>
-        </form>
-
-        <div className="text-center mt-3">
-          <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 transition-colors">
-            Remember your password?{" "}
-            <Link to="/login" className="text-orange-500 dark:text-orange-400 fw-bold text-decoration-none hover:text-orange-600 dark:hover:text-orange-300 transition-colors">
-              Log In
-            </Link>
-          </p>
-        </div>
+        {!emailSent && (
+            <div className="text-center mt-3">
+            <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 transition-colors">
+                Remember your password?{" "}
+                <Link to="/login" className="text-orange-500 dark:text-orange-400 fw-bold text-decoration-none hover:text-orange-600 dark:hover:text-orange-300 transition-colors">
+                Log In
+                </Link>
+            </p>
+            </div>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Categories from "./pages/Categories";
 import Deals from "./pages/Deals";
 import DealDetails from "./pages/DealDetails";
@@ -35,7 +36,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AppContent() {
   const location = useLocation();
-  const isAuthPage = ["/login", "/register", "/forgot-password"].some(path => location.pathname === path || location.pathname.startsWith(`${path}/`));
+  const isAuthPage = ["/login", "/register", "/forgot-password", "/reset-password"].some(path => location.pathname === path || location.pathname.startsWith(`${path}/`));
   const isAdminPage = location.pathname.startsWith("/admin");
 
   if (isAdminPage) {
@@ -81,6 +82,7 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/deals" element={<Deals />} />
           <Route path="/deals/:id" element={<DealDetails />} />
