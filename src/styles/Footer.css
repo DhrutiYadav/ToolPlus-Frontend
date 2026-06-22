@@ -1,0 +1,78 @@
+/* ==============================
+   FOOTER — Premium Refinement
+   ============================== */
+
+.footer {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Light mode footer */
+html:not(.dark) .footer {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Dark mode footer */
+html.dark .footer {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-top-color: #1e293b !important;
+}
+
+.footer-links a {
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  transform: translateX(2px);
+}
+
+html:not(.dark) .footer-links a:hover {
+  color: var(--bs-primary) !important;
+}
+
+html.dark .footer-links a:hover {
+  color: var(--bs-primary) !important;
+}
+
+.footer-newsletter input {
+  font-size: 0.875rem;
+  border-radius: 8px 0 0 8px !important;
+  padding: 10px 14px;
+}
+
+.footer-newsletter button {
+  border-radius: 0 8px 8px 0 !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Accessible Contrast Colors for Footer Text */
+.footer .text-muted {
+  color: #64748b !important;
+}
+
+html.dark .footer .text-muted {
+  color: #94a3b8 !important;
+}
+
+.footer a.text-muted {
+  transition: color 0.2s ease;
+}
+
+html:not(.dark) .footer a.text-muted:hover {
+  color: var(--bs-primary) !important;
+}
+
+html.dark .footer a.text-muted:hover {
+  color: var(--bs-primary) !important;
+}
+
+.footer h6.text-muted {
+  color: #475569 !important;
+}
+
+html.dark .footer h6.text-muted {
+  color: #cbd5e1 !important;
+}
