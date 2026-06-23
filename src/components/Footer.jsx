@@ -33,34 +33,37 @@ function Footer() {
             </div>
           </div>
 
-          {/* Column 2 - Links */}
+          {/* Column 2 - Explore */}
           <div className="col-lg-2 col-md-6 mb-4 mb-md-0 px-4">
-            <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Marketplace</h6>
+            <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Explore</h6>
             <ul className="list-unstyled mb-0 footer-links">
               <li className="mb-2">
-                <Link to="/deals" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Browse Deals</Link>
+                <Link to="/products" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Products</Link>
               </li>
               <li className="mb-2">
                 <Link to="/categories" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Categories</Link>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Featured Software</a>
+                <Link to="/deals" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Deals</Link>
               </li>
             </ul>
           </div>
 
           {/* Column 3 - Company */}
           <div className="col-lg-2 col-md-6 mb-4 mb-md-0 px-4">
-            <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Support</h6>
+            <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Company</h6>
             <ul className="list-unstyled mb-0 footer-links">
               <li className="mb-2">
-                <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Help Center</a>
+                <Link to="/about" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">About</Link>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Refund Policy</a>
+                <Link to="/faq" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">FAQ</Link>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Submit a Deal</a>
+                <Link to="/privacy" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Privacy Policy</Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/terms" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Terms</Link>
               </li>
             </ul>
           </div>
@@ -94,8 +97,8 @@ function Footer() {
             <span className="text-slate-500 dark:text-slate-400 fs-7 transition-colors">© 2026 ToolPlus. All rights reserved. Built with passion.</span>
           </div>
           <div className="col-md-6 text-center text-md-end mt-2 mt-md-0">
-            <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 me-3 transition-colors">Privacy Policy</a>
-            <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors">Terms of Service</a>
+            <Link to="/privacy" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 me-3 transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -98,6 +98,52 @@ const Login = () => {
           </button>
         </form>
 
+        <div className="d-flex align-items-center my-4">
+          <hr className="flex-grow-1 border-slate-300 dark:border-slate-700 m-0" />
+          <span className="px-3 text-slate-500 dark:text-slate-400 small fw-bold uppercase">Or continue with</span>
+          <hr className="flex-grow-1 border-slate-300 dark:border-slate-700 m-0" />
+        </div>
+
+        <div className="d-flex flex-column gap-3 mb-4">
+          <button 
+            className="btn btn-outline-dark d-flex align-items-center justify-content-center py-2 rounded-3 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            onClick={() => {
+              const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+              if (!clientId) {
+                toast.error("GitHub Login is not configured");
+                return;
+              }
+              const state = crypto.randomUUID();
+              sessionStorage.setItem("oauth_state", state);
+              const redirectUri = `${window.location.origin}/oauth/callback/github`;
+              window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user:email&state=${state}`;
+            }}
+            disabled={loading}
+          >
+            <i className="bi bi-github fs-5 me-2"></i>
+            <span className="fw-bold">Sign in with GitHub</span>
+          </button>
+
+          <button 
+            className="btn btn-primary d-flex align-items-center justify-content-center py-2 rounded-3 border-0 bg-blue-600 hover:bg-blue-700 transition-colors"
+            onClick={() => {
+              const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
+              if (!appId) {
+                toast.error("Facebook Login is not configured");
+                return;
+              }
+              const state = crypto.randomUUID();
+              sessionStorage.setItem("oauth_state", state);
+              const redirectUri = `${window.location.origin}/oauth/callback/facebook`;
+              window.location.href = `https://www.facebook.com/v16.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=email,public_profile&response_type=token&state=${state}`;
+            }}
+            disabled={loading}
+          >
+            <i className="bi bi-facebook fs-5 me-2"></i>
+            <span className="fw-bold">Sign in with Facebook</span>
+          </button>
+        </div>
+
         <div className="text-center mt-3 d-flex flex-column gap-2">
           <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 transition-colors">
             Forgot your password?{" "}

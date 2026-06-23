@@ -85,7 +85,7 @@ const NotificationBell = () => {
   return (
     <div className="nav-item position-relative d-flex align-items-center ms-lg-1" ref={dropdownRef}>
       <button 
-        className="btn btn-link nav-link d-flex align-items-center cart-link py-2 px-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+        className="btn btn-link nav-link d-flex align-items-center cart-link py-2 px-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105"
         onClick={() => setIsOpen(!isOpen)}
         style={{ border: 'none' }}
       >

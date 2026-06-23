@@ -1,12 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import HeroBanner from "../components/HeroBanner";
 import CategoryCard from "../components/CategoryCard";
 import DealCard from "../components/DealCard";
 import SkeletonLoader from "../components/SkeletonLoader";
-import { Package, Users, Layout, Percent, Star, Quote } from "lucide-react";
+import { Package, Users, Layout, Percent, Star, Quote, ShieldCheck, Zap } from "lucide-react";
 import { getCategories } from "../services/categoryService";
 import { getDeals } from "../services/dealService";
+
+const CountUpStat = ({ end, suffix = "", duration = 2 }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / (duration * 1000), 1);
+      // easeOutQuart
+      const easeProgress = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(easeProgress * end));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }, [end, duration]);
+
+  return <>{count.toLocaleString()}{suffix}</>;
+};
 
 function Home() {
   const [categories, setCategories] = useState([]);
@@ -43,42 +65,34 @@ function Home() {
       <section className="trust-statistics-section py-4 mb-4">
         <div className="container px-0">
           <div className="row g-4">
-            <div className="col-6 col-md-3">
-              <div className="bg-white dark:bg-slate-900 p-4 rounded-4 text-center card-shadow hover-lift h-100 d-flex flex-column align-items-center justify-content-center border border-slate-100 dark:border-slate-800 transition-colors">
-                <div className="bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 p-3 rounded-circle mb-3 transition-colors">
-                  <Package size={28} />
-                </div>
-                <h3 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">500+</h3>
-                <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 fw-medium transition-colors">Software Deals</p>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="bg-white dark:bg-slate-900 p-4 rounded-4 text-center card-shadow hover-lift h-100 d-flex flex-column align-items-center justify-content-center border border-slate-100 dark:border-slate-800 transition-colors">
-                <div className="bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 p-3 rounded-circle mb-3 transition-colors">
-                  <Users size={28} />
-                </div>
-                <h3 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">10,000+</h3>
-                <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 fw-medium transition-colors">Happy Customers</p>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="bg-white dark:bg-slate-900 p-4 rounded-4 text-center card-shadow hover-lift h-100 d-flex flex-column align-items-center justify-content-center border border-slate-100 dark:border-slate-800 transition-colors">
-                <div className="bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 p-3 rounded-circle mb-3 transition-colors">
-                  <Layout size={28} />
-                </div>
-                <h3 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">50+</h3>
-                <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 fw-medium transition-colors">Categories</p>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="bg-white dark:bg-slate-900 p-4 rounded-4 text-center card-shadow hover-lift h-100 d-flex flex-column align-items-center justify-content-center border border-slate-100 dark:border-slate-800 transition-colors">
-                <div className="bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 p-3 rounded-circle mb-3 transition-colors">
-                  <Percent size={28} />
-                </div>
-                <h3 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">95%</h3>
-                <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 fw-medium transition-colors">Average Savings</p>
-              </div>
-            </div>
+            {[
+              { icon: <Package size={28} />, end: 500, suffix: "+", label: "Software Deals" },
+              { icon: <Users size={28} />, end: 10000, suffix: "+", label: "Happy Customers" },
+              { icon: <Layout size={28} />, end: 50, suffix: "+", label: "Categories" },
+              { icon: <Percent size={28} />, end: 95, suffix: "%", label: "Average Savings" }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index} 
+                className="col-6 col-md-3"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <motion.div 
+                  className="bg-white dark:bg-slate-900 p-4 rounded-4 text-center shadow-sm h-100 d-flex flex-column align-items-center justify-content-center border border-slate-100 dark:border-slate-800 transition-colors"
+                  whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+                >
+                  <div className="bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 p-3 rounded-circle mb-3 transition-colors">
+                    {stat.icon}
+                  </div>
+                  <h3 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">
+                    <CountUpStat end={stat.end} suffix={stat.suffix} />
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 fw-medium transition-colors">{stat.label}</p>
+                </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -137,10 +151,17 @@ function Home() {
               </div>
             ) : (
               <div className="row g-4">
-                {deals.map((deal) => (
-                  <div key={deal.id} className="col-lg-4 col-md-6">
+                {deals.map((deal, index) => (
+                  <motion.div 
+                    key={deal.id} 
+                    className="col-lg-4 col-md-6"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                  >
                     <DealCard deal={deal} />
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}

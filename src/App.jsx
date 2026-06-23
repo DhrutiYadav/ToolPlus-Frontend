@@ -18,6 +18,7 @@ import PaymentFailed from "./pages/PaymentFailed";
 import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
+import OAuthCallback from "./pages/OAuthCallback";
 
 // Admin Panel Components
 import AdminLayout from "./layouts/AdminLayout";
@@ -83,6 +84,7 @@ function AppContent() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/oauth/callback/:provider" element={<OAuthCallback />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/deals" element={<Deals />} />
           <Route path="/deals/:id" element={<DealDetails />} />

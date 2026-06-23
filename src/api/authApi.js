@@ -24,3 +24,8 @@ export const resetPassword = async (token, newPassword, confirmPassword) => {
   const response = await api.post("/auth/reset-password", { token, newPassword, confirmPassword });
   return response.data;
 };
+
+export const oauthLogin = async (provider, token) => {
+  const response = await api.post("/auth/oauth-login", { provider, token });
+  return response.data;
+};
