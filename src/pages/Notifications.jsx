@@ -117,17 +117,32 @@ const Notifications = () => {
   return (
     <div className="container py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="mb-0 fw-bold !text-slate-800 dark:!text-slate-100">Notifications</h2>
-        <div>
+        <h2 className="mb-0 fw-bold text-slate-900 dark:text-white transition-colors">Notifications</h2>
+        <div className="d-flex align-items-center gap-3">
+          <div className="btn-group bg-slate-100 dark:bg-slate-800 p-1 rounded-pill transition-colors">
+            {['All', 'Unread'].map(tab => (
+              <button
+                key={tab}
+                className={`btn btn-sm rounded-pill px-4 fw-semibold transition-colors ${
+                  activeTab === tab 
+                    ? 'btn-white bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' 
+                    : 'btn-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                }`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
           <button 
-            className="btn btn-outline-secondary me-2 rounded-pill px-3 py-1" 
+            className="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold shadow-sm" 
             onClick={handleMarkAllAsRead}
             disabled={!notifications.some(n => !n.isRead)}
           >
             Mark all read
           </button>
           <button 
-            className="btn btn-outline-danger rounded-pill px-3 py-1" 
+            className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold shadow-sm" 
             onClick={handleClearAll}
             disabled={notifications.length === 0}
           >
@@ -138,29 +153,21 @@ const Notifications = () => {
 
       <div className="bg-white dark:bg-slate-800 rounded-4 shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
         {/* Tabs */}
-        <div className="d-flex border-bottom border-slate-100 dark:border-slate-700">
-          {['All', 'Unread', 'Read'].map(tab => (
-            <button
-              key={tab}
-              className={`btn flex-grow-1 py-3 rounded-0 fw-semibold transition-colors ${
-                activeTab === tab 
-                  ? 'bg-slate-50 dark:bg-slate-700 border-bottom border-2 border-orange-500 !text-orange-600 dark:!text-orange-400' 
-                  : '!text-slate-600 dark:!text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+
 
         {/* Notifications List */}
         <div>
           {filteredNotifications.length === 0 ? (
-            <div className="text-center py-5 empty-state-container d-flex flex-column align-items-center gap-2 rounded-4 shadow-sm">
-              <i className="bi bi-bell text-muted" style={{ fontSize: '4rem' }}></i>
-              <h5 className="fw-bold !text-slate-900 dark:!text-white transition-colors">No notifications found</h5>
-              <p className="text-muted transition-colors">You're all caught up! Check back later for updates.</p>
+            <div className="text-center py-5 rounded-4 shadow-sm bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-colors empty-state-container mx-3 my-4">
+              <div className="empty-state-icon bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 mx-auto transition-colors mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+              </div>
+              <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">No notifications found</h4>
+              <p className="text-slate-500 dark:text-slate-400 mb-0 transition-colors">
+                You're all caught up! Check back later for updates.
+              </p>
             </div>
           ) : (
             filteredNotifications.map((notification) => (

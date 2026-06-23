@@ -330,19 +330,21 @@ const Cart = () => {
         </div>
 
         <div className="col-lg-4">
-          <CartSummary
-            summary={summary}
-            onClearCart={handleClearCart}
-            isClearing={clearing}
-            appliedCoupon={appliedCoupon}
-            couponCodeInput={couponCodeInput}
-            setCouponCodeInput={setCouponCodeInput}
-            onApplyCoupon={handleApplyCoupon}
-            onRemoveCoupon={handleRemoveCoupon}
-            isApplyingCoupon={isApplyingCoupon}
-            onCheckout={handleCheckout}
-            isCheckingOut={isCheckingOut}
-          />
+          <div className="sticky-top" style={{ top: "2rem", zIndex: 10 }}>
+            <CartSummary
+              summary={summary}
+              onClearCart={handleClearCart}
+              isClearing={clearing}
+              appliedCoupon={appliedCoupon}
+              couponCodeInput={couponCodeInput}
+              setCouponCodeInput={setCouponCodeInput}
+              onApplyCoupon={handleApplyCoupon}
+              onRemoveCoupon={handleRemoveCoupon}
+              isApplyingCoupon={isApplyingCoupon}
+              onCheckout={handleCheckout}
+              isCheckingOut={isCheckingOut}
+            />
+          </div>
         </div>
       </div>
     </div>

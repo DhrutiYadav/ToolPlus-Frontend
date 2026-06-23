@@ -15,6 +15,8 @@ import SkeletonLoader from "../components/SkeletonLoader";
 import { toast } from "react-toastify";
 import "../styles/DealDetails.css"; // Reuse details styles or add custom overrides
 import { invokeRazorpayFlow } from "../utils/razorpayUtils";
+import AdminModal from "../components/AdminModal";
+import { Star } from "lucide-react";
 
 function DealDetails() {
   const { id } = useParams();
@@ -44,6 +46,9 @@ function DealDetails() {
   const [ratingInput, setRatingInput] = useState(5);
   const [commentInput, setCommentInput] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [showStickySidebar, setShowStickySidebar] = useState(false);
+  const [activeTab, setActiveTab] = useState("Overview");
+  const [hoveredRating, setHoveredRating] = useState(0);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -59,6 +64,12 @@ function DealDetails() {
 
     fetchReviews();
   }, [id]);
+
+  useEffect(() => {
+    const handleScroll = () => setShowStickySidebar(window.scrollY > 400);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const checkPurchaseStatus = async () => {
@@ -375,45 +386,7 @@ function DealDetails() {
             />
           </div>
 
-          {/* Tabs / Description */}
-          <div className="deal-full-description mb-5">
-            <h3 className="fw-bold text-slate-900 dark:text-white border-bottom border-slate-200 dark:border-slate-800 pb-2 mb-3 transition-colors">About this software</h3>
-            <p className="text-slate-500 dark:text-slate-400 fs-6 transition-colors" style={{ whiteSpace: "pre-line", lineHeight: "1.7" }}>
-              {deal.description || "No full description provided for this software package. Check features below for more info."}
-            </p>
-          </div>
 
-          {/* Features checklist */}
-          <div className="deal-features mb-5 p-4 rounded-4 card-shadow bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-colors">
-            <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">🛠️ Features Included</h4>
-            <div className="row g-3">
-              {featureList.map((feature, idx) => (
-                <div key={idx} className="col-md-6 d-flex align-items-center">
-                  <div className="bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-circle d-flex align-items-center justify-content-center me-3 transition-colors" style={{width: '24px', height: '24px'}}>
-                    <span className="fw-bold fs-7">✓</span>
-                  </div>
-                  <span className="text-slate-900 dark:text-slate-100 fw-medium fs-6 transition-colors">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Deal Terms */}
-          {termList.length > 0 && (
-            <div className="deal-terms mb-5">
-              <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">📋 Deal Terms & Conditions</h4>
-              <ul className="list-group list-group-flush border-0">
-                {termList.map((term, idx) => (
-                  <li key={idx} className="list-group-item bg-transparent text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 px-0 py-2 fs-6 transition-colors">
-                    • {term}
-                  </li>
-                ))}
-                <li className="list-group-item bg-transparent text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 px-0 py-2 fs-6 transition-colors">
-                  • 60-day money-back guarantee, no questions asked.
-                </li>
-              </ul>
-            </div>
-          )}
 
           {/* ADMIN ONLY CONTROLS */}
           {isAdmin && (
@@ -462,47 +435,119 @@ function DealDetails() {
               </div>
 
               {/* Edit Form */}
-              {isEditing && (
-                <div className="bg-white dark:bg-slate-900 p-4 rounded-4 border border-slate-200 mt-4 transition-colors">
-                  <h5 className="fw-bold mb-3 text-slate-900 dark:text-white">Edit Deal Information</h5>
-                  <form onSubmit={handleEditSubmit}>
-                    <div className="mb-3">
-                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Title</label>
-                      <input type="text" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.title} onChange={e => setEditForm({...editForm, title: e.target.value})} required />
+              <AdminModal isOpen={isEditing} onClose={() => setIsEditing(false)} title="Edit Deal Information" size="lg">
+                <form onSubmit={handleEditSubmit}>
+                  <div className="mb-3">
+                    <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Title</label>
+                    <input type="text" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.title} onChange={e => setEditForm({...editForm, title: e.target.value})} required />
+                  </div>
+                  <div className="row mb-3">
+                    <div className="col-md-4">
+                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Original Price ($)</label>
+                      <input type="number" step="0.01" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.originalPrice} onChange={e => setEditForm({...editForm, originalPrice: e.target.value})} required />
                     </div>
-                    <div className="row mb-3">
-                      <div className="col-md-4">
-                        <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Original Price ($)</label>
-                        <input type="number" step="0.01" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.originalPrice} onChange={e => setEditForm({...editForm, originalPrice: e.target.value})} required />
-                      </div>
-                      <div className="col-md-4">
-                        <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Sale Price ($)</label>
-                        <input type="number" step="0.01" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.salePrice} onChange={e => setEditForm({...editForm, salePrice: e.target.value})} required />
-                      </div>
-                      <div className="col-md-4">
-                        <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Stock Quantity</label>
-                        <input type="number" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.stockQuantity} onChange={e => setEditForm({...editForm, stockQuantity: e.target.value})} required />
-                      </div>
+                    <div className="col-md-4">
+                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Sale Price ($)</label>
+                      <input type="number" step="0.01" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.salePrice} onChange={e => setEditForm({...editForm, salePrice: e.target.value})} required />
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Description</label>
-                      <textarea rows="4" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.description} onChange={e => setEditForm({...editForm, description: e.target.value})} required></textarea>
+                    <div className="col-md-4">
+                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Stock Quantity</label>
+                      <input type="number" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.stockQuantity} onChange={e => setEditForm({...editForm, stockQuantity: e.target.value})} required />
                     </div>
-                    <div className="d-flex gap-2">
-                      <button type="submit" className="btn btn-primary fw-bold px-4" disabled={updatingDeal}>
-                        {updatingDeal ? "Saving..." : "Save Changes"}
-                      </button>
-                      <button type="button" className="btn btn-outline-secondary fw-bold px-4" onClick={() => setIsEditing(false)}>
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              )}
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white">Description</label>
+                    <textarea rows="4" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.description} onChange={e => setEditForm({...editForm, description: e.target.value})} required></textarea>
+                  </div>
+                  <div className="d-flex justify-content-end gap-2 mt-4">
+                    <button type="button" className="btn btn-outline-secondary fw-bold px-4" onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button type="submit" className="btn btn-primary fw-bold px-4" disabled={updatingDeal}>
+                      {updatingDeal ? "Saving..." : "Save Changes"}
+                    </button>
+                  </div>
+                </form>
+              </AdminModal>
             </div>
           )}
 
-          {/* Reviews Section */}
+                    {/* Tabbed Section */}
+          <div className="deal-tabs mb-5">
+            <div className="d-flex border-bottom border-slate-200 dark:border-slate-800 mb-4 overflow-auto">
+              {['Overview', 'Features', 'Reviews'].map(tab => (
+                <button
+                  key={tab}
+                  className={`btn px-4 py-3 fw-bold rounded-0 ${activeTab === tab ? 'text-orange-500' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'}`}
+                  style={{
+                    borderBottom: activeTab === tab ? '2px solid #f97316' : '2px solid transparent',
+                    background: 'transparent',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab} {tab === 'Reviews' && `(${calculatedReviewCount})`}
+                </button>
+              ))}
+            </div>
+
+            {activeTab === 'Overview' && (
+              <div className="animation-fade-in">
+          
+          <div className="deal-full-description mb-5">
+            <h3 className="fw-bold text-slate-900 dark:text-white border-bottom border-slate-200 dark:border-slate-800 pb-2 mb-3 transition-colors">About this software</h3>
+            <p className="text-slate-500 dark:text-slate-400 fs-6 transition-colors" style={{ whiteSpace: "pre-line", lineHeight: "1.7" }}>
+              {deal.description || "No full description provided for this software package. Check features below for more info."}
+            </p>
+          </div>
+
+          {/* Features checklist */}
+          <div className="deal-features mb-5 p-4 rounded-4 card-shadow bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-colors">
+            <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">🛠️ Features Included</h4>
+            <div className="row g-3">
+              {featureList.map((feature, idx) => (
+                <div key={idx} className="col-md-6 d-flex align-items-center">
+                  <div className="bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-circle d-flex align-items-center justify-content-center me-3 transition-colors" style={{width: '24px', height: '24px'}}>
+                    <span className="fw-bold fs-7">✓</span>
+                  </div>
+                  <span className="text-slate-900 dark:text-slate-100 fw-medium fs-6 transition-colors">{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Deal Terms */}
+          {termList.length > 0 && (
+            <div className="deal-terms mb-5">
+              <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">📋 Deal Terms & Conditions</h4>
+              <ul className="list-group list-group-flush border-0">
+                {termList.map((term, idx) => (
+                  <li key={idx} className="list-group-item bg-transparent text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 px-0 py-2 fs-6 transition-colors">
+                    • {term}
+                  </li>
+                ))}
+                <li className="list-group-item bg-transparent text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 px-0 py-2 fs-6 transition-colors">
+                  • 60-day money-back guarantee, no questions asked.
+                </li>
+              </ul>
+            </div>
+          )}
+              </div>
+            )}
+
+            {activeTab === 'Features' && (
+              <div className="deal-features animation-fade-in">
+                <ul className="list-group list-group-flush border-0 bg-transparent mb-4">
+                  {(deal.shortDescription || '').split('. ').filter(Boolean).map((feature, idx) => (
+                    <li key={idx} className="list-group-item bg-transparent border-0 d-flex align-items-start text-slate-600 dark:text-slate-300 py-2 fs-6">
+                      <span className="text-orange-500 me-3 mt-1 fw-bold">✓</span> {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {activeTab === 'Reviews' && (
+              <div className="animation-fade-in">
+{/* Reviews Section */}
           <div className="reviews-section mt-5 pt-4 border-top border-slate-200 dark:border-slate-800 transition-colors">
             <h3 className="fw-bold text-slate-900 dark:text-white mb-4 transition-colors">Customer Reviews</h3>
 
@@ -532,19 +577,22 @@ function DealDetails() {
                   <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">Write a review</h4>
                   <form onSubmit={handleReviewSubmit}>
                     <div className="mb-3">
-                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white transition-colors">Rating</label>
-                      <select
-                        className="form-select py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
-                        value={ratingInput}
-                        onChange={(e) => setRatingInput(Number(e.target.value))}
-                        disabled={submittingReview}
-                      >
-                        <option value={5}>5 Stars - Excellent</option>
-                        <option value={4}>4 Stars - Very Good</option>
-                        <option value={3}>3 Stars - Good</option>
-                        <option value={2}>2 Stars - Fair</option>
-                        <option value={1}>1 Star - Poor</option>
-                      </select>
+                      <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white transition-colors mb-2 d-block">Rating</label>
+                      <div className="d-flex gap-1" onMouseLeave={() => setHoveredRating(0)}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            size={28}
+                            className={`cursor-pointer transition-colors ${
+                              (hoveredRating || ratingInput) >= star 
+                                ? "text-orange-500 fill-orange-500" 
+                                : "text-slate-300 dark:text-slate-600"
+                            }`}
+                            onMouseEnter={() => setHoveredRating(star)}
+                            onClick={() => setRatingInput(star)}
+                          />
+                        ))}
+                      </div>
                     </div>
                     <div className="mb-3">
                       <label className="form-label fw-bold fs-7 text-slate-900 dark:text-white transition-colors">Comment</label>
@@ -637,6 +685,9 @@ function DealDetails() {
                     </p>
                   </div>
                 ))}
+                </div>
+              </div>
+            )}
                 </div>
               </div>
             )}
@@ -753,6 +804,29 @@ function DealDetails() {
               </ul>
             </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sticky Buy Now Sidebar (Desktop) */}
+      <div 
+        className={`position-fixed bottom-0 end-0 p-3 d-none d-lg-block transition-all`} 
+        style={{ zIndex: 1000, transform: showStickySidebar ? 'translateY(0)' : 'translateY(150%)', right: '2rem', bottom: '2rem' }}
+      >
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-4 p-3 shadow-lg d-flex align-items-center gap-4">
+          <div>
+            <h6 className="fw-bold text-slate-900 dark:text-white mb-1" style={{ maxWidth: "200px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {deal.title}
+            </h6>
+            <div className="text-orange-500 fw-extrabold fs-5">₹{deal.discountPrice.toFixed(2)}</div>
+          </div>
+          <div className="d-flex gap-2">
+            <button className="btn btn-outline-primary fw-bold rounded-pill" onClick={handleAddToCart} disabled={addingToCart || purchasing}>
+              {addingToCart ? "Adding..." : "Add to Cart"}
+            </button>
+            <button className="btn btn-primary fw-bold rounded-pill shadow-sm" onClick={handlePurchase} disabled={addingToCart || purchasing}>
+              {purchasing ? "Processing..." : "Buy Now"}
+            </button>
           </div>
         </div>
       </div>
