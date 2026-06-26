@@ -7,6 +7,7 @@ import { getReviewsByDealId } from "../services/reviewService";
 import { createReview, updateReview, deleteReview } from "../api/reviewApi";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { toast } from "react-toastify";
+import { Star, Package } from "lucide-react";
 
 function MyReviews() {
   const { user } = useAuth();
@@ -158,9 +159,14 @@ function MyReviews() {
   const renderStars = (rating) => {
     const rounded = Math.round(rating || 0);
     return (
-      <div className="text-warning fs-5">
-        {"★".repeat(rounded)}
-        <span className="text-muted">{"☆".repeat(5 - rounded)}</span>
+      <div className="d-flex align-items-center gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            size={16}
+            className={star <= rounded ? "text-orange-500 fill-orange-500" : "text-slate-300 dark:text-slate-600 fill-transparent"}
+          />
+        ))}
       </div>
     );
   };
@@ -189,10 +195,12 @@ function MyReviews() {
 
       {purchasedDeals.length === 0 ? (
         <div className="text-center py-5 border border-slate-100 dark:border-slate-800 rounded-4 bg-white dark:bg-slate-900 shadow-sm mt-4 transition-colors empty-state-container d-flex flex-column align-items-center gap-2">
-          <i className="bi bi-star text-muted" style={{ fontSize: '4rem' }}></i>
-          <h4 className="fw-bold text-slate-900 dark:text-white transition-colors">No Reviews Yet</h4>
+          <div className="empty-state-icon bg-orange-500 text-white rounded-circle d-flex align-items-center justify-content-center mb-2" style={{ width: "80px", height: "80px" }}>
+            <Star size={40} />
+          </div>
+          <h4 className="fw-bold text-slate-900 dark:text-white transition-colors">No reviews yet</h4>
           <p className="text-muted mx-auto mb-4 transition-colors" style={{ maxWidth: "400px" }}>
-            Start reviewing your purchases. You haven't purchased any deals to review. Start exploring our marketplace to find great tools!
+            Purchase a deal to leave your first review.
           </p>
           <Link to="/deals" className="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow-sm hover-lift">
             Browse Deals
@@ -217,10 +225,10 @@ function MyReviews() {
                   <div className="card-body p-4 d-flex flex-column">
                     <div className="d-flex align-items-start mb-3">
                       {deal.image ? (
-                        <img src={deal.image} alt={deal.title} className="rounded-3 me-3" style={{width: '60px', height: '60px', objectFit: 'cover'}} />
+                        <img src={deal.image} alt={deal.title} className="rounded-3 me-3 object-cover" style={{width: '56px', height: '56px'}} />
                       ) : (
-                        <div className="bg-slate-100 dark:bg-slate-800 rounded-3 me-3 d-flex align-items-center justify-content-center transition-colors" style={{width: '60px', height: '60px'}}>
-                          <span className="fs-3">📦</span>
+                        <div className="bg-slate-100 dark:bg-slate-800 rounded-3 me-3 d-flex align-items-center justify-content-center transition-colors" style={{width: '56px', height: '56px'}}>
+                          <Package size={24} className="text-slate-400" />
                         </div>
                       )}
                       <div>

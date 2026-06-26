@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { resetPassword } from "../api/authApi";
+import { Lock } from "lucide-react";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -42,15 +43,35 @@ const ResetPassword = () => {
 
   return (
     <div className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: "80vh" }}>
-      <div className="login-card p-5 shadow-lg border border-slate-100 dark:border-slate-800 rounded-4 bg-white dark:bg-slate-900 transition-colors" style={{ maxWidth: "450px", width: "100%" }}>
+      <div className="login-card p-5 shadow-lg border border-slate-100 dark:border-slate-800 rounded-4 bg-white dark:bg-slate-900 transition-colors" style={{ maxWidth: "450px", width: "100%", position: "relative" }}>
         
+        {/* Back to Login */}
+        <div className="mb-3">
+          <Link to="/login" className="text-slate-500 dark:text-slate-400 text-decoration-none d-flex align-items-center gap-1 fw-medium hover:text-orange-500 dark:hover:text-orange-400 transition-colors fs-7">
+            <i className="bi bi-arrow-left"></i> Back to Login
+          </Link>
+        </div>
+
+        {/* Lock icon illustration */}
+        <div className="text-center mb-4">
+          <div className="bg-orange-100 dark:bg-orange-500/10 text-orange-500 rounded-circle d-inline-flex align-items-center justify-content-center mb-3 transition-colors" style={{ width: 64, height: 64 }}>
+            <Lock size={32} />
+          </div>
+        </div>
+
         {/* Logo */}
         <div className="text-center mb-4">
           <img
             src="/logo/logo-dark.png"
             alt="ToolPlus"
-            className="img-fluid mx-auto"
-            style={{ maxWidth: "200px", height: "auto" }}
+            className="img-fluid mx-auto dark:hidden"
+            style={{ maxWidth: "180px", height: "auto" }}
+          />
+          <img
+            src="/logo/logo-white.png"
+            alt="ToolPlus"
+            className="img-fluid mx-auto hidden dark:block"
+            style={{ maxWidth: "180px", height: "auto" }}
           />
         </div>
 

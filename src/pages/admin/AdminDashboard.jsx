@@ -7,7 +7,7 @@ import { getDeals } from "../../services/dealService";
 import SkeletonLoader from "../../components/SkeletonLoader";
 import AdminDataTable from "../../components/AdminDataTable";
 import AdminStatusBadge from "../../components/AdminStatusBadge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Users,
   Briefcase,
@@ -26,7 +26,14 @@ import {
   Trash2,
   Activity,
   CreditCard,
+  Plus,
+  FolderPlus
 } from "lucide-react";
+import RevenueAreaChart from "../../components/charts/RevenueAreaChart";
+import PaymentLineChart from "../../components/charts/PaymentLineChart";
+import RefundBarChart from "../../components/charts/RefundBarChart";
+import CouponBarChart from "../../components/charts/CouponBarChart";
+import "../../styles/Charts.css";
 
 function Sparkline({ color }) {
   return (
@@ -65,39 +72,10 @@ function Sparkline({ color }) {
   );
 }
 
-/** Simple bar chart component for analytics section */
-function MiniBarChart({ data, color, label }) {
-  const maxVal = Math.max(...data.map((d) => d.value), 1);
-  return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-bold text-slate-800 dark:text-white">
-          {label}
-        </h4>
-      </div>
-      <div className="flex items-end gap-1.5 flex-1 min-h-[100px]">
-        {data.map((item, idx) => (
-          <div key={idx} className="flex flex-col items-center flex-1 group">
-            <div
-              className="w-full rounded-t-md transition-all duration-300 group-hover:opacity-80 min-h-[4px]"
-              style={{
-                height: `${Math.max((item.value / maxVal) * 100, 5)}%`,
-                backgroundColor: color,
-                opacity: 0.8 + (idx / data.length) * 0.2,
-              }}
-              title={`${item.label}: ${item.value}`}
-            />
-            <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-1.5 font-medium">
-              {item.label}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+/* MiniBarChart replaced by Recharts components imported above */
 
 function AdminDashboard() {
+  const navigate = useNavigate();
   const {
     data: stats,
     isLoading: statsLoading,
@@ -421,6 +399,8 @@ function AdminDashboard() {
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 card-shadow hover-lift flex flex-col justify-between group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-bl-full"></div>
+              
+              <div className={`absolute top-4 right-4 w-[8px] h-[8px] rounded-circle ${card.title.includes('Revenue') || card.title.includes('Value') ? 'bg-orange-500' : card.trend === 'up' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
 
               <div className="flex items-center justify-between mb-3">
                 <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider z-10">
@@ -463,36 +443,36 @@ function AdminDashboard() {
         })}
       </div>
 
-      {/* Analytics Charts Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm">
-          <MiniBarChart
-            data={monthlyRevenueData}
-            color="#10b981"
-            label="Monthly Revenue"
-          />
+      {/* Quick Actions Row */}
+      <div className="row g-3 mb-4">
+        <div className="col-6 col-lg-3">
+          <button onClick={() => navigate('/admin/deals')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-emerald-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+            <Plus size={18} /> Add Deal
+          </button>
         </div>
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm">
-          <MiniBarChart
-            data={paymentsTrendData}
-            color="#f97316"
-            label="Payments Trend"
-          />
+        <div className="col-6 col-lg-3">
+          <button onClick={() => navigate('/admin/categories')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-blue-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+            <FolderPlus size={18} /> Add Category
+          </button>
         </div>
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm">
-          <MiniBarChart
-            data={refundTrendData}
-            color="#f43f5e"
-            label="Refund Trend"
-          />
+        <div className="col-6 col-lg-3">
+          <button onClick={() => navigate('/admin/orders')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-orange-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+            <ShoppingBag size={18} /> View Orders
+          </button>
         </div>
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm">
-          <MiniBarChart
-            data={couponUsageData}
-            color="#8b5cf6"
-            label="Coupon Usage"
-          />
+        <div className="col-6 col-lg-3">
+          <button onClick={() => navigate('/admin/reports')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-slate-700" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+            <BarChart2 size={18} /> View Reports
+          </button>
         </div>
+      </div>
+
+      {/* Analytics Charts Section — Recharts */}
+      <div className="charts-grid">
+        <RevenueAreaChart data={monthlyRevenueData} />
+        <PaymentLineChart data={paymentsTrendData} />
+        <RefundBarChart data={refundTrendData} />
+        <CouponBarChart data={couponUsageData} />
       </div>
 
       {/* Widgets Row */}

@@ -20,16 +20,16 @@ function CategoryCard({ category }) {
   };
 
   return (
-    <div className="card category-card h-100 card-shadow hover-lift border-0 overflow-hidden text-center p-4 bg-white dark:bg-slate-900 transition-colors">
-      <div className="category-icon-wrapper mb-3 mx-auto bg-slate-100 dark:bg-slate-800 rounded-circle d-flex align-items-center justify-content-center transition-colors" style={{ width: '64px', height: '64px' }}>
-        <span className="category-icon fs-2">{getCategoryIcon(name)}</span>
+    <div className="card category-card h-100 shadow-sm hover:shadow-xl border-0 overflow-hidden text-center p-[18px] bg-white dark:bg-slate-900 transition-all duration-300 hover:-translate-y-2 group">
+      <div className="category-icon-wrapper mb-3 mx-auto bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-circle d-flex align-items-center justify-content-center transition-all duration-300 group-hover:bg-orange-50 dark:group-hover:bg-orange-500/10 group-hover:border-orange-200 dark:group-hover:border-orange-500/30 group-hover:scale-110">
+        <span className="category-icon fs-2 transition-transform duration-300">{getCategoryIcon(name)}</span>
       </div>
       
-      <h4 className="fw-bold mb-2 text-slate-900 dark:text-white transition-colors">{name}</h4>
-      <p className="text-slate-500 dark:text-slate-400 text-truncate-2 fs-6 mb-4 transition-colors">{description || "Explore specialized software deals in this category."}</p>
+      <h4 className="fw-bold mb-[8px] text-slate-900 dark:text-white transition-colors">{name}</h4>
+      <p className="text-slate-500 dark:text-slate-400 text-truncate-2 fs-7 mb-[16px] transition-colors">{description || "Explore specialized software deals in this category."}</p>
       
       <div className="mt-auto">
-        <span className="badge bg-orange-500 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 px-3 py-2 rounded-pill fw-bold mb-3 d-inline-block transition-colors">
+        <span className="badge bg-orange-500 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 px-3 py-1.5 rounded-pill fw-bold mb-[8px] d-inline-block transition-colors">
           {dealCount || 0} {dealCount === 1 ? "Deal" : "Deals"} available
         </span>
         

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import '../styles/ProfileDropdown.css';
 
 const ProfileDropdown = ({ user, isAdmin, logout }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,14 +54,14 @@ const ProfileDropdown = ({ user, isAdmin, logout }) => {
         aria-haspopup="true"
         className="btn d-flex align-items-center gap-2 rounded-pill px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50"
       >
-        <div className="bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '28px', height: '28px', fontSize: '0.8rem' }}>
+        <div className="bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-circle d-flex align-items-center justify-content-center fw-bold profile-initials">
           {getInitials()}
         </div>
-        <span className="fw-semibold text-slate-700 dark:text-slate-300 fs-7 text-truncate" style={{ maxWidth: '120px' }}>
+        <span className="fw-semibold text-slate-700 dark:text-slate-300 fs-7 text-truncate profile-name">
           {getDisplayName()}
         </span>
         {isAdmin && (
-          <span className="badge bg-orange-500 text-uppercase ms-1" style={{ fontSize: '0.6rem', padding: '3px 6px' }}>
+          <span className="badge bg-orange-500 text-uppercase ms-1 profile-admin-badge">
             Admin
           </span>
         )}
@@ -86,13 +87,12 @@ const ProfileDropdown = ({ user, isAdmin, logout }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="position-absolute end-0 mt-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg rounded-3 py-2 z-50"
-            style={{ minWidth: '220px' }}
+            className="position-absolute end-0 mt-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg rounded-3 py-2 z-50 profile-dropdown-menu"
           >
             <div className="px-3 py-2 border-bottom border-slate-100 dark:border-slate-700 mb-2">
               <p className="mb-0 fw-bold text-slate-800 dark:text-white fs-7">{getDisplayName()}</p>
               {user.email && !user.email.startsWith('fb_') && !user.email.startsWith('gh_') && (
-                <p className="mb-0 text-slate-500 dark:text-slate-400 text-truncate" style={{ fontSize: '0.75rem' }}>{user.email}</p>
+                <p className="mb-0 text-slate-500 dark:text-slate-400 text-truncate profile-email">{user.email}</p>
               )}
             </div>
 
@@ -100,20 +100,10 @@ const ProfileDropdown = ({ user, isAdmin, logout }) => {
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
               My Profile
             </Link>
-            
-            <Link onClick={closeDropdown} to="/wishlist" className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-              Wishlist
-            </Link>
 
             <Link onClick={closeDropdown} to="/orders" className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
               My Orders
-            </Link>
-
-            <Link onClick={closeDropdown} to="/settings" className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              Settings
             </Link>
 
             {isAdmin && (

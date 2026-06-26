@@ -122,32 +122,41 @@ function Profile() {
         {/* Left Column: Sidebar Tabs */}
         <div className="col-lg-3">
           <div className="card border border-slate-100 dark:border-slate-800 shadow-sm p-4 rounded-4 text-center bg-white dark:bg-slate-900 mb-4 transition-colors">
-            <div className="avatar-wrapper bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3 transition-colors" style={{ width: "80px", height: "80px" }}>
+            <div className="avatar-wrapper bg-orange-500 text-white rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3 transition-colors" style={{ width: "80px", height: "80px" }}>
               <span className="fs-2 fw-bold">{(profile?.name || "U")[0].toUpperCase()}</span>
             </div>
-            <h5 className="fw-bold text-slate-900 dark:text-white mb-1 transition-colors">{profile?.name || "Member"}</h5>
-            <span className="text-slate-500 dark:text-slate-400 fs-7 transition-colors mb-3 d-block">{profile?.email}</span>
+            <h5 className="fw-bold fs-5 text-slate-900 dark:text-white mb-1 transition-colors">{profile?.name || "Member"}</h5>
+            <span className="text-slate-500 fs-7 dark:text-slate-400 transition-colors mb-2 d-block">{profile?.email}</span>
+            <span className="text-slate-500 fs-7 dark:text-slate-400 transition-colors mb-3 d-block">
+              Member since {profile?.createdAt ? new Date(profile?.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Unknown'}
+            </span>
             <span className="badge bg-slate-900 dark:bg-slate-700 text-white text-uppercase px-3 py-1 rounded-pill fw-semibold fs-8 transition-colors">
               {profile?.role || "User"} Member
             </span>
           </div>
 
           <div className="card border border-slate-100 dark:border-slate-800 shadow-sm rounded-4 bg-white dark:bg-slate-900 overflow-hidden transition-colors">
-            <div className="nav flex-column nav-pills p-2">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`nav-link text-start px-4 py-3 fw-semibold rounded-3 mb-1 transition-colors ${
-                    activeTab === tab.key
-                      ? "active bg-orange-50 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400"
-                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
-                  }`}
-                >
-                  <i className={`bi ${tab.icon} me-3`}></i>
-                  {tab.label}
-                </button>
-              ))}
+            <div className="nav flex-row flex-lg-column nav-pills p-2 overflow-auto" style={{ whiteSpace: 'nowrap' }}>
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveTab(tab.key)}
+                    style={{
+                      borderLeft: isActive ? "3px solid #f97316" : "3px solid transparent",
+                    }}
+                    className={`nav-link text-start px-4 py-3 fw-semibold rounded-3 mb-1 transition-colors d-lg-block d-inline-block ${
+                      isActive
+                        ? "active bg-orange-50 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 d-lg-block border-bottom-0"
+                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 d-lg-block"
+                    }`}
+                  >
+                    <i className={`bi ${tab.icon} me-3`}></i>
+                    {tab.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

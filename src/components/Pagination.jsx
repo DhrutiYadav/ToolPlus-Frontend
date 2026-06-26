@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/Pagination.css";
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
@@ -23,10 +24,10 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
   return (
     <nav className="d-flex justify-content-center mt-5" aria-label="Deals navigation">
-      <ul className="pagination pagination-md rounded-pill overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-colors" style={{ boxShadow: 'var(--shadow-sm)' }}>
+      <ul className="pagination pagination-md rounded-pill overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-colors tp-pagination">
         <li className={`page-item ${currentPage === 1 ? "disabled opacity-40" : ""}`}>
           <button
-            className="page-link py-2 px-3 border-0 fw-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="page-link py-2 px-3 border-0 fw-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors tp-page-link-small"
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
             style={{ fontSize: '0.875rem' }}
@@ -47,7 +48,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
                   : "bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800"
               }`}
               onClick={() => onPageChange(pageNum)}
-              style={{ fontSize: '0.875rem', minWidth: '40px' }}
+              
             >
               {pageNum}
             </button>
@@ -56,10 +57,10 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         
         <li className={`page-item ${currentPage === totalPages ? "disabled opacity-40" : ""}`}>
           <button
-            className="page-link py-2 px-3 border-0 fw-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="page-link py-2 px-3 border-0 fw-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors tp-page-link-small"
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            style={{ fontSize: '0.875rem' }}
+            
           >
             Next &raquo;
           </button>

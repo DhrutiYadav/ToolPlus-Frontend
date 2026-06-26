@@ -1,0 +1,16 @@
+/* Admin data table helper styles */
+.empty-state-container {
+  max-width: 540px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  color: var(--bs-muted, #6b7280);
+}
+
+.empty-state-desc {
+  max-width: 400px;
+  margin: 0 auto;
+}

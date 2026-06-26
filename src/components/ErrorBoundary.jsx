@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/ErrorBoundary.css';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -17,10 +18,10 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 p-4 text-center bg-slate-50 dark:bg-slate-950 transition-colors">
-          <div className="card rounded-4 shadow-sm mx-auto border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors" style={{ maxWidth: "500px", width: "100%" }}>
+        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 p-4 text-center bg-slate-50 dark:bg-slate-950 transition-colors error-boundary-root">
+          <div className="card rounded-4 shadow-sm mx-auto border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors error-boundary-card">
             <div className="card-body p-5 d-flex flex-column align-items-center gap-3">
-              <div className="alert alert-danger rounded-4 d-flex align-items-center justify-content-center mb-0 border-0" style={{ width: '80px', height: '80px' }}>
+              <div className="alert alert-danger rounded-4 d-flex align-items-center justify-content-center mb-0 border-0 error-boundary-alert">
                 <span className="fs-1">⚠️</span>
               </div>
               <h2 className="fw-bold mb-1 text-slate-900 dark:text-white transition-colors">Something went wrong.</h2>

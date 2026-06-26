@@ -10,10 +10,28 @@
   z-index: 1030;
 }
 
-/* Scroll shadow — added dynamically via JS or via sticky behavior */
+/* Scroll shadow with gradient border effect */
 .navbar.scrolled,
 .navbar.sticky-top {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Gradient bottom border on scroll */
+.navbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(249, 115, 22, 0.25), rgba(239, 68, 68, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.navbar.scrolled-border::after {
+  opacity: 1;
 }
 
 html.dark .navbar.scrolled,
@@ -38,6 +56,21 @@ html:not(.dark) .navbar {
 
 .navbar-brand img {
   transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-logo-img {
+  max-height: 48px;
+  width: auto;
+}
+
+.nav-search-max {
+  max-width: 380px;
+}
+
+.cart-badge-small {
+  width: 20px;
+  height: 20px;
+  font-size: 0.7rem;
 }
 
 .navbar-brand:hover img {
@@ -145,13 +178,18 @@ html.dark .cart-link:hover {
 }
 
 .cart-badge {
-  animation: cartBadgePop 0.3s ease;
+  animation: cartBadgePop 0.3s ease, cartBadgePulse 2s ease-in-out infinite 1s;
 }
 
 @keyframes cartBadgePop {
   0% { transform: scale(0.6); }
   60% { transform: scale(1.15); }
   100% { transform: scale(1); }
+}
+
+@keyframes cartBadgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(249, 115, 22, 0); }
 }
 
 /* ---- Dropdown ---- */

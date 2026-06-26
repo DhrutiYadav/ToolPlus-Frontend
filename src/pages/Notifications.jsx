@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import notificationService from '../services/notificationService';
 import { toast } from "react-toastify";
 import SkeletonLoader from '../components/SkeletonLoader';
+import { Bell } from 'lucide-react';
 
 const Notifications = () => {
   const { user } = useAuth();
@@ -119,39 +120,34 @@ const Notifications = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0 fw-bold text-slate-900 dark:text-white transition-colors">Notifications</h2>
         <div className="d-flex align-items-center gap-3">
-          <div className="btn-group bg-slate-100 dark:bg-slate-800 p-1 rounded-pill transition-colors">
-            {['All', 'Unread'].map(tab => (
-              <button
-                key={tab}
-                className={`btn btn-sm rounded-pill px-4 fw-semibold transition-colors ${
-                  activeTab === tab 
-                    ? 'btn-white bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' 
-                    : 'btn-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400'
-                }`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
           <button 
-            className="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold shadow-sm" 
+            className="btn btn-link text-orange-500 fw-bold text-decoration-none p-0 cursor-pointer hover:text-orange-600 transition-colors" 
             onClick={handleMarkAllAsRead}
             disabled={!notifications.some(n => !n.isRead)}
           >
-            Mark all read
-          </button>
-          <button 
-            className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold shadow-sm" 
-            onClick={handleClearAll}
-            disabled={notifications.length === 0}
-          >
-            Clear all
+            Mark all as read
           </button>
         </div>
       </div>
 
       <div className="bg-white dark:bg-slate-800 rounded-4 shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
+        {/* Tabs */}
+        <div className="d-flex border-bottom border-slate-100 dark:border-slate-700 px-4 pt-3">
+          {['All', 'Unread'].map(tab => (
+            <button
+              key={tab}
+              className={`pb-3 px-4 fw-bold text-uppercase transition-colors bg-transparent border-0 ${
+                activeTab === tab 
+                  ? 'text-orange-500 border-bottom border-3 border-orange-500' 
+                  : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 border-bottom border-3 border-transparent'
+              }`}
+              style={{ fontSize: "0.85rem", letterSpacing: "0.5px" }}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
         {/* Tabs */}
 
 
@@ -159,32 +155,35 @@ const Notifications = () => {
         <div>
           {filteredNotifications.length === 0 ? (
             <div className="text-center py-5 rounded-4 shadow-sm bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-colors empty-state-container mx-3 my-4">
-              <div className="empty-state-icon bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 mx-auto transition-colors mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
+              <div className="empty-state-icon bg-slate-100 text-slate-400 dark:bg-slate-800 mx-auto transition-colors mb-4 d-flex align-items-center justify-content-center rounded-circle" style={{ width: "64px", height: "64px" }}>
+                <Bell size={32} />
               </div>
-              <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">No notifications found</h4>
+              <h4 className="fw-bold text-slate-900 dark:text-white mb-3 transition-colors">You're all caught up!</h4>
               <p className="text-slate-500 dark:text-slate-400 mb-0 transition-colors">
-                You're all caught up! Check back later for updates.
+                No new notifications
               </p>
             </div>
           ) : (
             filteredNotifications.map((notification) => (
               <div 
                 key={notification.id} 
+                onClick={() => { if (!notification.isRead) handleMarkAsRead(notification.id); }}
                 className={`d-flex p-4 border-bottom border-slate-100 dark:border-slate-700/50 transition-colors ${
-                  !notification.isRead ? 'bg-slate-50/50 dark:bg-slate-800/80' : 'bg-white dark:bg-slate-800'
+                  !notification.isRead ? 'bg-white dark:bg-slate-800 cursor-pointer' : 'bg-slate-50 dark:bg-slate-800/50 opacity-75'
                 }`}
+                style={{ cursor: !notification.isRead ? 'pointer' : 'default', opacity: notification.isRead ? 0.6 : 1 }}
               >
                 <div className="me-3 fs-3 d-flex align-items-center">
                   {getIconForType(notification.type)}
                 </div>
                 <div className="flex-grow-1">
                   <div className="d-flex justify-content-between align-items-center mb-1">
-                    <h5 className={`m-0 ${!notification.isRead ? 'fw-bold !text-slate-900 dark:!text-slate-100' : 'fw-medium !text-slate-700 dark:!text-slate-300'}`}>
-                      {notification.title}
-                    </h5>
+                    <div className="d-flex align-items-center gap-2">
+                      <h5 className={`m-0 ${!notification.isRead ? 'fw-bold !text-slate-900 dark:!text-slate-100' : 'fw-medium !text-slate-700 dark:!text-slate-300'}`}>
+                        {notification.title}
+                      </h5>
+                      {notification.isRead && <span className="badge bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300">Read</span>}
+                    </div>
                     <small className="text-slate-400 dark:text-slate-500 fw-medium">
                       {formatDate(notification.createdAt)}
                     </small>
@@ -193,17 +192,9 @@ const Notifications = () => {
                     {notification.message}
                   </p>
                   <div className="d-flex gap-2">
-                    {!notification.isRead && (
-                      <button 
-                        className="btn btn-sm btn-link text-decoration-none p-0 !text-orange-500 hover:!text-orange-600"
-                        onClick={() => handleMarkAsRead(notification.id)}
-                      >
-                        Mark as read
-                      </button>
-                    )}
                     <button 
                       className="btn btn-sm btn-link text-decoration-none p-0 !text-rose-500 hover:!text-rose-600 ms-auto"
-                      onClick={() => handleDelete(notification.id)}
+                      onClick={(e) => { e.stopPropagation(); handleDelete(notification.id); }}
                     >
                       Delete
                     </button>

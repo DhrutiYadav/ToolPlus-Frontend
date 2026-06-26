@@ -1,0 +1,10 @@
+/* Admin layout helpers */
+.admin-logo-small {
+  max-height: 50px;
+  width: auto;
+}
+
+.admin-logo-large {
+  max-height: 40px;
+  width: auto;
+}

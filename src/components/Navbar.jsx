@@ -46,21 +46,19 @@ function Navbar() {
   const isActive = (path) => location.pathname === path ? "active" : "";
 
   return (
-    <nav className={`navbar navbar-expand-lg sticky-top bg-[#ffffff] dark:!bg-slate-900 border-b border-slate-100 dark:border-slate-800 py-2 transition-colors duration-300 ${scrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar navbar-expand-lg sticky-top transition-all duration-300 z-50 position-relative ${scrolled ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 py-2 scrolled scrolled-border' : 'bg-white dark:bg-slate-900 border-b border-transparent dark:border-transparent py-3'}`}>
       <div className="container px-3 px-lg-4">
         {/* Brand/Logo */}
         <Link to="/" className="navbar-brand d-flex align-items-center me-3">
             <img
               src="/logo/logo-horizontal.png"
               alt="ToolPlus Logo"
-              className="img-fluid dark:hidden"
-              style={{ maxHeight: "48px", width: "auto" }}
+              className="img-fluid dark:hidden nav-logo-img"
             />
             <img
               src="/logo/dark-horizontal-logo.png"
               alt="ToolPlus Logo"
-              className="img-fluid hidden dark:block"
-              style={{ maxHeight: "48px", width: "auto" }}
+              className="img-fluid hidden dark:block nav-logo-img"
             />
         </Link>
 
@@ -79,8 +77,8 @@ function Navbar() {
 
         {/* Navbar Content */}
         <div className="collapse navbar-collapse" id="navbarContent">
-          <form className="d-flex mx-auto my-2 my-lg-0 px-lg-3 w-full" style={{ maxWidth: "380px" }} onSubmit={handleSearchSubmit}>
-            <div className="input-group search-group rounded-pill w-100 overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 transition-all duration-300 focus-within:shadow-sm focus-within:border-orange-300 dark:focus-within:border-orange-500/50">
+          <form className="d-flex mx-auto my-2 my-lg-0 px-lg-3 w-full nav-search-max" onSubmit={handleSearchSubmit}>
+            <div className="input-group search-group rounded-pill w-100 overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 transition-all duration-300 focus-within:shadow-md focus-within:border-orange-400 dark:focus-within:border-orange-500/50 focus-within:bg-white dark:focus-within:bg-slate-900">
               <span className="input-group-text border-0 px-3 bg-transparent d-flex align-items-center !text-slate-400 dark:!text-slate-500">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -97,57 +95,59 @@ function Navbar() {
           </form>
 
           {/* Right Links */}
-          <ul className="navbar-nav align-items-lg-center ms-auto gap-lg-2">
-            <li className="nav-item">
-              <Link to="/deals" className={`nav-link fw-bold px-3 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 hover:-translate-y-0.5 ${isActive("/deals")}`}>
+          <ul className="navbar-nav align-items-lg-center ms-auto gap-1 gap-lg-2">
+            <li className="nav-item flex-shrink-0">
+              <Link to="/deals" className={`nav-link fw-bold px-2 px-xl-3 d-flex align-items-center whitespace-nowrap flex-shrink-0 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 position-relative nav-link-animated ${isActive("/deals")}`}>
                 Browse Deals
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/categories" className={`nav-link fw-bold px-3 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 hover:-translate-y-0.5 ${isActive("/categories")}`}>
+            <li className="nav-item flex-shrink-0">
+              <Link to="/categories" className={`nav-link fw-bold px-2 px-xl-3 d-flex align-items-center whitespace-nowrap flex-shrink-0 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 position-relative nav-link-animated ${isActive("/categories")}`}>
                 Categories
               </Link>
             </li>
 
             {user ? (
               <>
-                <li className="nav-item">
+                <li className="nav-item flex-shrink-0 d-flex align-items-center">
                   <NotificationBell />
                 </li>
-                <li className="nav-item ms-lg-2 mt-2 mt-lg-0">
-                  <Link to="/cart" className="nav-link d-flex align-items-center cart-link py-2 px-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:!text-orange-600 transition-all duration-300 hover:scale-105 hover-lift">
+                <li className="nav-item flex-shrink-0 ms-lg-1 mt-2 mt-lg-0">
+                  <Link to="/cart" className="nav-link d-flex align-items-center whitespace-nowrap flex-shrink-0 cart-link py-2 px-2 px-xl-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:!text-orange-600 transition-all duration-300 hover:scale-105 hover-lift">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                     {cartCount > 0 && (
-                      <span className="cart-badge ms-1 fw-bold d-flex align-items-center justify-content-center bg-orange-500 text-white rounded-circle shadow-sm" style={{ width: '20px', height: '20px', fontSize: '0.7rem' }}>
+                      <span className="cart-badge ms-1 fw-bold d-flex align-items-center justify-content-center bg-orange-500 text-white rounded-circle shadow-sm cart-badge-small">
                         {cartCount}
                       </span>
                     )}
                   </Link>
                 </li>
-                <li className="nav-item ms-lg-1">
-                  <Link to="/orders" className={`nav-link fw-bold px-3 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 hover:-translate-y-0.5 ${isActive("/orders")}`}>
+                <li className="nav-item flex-shrink-0 ms-lg-1">
+                  <Link to="/orders" className={`nav-link fw-bold px-2 px-xl-3 d-flex align-items-center whitespace-nowrap flex-shrink-0 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 position-relative nav-link-animated ${isActive("/orders")}`}>
                     My Orders
                   </Link>
                 </li>
                 
                 {/* Theme Toggle */}
-                <li className="nav-item d-flex align-items-center ms-lg-1">
+                <li className="nav-item flex-shrink-0 d-flex align-items-center ms-lg-1">
                   <ThemeToggle />
                 </li>
 
                 {/* User Dropdown Profile / Logout */}
-                <ProfileDropdown user={user} isAdmin={isAdmin} logout={logout} />
+                <li className="nav-item flex-shrink-0 d-flex align-items-center">
+                  <ProfileDropdown user={user} isAdmin={isAdmin} logout={logout} />
+                </li>
               </>
             ) : (
-              <div className="d-flex align-items-center mt-3 mt-lg-0 ms-lg-3 gap-2">
+              <div className="d-flex align-items-center mt-3 mt-lg-0 ms-lg-2 gap-2 flex-shrink-0">
                 {/* Theme Toggle for unauthenticated users */}
                 <ThemeToggle />
-                <Link to="/login" className="btn btn-link text-decoration-none fw-bold !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-colors">
+                <Link to="/login" className="btn btn-link d-flex align-items-center whitespace-nowrap flex-shrink-0 text-decoration-none fw-bold !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-colors">
                   Log In
                 </Link>
-                <Link to="/register" className="btn btn-primary rounded-pill px-4 fw-bold shadow-sm hover-lift">
+                <Link to="/register" className="btn btn-primary d-flex align-items-center whitespace-nowrap flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 border-0 rounded-pill px-3 px-xl-4 fw-bold shadow-sm hover-lift hover:shadow-orange-500/30 transition-all duration-300">
                   Sign Up
                 </Link>
               </div>

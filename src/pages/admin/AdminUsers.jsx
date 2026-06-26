@@ -11,7 +11,7 @@ import AdminModal from "../../components/AdminModal";
 import AdminConfirmDialog from "../../components/AdminConfirmDialog";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Eye, Edit2, ShieldAlert, ShieldCheck, Trash2, Download, UserX, CheckSquare } from "lucide-react";
+import { Eye, Edit2, ShieldAlert, ShieldCheck, Trash2, Download, UserX, CheckSquare, Pencil, Check } from "lucide-react";
 
 function AdminUsers() {
   const queryClient = useQueryClient();
@@ -182,7 +182,7 @@ function AdminUsers() {
       render: (row) => {
         let badgeClass = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
         if (row.role === "Admin") badgeClass = "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400";
-        if (row.role === "Moderator") badgeClass = "bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400";
+        
         if (row.role === "User") badgeClass = "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400";
 
         return (
@@ -208,17 +208,17 @@ function AdminUsers() {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setViewUser(row)}
-            className="p-1.5 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="btn btn-outline-secondary btn-sm"
             title="View Details"
           >
-            <Eye size={16} />
+            <Eye size={15} />
           </button>
           <button
             onClick={() => handleEditOpen(row)}
-            className="p-1.5 text-slate-400 hover:text-blue-500 transition-colors"
+            className="btn btn-outline-primary btn-sm"
             title="Edit User"
           >
-            <Edit2 size={16} />
+            <Pencil size={15} />
           </button>
           
           {row.isBanned ? (
@@ -227,10 +227,10 @@ function AdminUsers() {
                 setActionUser(row);
                 setActionType("unban");
               }}
-              className="p-1.5 text-slate-400 hover:text-emerald-500 transition-colors"
+              className="btn btn-outline-success btn-sm"
               title="Unban User"
             >
-              <ShieldCheck size={16} />
+              <Check size={15} />
             </button>
           ) : (
             <button
@@ -238,10 +238,10 @@ function AdminUsers() {
                 setActionUser(row);
                 setActionType("ban");
               }}
-              className="p-1.5 text-slate-400 hover:text-amber-500 transition-colors"
+              className="btn btn-outline-warning btn-sm"
               title="Deactivate User"
             >
-              <UserX size={16} />
+              <UserX size={15} />
             </button>
           )}
 
@@ -251,7 +251,7 @@ function AdminUsers() {
             className="text-xs border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
           >
             <option value="User">User</option>
-            <option value="Moderator">Moderator</option>
+            
             <option value="Admin">Admin</option>
           </select>
 
@@ -260,10 +260,10 @@ function AdminUsers() {
               setActionUser(row);
               setActionType("delete");
             }}
-            className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"
+            className="btn btn-outline-danger btn-sm"
             title="Delete User"
           >
-            <Trash2 size={16} />
+            <Trash2 size={15} />
           </button>
         </div>
       ),

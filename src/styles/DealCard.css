@@ -2,29 +2,38 @@
    DEAL CARD — Premium Refinement
    ============================== */
 
+.deal-card-wrapper {
+  height: 100%;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
 .deal-card {
-  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
-              box-shadow 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+  transition: box-shadow 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
               border-color 0.35s ease;
   border-radius: 16px !important;
   border: 1px solid rgba(226, 232, 240, 0.6) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
 }
 
 html.dark .deal-card {
   border-color: rgba(51, 65, 85, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
+/* Shimmer glow border on hover */
 .deal-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.1),
-              0 8px 16px -4px rgba(0, 0, 0, 0.06) !important;
-  border-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.12),
+              0 0 0 1.5px rgba(249, 115, 22, 0.3),
+              0 0 20px rgba(249, 115, 22, 0.08) !important;
+  border-color: rgba(249, 115, 22, 0.25) !important;
 }
 
 html.dark .deal-card:hover {
   box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.4),
-              0 8px 16px -4px rgba(0, 0, 0, 0.25) !important;
-  border-color: rgba(var(--bs-primary-rgb), 0.3) !important;
+              0 0 0 1.5px rgba(249, 115, 22, 0.4),
+              0 0 24px rgba(249, 115, 22, 0.12) !important;
+  border-color: rgba(249, 115, 22, 0.35) !important;
 }
 
 /* ---- Image Section ---- */
@@ -43,29 +52,11 @@ html.dark .deal-image-wrapper {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s ease;
 }
 
 .deal-card:hover .deal-img {
   transform: scale(1.06);
-}
-
-/* Image loading shimmer */
-.deal-image-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
-  animation: shimmer 2s infinite;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.deal-img[src=""]::before,
-.deal-image-wrapper:not(:has(img[complete]))::before {
-  opacity: 1;
 }
 
 @keyframes shimmer {
@@ -73,34 +64,69 @@ html.dark .deal-image-wrapper {
   100% { transform: translateX(100%); }
 }
 
-/* ---- Badges ---- */
-.savings-badge {
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
-  backdrop-filter: blur(4px);
-  background-color: rgba(220, 53, 69, 0.92) !important;
-}
-
-.category-badge {
+/* ---- Premium Pill Badges ---- */
+.deal-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 0.7rem;
-  letter-spacing: 0.8px;
-  border-radius: 6px !important;
-  background-color: rgba(15, 23, 42, 0.85) !important;
-  backdrop-filter: blur(4px);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: white;
 }
 
-.deal-card .badge-featured {
-  background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+.deal-badge-featured {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
 }
 
-.deal-card .badge-bestseller {
-  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+.deal-badge-bestseller {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
-.deal-card .badge-limited {
-  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+.deal-badge-limited {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+/* ---- Urgency Indicator ---- */
+.deal-urgency-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+html.dark .deal-urgency-badge {
+  color: #f87171;
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.deal-urgency-badge-limited {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+html.dark .deal-urgency-badge-limited {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
 }
 
 /* ---- Text Utilities ---- */
@@ -118,6 +144,29 @@ html.dark .deal-image-wrapper {
   overflow: hidden;
 }
 
+.deal-title {
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.deal-title a {
+  font-size: 1.05rem;
+}
+
+.deal-rating-row {
+  min-height: 24px;
+  font-size: 0.85rem;
+}
+
+.deal-short-desc {
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.deal-save-percent {
+  font-size: 0.8rem;
+}
+
 .fw-extrabold {
   font-weight: 800;
 }
@@ -126,17 +175,39 @@ html.dark .deal-image-wrapper {
   font-size: 0.85rem;
 }
 
-/* ---- CTA Button ---- */
+/* ---- CTA Button — arrow slide animation ---- */
 .deal-cta-btn {
-  border-width: 2px !important;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 700;
   letter-spacing: 0.3px;
-  transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background: linear-gradient(to right, #f97316, #ea580c) !important;
+  border: none !important;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 .deal-cta-btn:hover {
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35) !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(var(--bs-primary-rgb), 0.3);
+  background: linear-gradient(to right, #ea580c, #dc2626) !important;
+}
+
+.deal-cta-text {
+  transition: transform 0.3s ease;
+}
+
+.deal-cta-arrow {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  display: inline-block;
+}
+
+.deal-cta-btn:hover .deal-cta-text {
+  transform: translateX(-4px);
+}
+
+.deal-cta-btn:hover .deal-cta-arrow {
+  transform: translateX(4px);
 }
 
 /* ---- Price Section ---- */
@@ -161,7 +232,7 @@ html.dark .deal-image-wrapper {
   gap: 4px;
 }
 
-/* ---- Pulse Animation for Savings Badge ---- */
+/* ---- Pulse Animation ---- */
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.04); }

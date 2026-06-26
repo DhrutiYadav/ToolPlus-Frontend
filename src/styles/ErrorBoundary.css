@@ -1,0 +1,25 @@
+/* Error Boundary styling to replace inline styles */
+.error-boundary-root {
+  min-height: 100vh;
+}
+
+.error-boundary-card {
+  max-width: 500px;
+  width: 100%;
+}
+
+.error-boundary-alert {
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hover-lift {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}

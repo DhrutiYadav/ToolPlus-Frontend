@@ -1,0 +1,12 @@
+.categories-copy-width {
+  max-width: 600px;
+}
+
+.categories-search-width {
+  max-width: 450px;
+}
+
+.categories-empty-icon {
+  width: 60px;
+  height: 60px;
+}

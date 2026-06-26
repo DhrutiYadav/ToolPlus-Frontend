@@ -12,6 +12,64 @@
   border-radius: 20px !important;
 }
 
+.auth-page-wrapper-login,
+.auth-page-wrapper-forgot {
+  min-height: 80vh;
+  position: relative;
+}
+
+.auth-page-wrapper-register {
+  min-height: 85vh;
+  position: relative;
+}
+
+.auth-card-foreground {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-logo-sm {
+  max-width: 180px;
+  height: auto;
+}
+
+.auth-logo-md {
+  max-width: 200px;
+  height: auto;
+}
+
+.auth-logo-lg {
+  max-width: 220px;
+  height: auto;
+}
+
+.auth-icon-circle-72 {
+  width: 72px;
+  height: 72px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-icon-circle-64 {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-progress-track {
+  height: 5px;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.auth-progress-bar {
+  border-radius: 999px;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
 html.dark .login-card {
   background: rgba(15, 23, 42, 0.95) !important;
   border-color: rgba(51, 65, 85, 0.5) !important;
@@ -70,4 +128,70 @@ html.dark .login-card .form-control::placeholder {
 
 .login-card .btn-primary:active {
   transform: translateY(0);
+}
+
+/* ---- Animated Background Blobs ---- */
+.auth-page-wrapper {
+  overflow: hidden;
+}
+
+.auth-bg-blobs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.05;
+  animation: authBlobFloat 8s ease-in-out infinite;
+}
+
+html.dark .auth-blob {
+  opacity: 0.04;
+}
+
+.auth-blob-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #f97316, #ea580c);
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.auth-blob-2 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #3b82f6, #06b6d4);
+  bottom: -50px;
+  left: -50px;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+
+.auth-blob-3 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #ec4899, #f97316);
+  top: 40%;
+  left: 10%;
+  animation-delay: 4s;
+  animation-duration: 9s;
+}
+
+@keyframes authBlobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ---- fs-8 utility ---- */
+.fs-8 {
+  font-size: 0.75rem !important;
 }

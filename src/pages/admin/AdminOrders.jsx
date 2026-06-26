@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAdminOrders, updateOrderStatus, deleteAdminOrder } from "../../services/adminService";
 import AdminLoadingSpinner from "../../components/AdminLoadingSpinner";
@@ -8,7 +8,8 @@ import AdminSearchBar from "../../components/AdminSearchBar";
 import AdminPagination from "../../components/AdminPagination";
 import AdminConfirmDialog from "../../components/AdminConfirmDialog";
 import { toast } from "react-toastify";
-import { Eye, Trash2, Download, CheckSquare, X, Receipt, Clock, CreditCard, User, Box } from "lucide-react";
+import { Eye, Trash2, Download, CheckSquare, X, Receipt, Clock, CreditCard, User, Box, Check } from "lucide-react";
+import { cancelOrder } from "../../services/orderService";
 
 function AdminOrders() {
   const queryClient = useQueryClient();
@@ -16,14 +17,13 @@ function AdminOrders() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const [selectedIds, setSelectedIds] = useState([]);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  // Modals / Drawer States
-  const [viewOrder, setViewOrder] = useState(null);
   const [deleteOrder, setDeleteOrder] = useState(null);
   const [actionType, setActionType] = useState(null); // 'bulkDelete' | 'bulkStatus'
 
   // Queries
-  const { data: orders = [], isLoading, error } = useQuery({
+  const { data: fetchedOrders = [], isLoading, error } = useQuery({
     queryKey: ["adminOrders"],
     queryFn: getAdminOrders,
   });
@@ -31,12 +31,37 @@ function AdminOrders() {
   // Mutations
   const statusMutation = useMutation({
     mutationFn: ({ id, status }) => updateOrderStatus(id, status),
+    onMutate: async ({ id, status }) => {
+      await queryClient.cancelQueries({ queryKey: ["adminOrders"] });
+
+      const previousOrders = queryClient.getQueryData(["adminOrders"]) || [];
+
+      console.log("Before", previousOrders.find((order) => String(order.id) === String(id))?.status);
+      console.log("Selected", status);
+
+      queryClient.setQueryData(["adminOrders"], (currentOrders = []) =>
+        currentOrders.map((order) =>
+          String(order.id) === String(id) ? { ...order, status } : order
+        )
+      );
+
+      const updatedOrder = (queryClient.getQueryData(["adminOrders"]) || []).find(
+        (order) => String(order.id) === String(id)
+      );
+      console.log("After Update", updatedOrder?.status);
+
+      return { previousOrders };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousOrders !== undefined) {
+        queryClient.setQueryData(["adminOrders"], context.previousOrders);
+      }
+
+      toast.error("Failed to update order status");
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["adminOrders"] });
-      queryClient.invalidateQueries({ queryKey: ["adminDashboardStats"] });
       toast.success("Order status updated");
     },
-    onError: () => toast.error("Failed to update order status"),
   });
 
   const deleteMutation = useMutation({
@@ -52,6 +77,8 @@ function AdminOrders() {
 
   if (isLoading) return <AdminLoadingSpinner fullPage={true} />;
   if (error) return <div className="text-rose-500 font-bold p-6">Failed to load platform orders.</div>;
+
+  const orders = fetchedOrders;
 
   // Filter orders based on Search Term
   const filteredOrders = orders.filter((o) => {
@@ -69,11 +96,10 @@ function AdminOrders() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
 
+  const viewOrder = orders.find((order) => String(order.id) === String(selectedOrderId)) || null;
+
   const handleStatusChange = (orderId, newStatus) => {
     statusMutation.mutate({ id: orderId, status: newStatus });
-    if (viewOrder && viewOrder.id === orderId) {
-      setViewOrder({ ...viewOrder, status: newStatus });
-    }
   };
 
   const handleApproveRefund = async (orderId) => {
@@ -82,8 +108,22 @@ function AdminOrders() {
         await import("../../services/orderService").then(m => m.approveRefund(orderId));
         queryClient.invalidateQueries({ queryKey: ["adminOrders"] });
         toast.success("Refund approved successfully");
-      } catch (error) {
+      } catch {
         toast.error("Failed to approve refund");
+      }
+    }
+  };
+
+  //write Cancel Refund function
+  const handleCancelRefund = async (orderId) => {
+    if (window.confirm("Are you sure you want to cancel this refund request?")) {
+      try {
+        await cancelOrder(orderId);
+        queryClient.invalidateQueries({ queryKey: ["adminOrders"] });
+        queryClient.invalidateQueries({ queryKey: ["adminDashboardStats"] });
+        toast.success("Refund request cancelled successfully");
+      } catch {
+        toast.error("Failed to cancel refund request");
       }
     }
   };
@@ -126,7 +166,7 @@ function AdminOrders() {
     },
     { 
       header: "Deal Title", 
-      render: (row) => <span className="font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[200px] block">{row.dealTitle}</span> 
+      render: (row) => <span className="font-semibold text-slate-800 dark:text-slate-200 truncate max-w-50 block">{row.dealTitle}</span> 
     },
     {
       header: "Price",
@@ -139,7 +179,7 @@ function AdminOrders() {
           value={row.status}
           onChange={(e) => handleStatusChange(row.id, e.target.value)}
           className="text-xs border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-slate-50 dark:bg-slate-800 font-bold text-slate-700 dark:text-slate-300"
-          disabled={row.status === "RefundRequested" || row.status === "Refunded"}
+          disabled={row.status === "RefundRequested" || row.status === "Refunded" || row.status === "Cancelled"}
         >
           <option value="Pending">Pending</option>
           <option value="AwaitingPayment">Awaiting Payment</option>
@@ -168,37 +208,33 @@ function AdminOrders() {
             <>
               <button
                 onClick={() => handleApproveRefund(row.id)}
-                className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded hover:bg-emerald-200 transition-colors"
+                className="btn btn-outline-success btn-sm"
                 title="Approve Refund"
               >
-                Approve Refund
+                <Check size={15} />
               </button>
               <button
-                onClick={() => {
-                  if (window.confirm("Are you sure you want to cancel this refund request?")) {
-                    handleStatusChange(row.id, "Completed");
-                  }
-                }}
-                className="px-2 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded hover:bg-rose-200 transition-colors ml-2"
+                onClick={() => handleCancelRefund(row.id)}
+                className="btn btn-outline-secondary btn-sm ml-2"
                 title="Cancel Refund"
               >
-                Cancel Refund
+                <X size={15} />
               </button>
             </>
           )}
           <button
-            onClick={() => setViewOrder(row)}
-            className="p-1.5 text-slate-400 hover:text-orange-500 transition-colors"
+            onClick={() => setSelectedOrderId(row.id)}
+            className="btn btn-outline-secondary btn-sm"
             title="View Details"
           >
-            <Eye size={18} />
+            <Eye size={15} />
           </button>
           <button
             onClick={() => setDeleteOrder(row)}
-            className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"
+            className="btn btn-outline-danger btn-sm"
             title="Delete Order"
           >
-            <Trash2 size={18} />
+            <Trash2 size={15} />
           </button>
         </div>
       ),
@@ -292,7 +328,7 @@ function AdminOrders() {
               <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">ID: #{viewOrder?.id}</p>
             </div>
             <button 
-              onClick={() => setViewOrder(null)}
+              onClick={() => setSelectedOrderId(null)}
               className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
             >
               <X size={20} />
@@ -387,7 +423,7 @@ function AdminOrders() {
                 <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
                   <Clock size={14} className="mr-2" /> Order Timeline
                 </h4>
-                <div className="relative pl-4 space-y-6 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                <div className="relative pl-4 space-y-6 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="absolute left-0 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-4 ring-white dark:ring-slate-900"></div>
@@ -414,7 +450,7 @@ function AdminOrders() {
           {/* Drawer Footer */}
           <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex justify-end">
              <button 
-                onClick={() => setViewOrder(null)}
+               onClick={() => setSelectedOrderId(null)}
                 className="px-5 py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
              >
                Close Details

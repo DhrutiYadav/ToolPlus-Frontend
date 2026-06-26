@@ -1,0 +1,31 @@
+/* Payment Failed page helpers */
+.payment-failed-card {
+  max-width: 600px;
+  width: 100%;
+}
+
+.payment-failed-icon {
+  width: 90px;
+  height: 90px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-failed-icon-symbol {
+  font-size: 2.8rem;
+}
+
+.payment-failed-shake {
+  animation: paymentShake 0.8s ease-in-out;
+}
+
+@keyframes paymentShake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-8px) rotate(-3deg); }
+  30% { transform: translateX(8px) rotate(3deg); }
+  45% { transform: translateX(-6px) rotate(-2deg); }
+  60% { transform: translateX(6px) rotate(2deg); }
+  75% { transform: translateX(-4px); }
+  90% { transform: translateX(4px); }
+}

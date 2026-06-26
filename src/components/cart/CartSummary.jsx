@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../styles/CartSummary.css';
 import { Ticket, X, Loader2 } from 'lucide-react';
 
 const CartSummary = ({ 
@@ -21,7 +22,7 @@ const CartSummary = ({
   const finalTotal = summary.totalAmount - discountAmount;
 
   return (
-    <div className="card shadow-sm border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 mb-4 sticky-top transition-colors" style={{ top: '100px' }}>
+    <div className="card shadow-sm border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 mb-4 sticky-top transition-colors cart-summary-sticky">
       <div className="card-body p-4">
         <h5 className="card-title fw-bold mb-4 text-slate-900 dark:text-white transition-colors">Order Summary</h5>
         
@@ -29,7 +30,7 @@ const CartSummary = ({
         <div className="mb-4">
           {summary.items.map((item) => (
             <div key={item.id} className="d-flex justify-content-between align-items-center mb-2 small">
-              <span className="text-slate-500 dark:text-slate-400 text-truncate me-2 transition-colors" style={{ maxWidth: '200px' }}>
+              <span className="text-slate-500 dark:text-slate-400 text-truncate me-2 transition-colors cart-summary-item-title">
                 • {item.title} <span className="fw-medium text-slate-900 dark:text-white transition-colors">×{item.quantity}</span>
               </span>
               <span className="text-slate-900 dark:text-white fw-medium transition-colors">₹{(item.discountPrice * item.quantity).toFixed(2)}</span>

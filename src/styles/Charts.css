@@ -1,0 +1,494 @@
+/* ==============================
+   CHART SYSTEM — Design Tokens
+   ============================== */
+:root {
+  --chart-grid: #e2e8f0;
+  --chart-axis: #94a3b8;
+  --chart-dot-fill: #ffffff;
+  --chart-cursor: rgba(0, 0, 0, 0.04);
+  --chart-card-bg: #ffffff;
+  --chart-card-border: #e2e8f0;
+  --chart-tooltip-bg: #ffffff;
+  --chart-tooltip-border: #e2e8f0;
+  --chart-tooltip-text: #0f172a;
+  --chart-tooltip-muted: #64748b;
+  --chart-tooltip-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12), 0 4px 8px -4px rgba(0, 0, 0, 0.06);
+}
+
+html.dark {
+  --chart-grid: #1e293b;
+  --chart-axis: #64748b;
+  --chart-dot-fill: #0f172a;
+  --chart-cursor: rgba(255, 255, 255, 0.04);
+  --chart-card-bg: #0f172a;
+  --chart-card-border: #1e293b;
+  --chart-tooltip-bg: #1e293b;
+  --chart-tooltip-border: #334155;
+  --chart-tooltip-text: #f8fafc;
+  --chart-tooltip-muted: #94a3b8;
+  --chart-tooltip-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4), 0 4px 8px -4px rgba(0, 0, 0, 0.25);
+}
+
+/* ==============================
+   CHART CARD
+   ============================== */
+.chart-card {
+  background: var(--chart-card-bg);
+  border: 1px solid var(--chart-card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.chart-card:hover {
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -4px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+html.dark .chart-card:hover {
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.35), 0 4px 8px -4px rgba(0, 0, 0, 0.2);
+  border-color: #334155;
+}
+
+/* Header */
+.chart-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+
+.chart-card__title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+html.dark .chart-card__title {
+  color: #f8fafc;
+}
+
+.chart-card__subtitle {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 2px 0 0;
+  font-weight: 500;
+}
+
+html.dark .chart-card__subtitle {
+  color: #64748b;
+}
+
+/* Badge */
+.chart-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.chart-card__badge--green {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.chart-card__badge--orange {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+.chart-card__badge--red {
+  background: rgba(244, 63, 94, 0.1);
+  color: #f43f5e;
+}
+
+.chart-card__badge--purple {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+/* Body */
+.chart-card__body {
+  padding: 12px 12px 16px;
+}
+
+/* ==============================
+   TOOLTIP
+   ============================== */
+.chart-tooltip {
+  background: var(--chart-tooltip-bg);
+  border: 1px solid var(--chart-tooltip-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: var(--chart-tooltip-shadow);
+  min-width: 100px;
+}
+
+.chart-tooltip-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--chart-tooltip-muted);
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart-tooltip-value {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+/* ==============================
+   CHART GRID — Responsive Layout
+   ============================== */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1199.98px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639.98px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==============================
+   REPORTS PAGE HEADER
+   ============================== */
+.reports-header {
+  margin-bottom: 32px;
+}
+
+.reports-header__title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px;
+  letter-spacing: -0.5px;
+}
+
+html.dark .reports-header__title {
+  color: #f8fafc;
+}
+
+.reports-header__subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 400;
+}
+
+html.dark .reports-header__subtitle {
+  color: #94a3b8;
+}
+
+/* ==============================
+   BOTTOM ROW: Table + Export
+   ============================== */
+.reports-bottom-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (max-width: 1023.98px) {
+  .reports-bottom-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Top Deals Card */
+.top-deals-card {
+  background: var(--chart-card-bg);
+  border: 1px solid var(--chart-card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.top-deals-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--chart-card-border);
+}
+
+.top-deals-card__title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+html.dark .top-deals-card__title {
+  color: #f8fafc;
+}
+
+.top-deals-card__count {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.top-deals-card__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+/* Hide scrollbar for the deals table container */
+.top-deals-card__body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Deal price badge */
+.deal-price-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+html.dark .deal-price-badge {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+/* Rating badge */
+.deal-rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+html.dark .deal-rating-badge {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+/* ==============================
+   EXPORT TOOLS CARD
+   ============================== */
+.export-card {
+  background: var(--chart-card-bg);
+  border: 1px solid var(--chart-card-border);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.export-card__header {
+  margin-bottom: 8px;
+}
+
+.export-card__title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+html.dark .export-card__title {
+  color: #f8fafc;
+}
+
+.export-card__desc {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+html.dark .export-card__desc {
+  color: #64748b;
+}
+
+.export-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+}
+
+/* Export buttons */
+.export-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.2px;
+}
+
+.export-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+}
+
+.export-btn:active {
+  transform: translateY(0);
+}
+
+.export-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.export-btn--users {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px -3px rgba(59, 130, 246, 0.4);
+}
+
+.export-btn--users:hover:not(:disabled) {
+  box-shadow: 0 8px 22px -4px rgba(59, 130, 246, 0.5);
+}
+
+.export-btn--orders {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px -3px rgba(16, 185, 129, 0.4);
+}
+
+.export-btn--orders:hover:not(:disabled) {
+  box-shadow: 0 8px 22px -4px rgba(16, 185, 129, 0.5);
+}
+
+.export-btn__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: exportSpin 0.7s linear infinite;
+}
+
+@keyframes exportSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Export card divider */
+.export-card__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+html.dark .export-card__divider {
+  color: #475569;
+}
+
+.export-card__divider::before,
+.export-card__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--chart-card-border);
+}
+
+/* Export meta info */
+.export-card__meta {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--chart-card-border);
+}
+
+.export-card__meta-text {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+html.dark .export-card__meta-text {
+  color: #64748b;
+}
+
+/* ==============================
+   IMPROVED ADMIN DATA TABLE
+   ============================== */
+.admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table-wrapper::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Recharts responsive container fix for dark mode */
+html.dark .recharts-cartesian-grid-horizontal line,
+html.dark .recharts-cartesian-grid-vertical line {
+  stroke: #1e293b;
+}

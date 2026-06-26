@@ -8,7 +8,7 @@ import AdminModal from "../../components/AdminModal";
 import AdminConfirmDialog from "../../components/AdminConfirmDialog";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Plus, Edit2, Trash2, Folder, Layers } from "lucide-react";
+import { PlusCircle, Search, Edit2, Trash2, Pencil, Folder, Layers } from "lucide-react";
 
 function AdminCategories() {
   const queryClient = useQueryClient();
@@ -116,7 +116,7 @@ function AdminCategories() {
           }}
           className="flex items-center justify-center space-x-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-500/20 w-full sm:w-auto"
         >
-          <Plus size={18} />
+          <PlusCircle size={18} />
           <span>New Category</span>
         </button>
       </div>
@@ -125,7 +125,7 @@ function AdminCategories() {
       {paginatedCategories.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {paginatedCategories.map((category) => (
-            <div key={category.id} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 flex flex-col hover:shadow-md transition-shadow group">
+            <div key={category.id} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 flex flex-col hover:shadow-md hover:bg-orange-50 dark:hover:bg-slate-800/60 transition-colors group">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 bg-orange-50 dark:bg-orange-500/10 text-orange-500 rounded-xl flex items-center justify-center shadow-sm">
                   <Folder size={24} />
@@ -142,19 +142,17 @@ function AdminCategories() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditOpen(category)}
-                    className="flex-1 flex items-center justify-center space-x-1.5 px-2.5 py-2 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold transition-colors border border-blue-100 dark:border-blue-500/10"
+                    className="btn btn-outline-primary btn-sm"
                     title="Edit Category"
                   >
-                    <Edit2 size={14} />
-                    <span>Edit</span>
+                    <Pencil size={15} />
                   </button>
                   <button
                     onClick={() => setDeleteId(category.id)}
-                    className="flex-1 flex items-center justify-center space-x-1.5 px-2.5 py-2 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-bold transition-colors border border-rose-100 dark:border-rose-500/10"
+                    className="btn btn-outline-danger btn-sm"
                     title="Delete Category"
                   >
-                    <Trash2 size={14} />
-                    <span>Delete</span>
+                    <Trash2 size={15} />
                   </button>
                 </div>
               </div>

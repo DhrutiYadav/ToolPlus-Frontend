@@ -1,9 +1,10 @@
 import React from "react";
+import '../styles/LoadingSpinner.css';
 
 function LoadingSpinner({ fullPage = false }) {
   const spinnerContent = (
     <div className="d-flex flex-column align-items-center justify-content-center py-5">
-      <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+      <div className="spinner-border text-primary spinner-large" role="status">
         <span className="visually-hidden">Loading...</span>
       </div>
       <p className="mt-3 text-muted fw-semibold">Loading amazing deals...</p>
@@ -12,10 +13,7 @@ function LoadingSpinner({ fullPage = false }) {
 
   if (fullPage) {
     return (
-      <div 
-        className="d-flex align-items-center justify-content-center" 
-        style={{ minHeight: "80vh", width: "100%" }}
-      >
+      <div className="loading-fullpage">
         {spinnerContent}
       </div>
     );

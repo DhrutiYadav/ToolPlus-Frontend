@@ -669,9 +669,7 @@ function DealDetails() {
                         <h5 className="fw-bold text-slate-900 dark:text-white mb-0 transition-colors">{r.userName}</h5>
                         {r.role === "Admin" ? (
                           <span className="badge bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400 fs-8 px-2 py-1">Admin</span>
-                        ) : r.role === "Moderator" ? (
-                          <span className="badge bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400 fs-8 px-2 py-1">Moderator</span>
-                        ) : (
+                        ) :(
                           <span className="badge bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400 fs-8 px-2 py-1">Verified Buyer</span>
                         )}
                       </div>

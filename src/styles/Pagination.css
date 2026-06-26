@@ -1,0 +1,12 @@
+.tp-pagination {
+  box-shadow: var(--shadow-sm);
+}
+
+.tp-page-link {
+  font-size: 0.875rem;
+  min-width: 40px;
+}
+
+.tp-page-link-small {
+  font-size: 0.875rem;
+}

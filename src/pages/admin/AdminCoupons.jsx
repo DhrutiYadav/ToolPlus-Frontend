@@ -10,20 +10,7 @@ import AdminModal from "../../components/AdminModal";
 import AdminConfirmDialog from "../../components/AdminConfirmDialog";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { 
-  Plus, 
-  Edit2, 
-  Trash2, 
-  Ticket, 
-  Copy, 
-  Check, 
-  Calendar, 
-  Percent, 
-  DollarSign, 
-  AlertCircle,
-  ToggleLeft,
-  ToggleRight
-} from "lucide-react";
+import { PlusCircle, Search, Edit2, Trash2, Tag, Percent, DollarSign, Calendar, AlertCircle, Pencil, Copy, Check, ToggleLeft, ToggleRight } from "lucide-react";
 
 function AdminCoupons() {
   const queryClient = useQueryClient();
@@ -365,17 +352,17 @@ function AdminCoupons() {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => handleEditOpen(row)}
-            className="p-1.5 text-slate-400 hover:text-orange-500 transition-colors"
+            className="btn btn-outline-primary btn-sm"
             title="Edit Coupon"
           >
-            <Edit2 size={16} />
+            <Pencil size={15} />
           </button>
           <button
             onClick={() => setDeleteId(row.id)}
-            className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"
+            className="btn btn-outline-danger btn-sm"
             title="Delete Coupon"
           >
-            <Trash2 size={16} />
+            <Trash2 size={15} />
           </button>
         </div>
       )

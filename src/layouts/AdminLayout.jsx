@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import ThemeToggle from "../components/ThemeToggle";
+import '../styles/AdminLayout.css';
 import notificationService from "../services/notificationService";
 import {
   LayoutDashboard,
@@ -163,12 +164,12 @@ function AdminLayout() {
         <div className="flex flex-col h-full overflow-hidden">
           {/* Logo Area */}
           <div className="h-[80px] flex items-center justify-center border-b border-slate-800 shrink-0 px-4">
-            {isSidebarCollapsed ? (
+                {isSidebarCollapsed ? (
               <Link to="/admin/dashboard" className="flex items-center justify-center w-full transition-transform hover:scale-105">
                 <img
                   src="/logo/logo-square-dark.png"
                   alt="ToolPlus Logo"
-                  style={{ maxHeight: "50px", width: "auto" }}
+                  className="admin-logo-small"
                 />
               </Link>
             ) : (
@@ -176,7 +177,7 @@ function AdminLayout() {
                 <img
                   src="/logo/dark-horizontal-logo.png"
                   alt="ToolPlus Logo"
-                  style={{ maxHeight: "40px", width: "auto" }}
+                  className="admin-logo-large"
                 />
               </Link>
             )}

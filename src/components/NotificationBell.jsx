@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/NotificationBell.css';
 import notificationService from '../services/notificationService';
 
 const NotificationBell = () => {
@@ -85,23 +86,21 @@ const NotificationBell = () => {
   return (
     <div className="nav-item position-relative d-flex align-items-center ms-lg-1" ref={dropdownRef}>
       <button 
-        className="btn btn-link nav-link d-flex align-items-center cart-link py-2 px-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105"
+        className="btn btn-link nav-link d-flex align-items-center cart-link py-2 px-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 group"
         onClick={() => setIsOpen(!isOpen)}
-        style={{ border: 'none' }}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="transition-transform duration-300 origin-top group-hover:rotate-12">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         {unreadCount > 0 && (
-          <span className="cart-badge ms-1 fw-bold d-flex align-items-center justify-content-center bg-rose-500 text-white rounded-circle" style={{ width: '20px', height: '20px', fontSize: '0.7rem' }}>
+          <span className="cart-badge ms-1 fw-bold d-flex align-items-center justify-content-center bg-rose-500 text-white rounded-circle notification-unread-badge">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="dropdown-menu dropdown-menu-end show shadow-lg border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-3 mt-2" 
-             style={{ position: 'absolute', right: 0, top: '100%', minWidth: '320px', zIndex: 9999, padding: 0 }}>
+        <div className="dropdown-menu dropdown-menu-end show shadow-lg border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-3 mt-2 notification-dropdown">
           <div className="d-flex justify-content-between align-items-center p-3 border-bottom border-slate-100 dark:border-slate-700">
             <h6 className="m-0 fw-bold !text-slate-800 dark:!text-slate-200">Notifications</h6>
             {unreadCount > 0 && (
@@ -111,7 +110,7 @@ const NotificationBell = () => {
             )}
           </div>
           
-          <div className="notification-list" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+          <div className="notification-list">
             {notifications.length === 0 ? (
               <div className="p-4 text-center text-slate-500 dark:text-slate-400">
                 <p className="mb-0">No notifications yet</p>
@@ -130,20 +129,20 @@ const NotificationBell = () => {
                   </div>
                   <div className="flex-grow-1 overflow-hidden">
                     <div className="d-flex justify-content-between align-items-start mb-1">
-                      <h6 className={`m-0 text-truncate ${!notification.isRead ? 'fw-bold !text-slate-900 dark:!text-slate-100' : 'fw-medium !text-slate-700 dark:!text-slate-300'}`} style={{ fontSize: '0.9rem' }}>
+                      <h6 className={`m-0 text-truncate ${!notification.isRead ? 'fw-bold !text-slate-900 dark:!text-slate-100' : 'fw-medium !text-slate-700 dark:!text-slate-300'}`}>
                         {notification.title}
                       </h6>
-                      <small className="text-slate-400 dark:text-slate-500 ms-2 flex-shrink-0" style={{ fontSize: '0.75rem' }}>
+                      <small className="text-slate-400 dark:text-slate-500 ms-2 flex-shrink-0 notification-time">
                         {timeAgo(notification.createdAt)}
                       </small>
                     </div>
-                    <p className={`m-0 text-truncate ${!notification.isRead ? '!text-slate-600 dark:!text-slate-300' : '!text-slate-500 dark:!text-slate-400'}`} style={{ fontSize: '0.85rem' }}>
+                    <p className={`m-0 text-truncate ${!notification.isRead ? '!text-slate-600 dark:!text-slate-300' : '!text-slate-500 dark:!text-slate-400'}`}>
                       {notification.message}
                     </p>
                   </div>
                   {!notification.isRead && (
                     <div className="ms-2 d-flex align-items-center">
-                      <div className="bg-orange-500 rounded-circle" style={{ width: '8px', height: '8px' }}></div>
+                      <div className="bg-orange-500 rounded-circle notification-dot"></div>
                     </div>
                   )}
                 </div>

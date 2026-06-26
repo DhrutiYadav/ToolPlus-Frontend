@@ -1,11 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../styles/Footer.css";
 
 function Footer() {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) {
+      toast.error("Please enter your email address.");
+      return;
+    }
+    setSubscribed(true);
+    setNewsletterEmail("");
+    toast.success("🎉 Thanks for subscribing! You'll get the best deals in your inbox.");
+  };
+
   return (
-    <footer className="footer bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white pt-5 pb-4 transition-colors">
-      <div className="container">
+    <footer className="footer bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white transition-colors">
+      {/* Newsletter Row */}
+      <div className="footer-newsletter-strip border-b border-slate-200 dark:border-slate-800 py-5 transition-colors">
+        <div className="container">
+          <div className="row align-items-center g-4">
+            <div className="col-lg-6">
+              <div className="d-flex align-items-center gap-3 mb-2">
+                <div className="bg-orange-100 dark:bg-orange-500/10 text-orange-500 rounded-circle d-flex align-items-center justify-content-center newsletter-icon">
+                  <i className="bi bi-envelope-heart-fill fs-5"></i>
+                </div>
+                <div>
+                  <h4 className="fw-extrabold text-slate-900 dark:text-white mb-0 transition-colors">Get the best deals in your inbox</h4>
+                  <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 transition-colors">Join 10,000+ entrepreneurs. Unsubscribe anytime.</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              {subscribed ? (
+                <div className="alert alert-success border-0 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded-pill px-4 py-2 mb-0 d-flex align-items-center gap-2">
+                  <i className="bi bi-check-circle-fill"></i>
+                  <span className="fw-semibold">You're subscribed! Look out for great deals.</span>
+                </div>
+              ) : (
+                <form onSubmit={handleNewsletterSubmit}>
+                  <div className="footer-newsletter-input-group d-flex gap-2">
+                    <input
+                      type="email"
+                      className="form-control py-2 px-4 rounded-pill border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors"
+                      placeholder="Enter your email address..."
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      
+                    />
+                    <button
+                      type="submit"
+                      className="btn btn-primary rounded-pill px-5 fw-bold border-0 shadow-sm footer-subscribe-btn"
+                    >
+                      <i className="bi bi-send-fill me-2"></i>Subscribe
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Content */}
+      <div className="container pt-[38px] pb-[26px]">
         <div className="row">
           {/* Column 1 - Brand Info */}
           <div className="col-lg-4 col-md-6 mb-4 mb-md-0 px-4">
@@ -14,22 +76,47 @@ function Footer() {
               <img
                 src="/logo/logo-horizontal.png"
                 alt="ToolPlus Logo"
-                className="img-fluid dark:hidden"
-                style={{ maxHeight: "35px", width: "auto" }}
+                className="img-fluid dark:hidden footer-logo-img"
               />
               {/* Dark Mode Logo */}
               <img
                 src="/logo/logo-white.png"
                 alt="ToolPlus Logo"
-                className="img-fluid hidden dark:block"
-                style={{ maxHeight: "35px", width: "auto" }}
+                className="img-fluid hidden dark:block footer-logo-img"
               />
             </div>
             <p className="text-slate-500 dark:text-slate-400 fs-7 transition-colors">
               The premier marketplace for software, tools, and digital resources. Discover amazing lifetime deals for your business and productivity workflows.
             </p>
-            <div className="mt-3">
-              <span className="text-slate-500 dark:text-slate-400 fs-7 transition-colors">📍 Made for modern creators.</span>
+            <div className="mt-4 mb-3">
+              <div className="d-flex align-items-center mb-2">
+                <span className="text-warning me-2">⭐⭐⭐⭐⭐</span>
+                <span className="text-slate-700 dark:text-slate-300 fs-7 fw-bold">Trusted by 10,000+ Customers</span>
+              </div>
+              <div className="d-flex align-items-center mb-2">
+                <span className="text-emerald-500 me-2">🛡️</span>
+                <span className="text-slate-600 dark:text-slate-400 fs-7">Secure Payments &amp; 60-Day Refund</span>
+              </div>
+              <div className="d-flex align-items-center">
+                <span className="text-orange-500 me-2">⚡</span>
+                <span className="text-slate-600 dark:text-slate-400 fs-7">Instant Deal Access</span>
+              </div>
+            </div>
+
+            {/* Social Icons */}
+            <div className="d-flex gap-2 mt-3">
+              <a href="#" className="footer-social-btn" title="GitHub" aria-label="GitHub">
+                <i className="bi bi-github"></i>
+              </a>
+              <a href="#" className="footer-social-btn" title="Twitter / X" aria-label="Twitter">
+                <i className="bi bi-twitter-x"></i>
+              </a>
+              <a href="#" className="footer-social-btn" title="LinkedIn" aria-label="LinkedIn">
+                <i className="bi bi-linkedin"></i>
+              </a>
+              <a href="#" className="footer-social-btn" title="YouTube" aria-label="YouTube">
+                <i className="bi bi-youtube"></i>
+              </a>
             </div>
           </div>
 
@@ -37,13 +124,13 @@ function Footer() {
           <div className="col-lg-2 col-md-6 mb-4 mb-md-0 px-4">
             <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Explore</h6>
             <ul className="list-unstyled mb-0 footer-links">
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/products" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Products</Link>
               </li>
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/categories" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Categories</Link>
               </li>
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/deals" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Deals</Link>
               </li>
             </ul>
@@ -53,50 +140,60 @@ function Footer() {
           <div className="col-lg-2 col-md-6 mb-4 mb-md-0 px-4">
             <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Company</h6>
             <ul className="list-unstyled mb-0 footer-links">
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/about" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">About</Link>
               </li>
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/faq" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">FAQ</Link>
               </li>
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/privacy" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Privacy Policy</Link>
               </li>
-              <li className="mb-2">
+              <li className="mb-[8px]">
                 <Link to="/terms" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">Terms</Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4 - Legal / Newsletter */}
+          {/* Column 4 - Support */}
           <div className="col-lg-4 col-md-6 px-4">
-            <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Stay updated</h6>
-            <p className="text-slate-500 dark:text-slate-400 fs-7 mb-3 transition-colors">Join our newsletter to receive the hottest lifetime software deals directly in your inbox.</p>
-            <div className="input-group mb-4 footer-newsletter border border-slate-200 dark:border-slate-700 rounded-pill transition-colors overflow-hidden focus-within:shadow-sm focus-within:border-orange-500 bg-white dark:bg-slate-800">
-              <input type="email" className="form-control bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 border-0 transition-colors focus:ring-0 ps-3" placeholder="Enter email address" />
-              <button className="btn btn-primary fw-bold px-4" type="button">Subscribe</button>
-            </div>
-            <div className="d-flex gap-3">
-              <a href="#" className="text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg>
-              </a>
-              <a href="#" className="text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/></svg>
-              </a>
-              <a href="#" className="text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-              </a>
+            <h6 className="text-uppercase fw-bold text-slate-700 dark:text-slate-300 mb-3 fs-8 transition-colors">Support</h6>
+            <ul className="list-unstyled mb-0 footer-links mb-4">
+              <li className="mb-[8px]">
+                <Link to="/orders" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">My Orders</Link>
+              </li>
+              <li className="mb-[8px]">
+                <Link to="/profile" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">My Account</Link>
+              </li>
+              <li className="mb-[8px]">
+                <Link to="/my-reviews" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors d-inline-block">My Reviews</Link>
+              </li>
+            </ul>
+
+            {/* Trust badges */}
+            <div className="d-flex flex-wrap gap-2">
+              <span className="footer-trust-badge">🔒 SSL Secure</span>
+              <span className="footer-trust-badge">✅ Verified Deals</span>
+              <span className="footer-trust-badge">🛡️ Buyer Protection</span>
             </div>
           </div>
         </div>
 
-        <hr className="my-5 border-slate-200 dark:border-slate-800 transition-colors" />
+        <hr className="my-[28px] border-slate-200 dark:border-slate-800 transition-colors" />
 
-        <div className="row align-items-center">
-          <div className="col-md-6 text-center text-md-start">
-            <span className="text-slate-500 dark:text-slate-400 fs-7 transition-colors">© 2026 ToolPlus. All rights reserved. Built with passion.</span>
+        {/* Bottom Bar */}
+        <div className="row align-items-center g-2">
+          <div className="col-md-4 text-center text-md-start">
+            <span className="text-slate-500 dark:text-slate-400 fs-7 transition-colors">
+              © 2025 ToolPlus. All rights reserved.
+            </span>
           </div>
-          <div className="col-md-6 text-center text-md-end mt-2 mt-md-0">
+          <div className="col-md-4 text-center">
+            <span className="text-slate-400 dark:text-slate-500 fs-8 transition-colors">
+              Made with ❤️ for entrepreneurs
+            </span>
+          </div>
+          <div className="col-md-4 text-center text-md-end">
             <Link to="/privacy" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 me-3 transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 text-decoration-none fs-7 transition-colors">Terms of Service</Link>
           </div>
