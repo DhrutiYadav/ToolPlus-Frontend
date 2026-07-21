@@ -32,10 +32,16 @@
 
 .dark .footer-link {
   color: #94a3b8;
+  transition: color 0.2s ease;
 }
 
 .footer-link:hover {
   color: #f97316;
+  transform:translateX(3px);
+}
+
+.footer-social-btn:hover{
+    transform:translateY(-3px) scale(1.05);
 }
 
 .footer-trust-badge {
@@ -46,10 +52,23 @@
   background: white;
   border: 1px solid #e2e8f0;
   color: #475569;
+  transition: all .25s ease;
 }
 
 .dark .footer-trust-badge {
   background: #1e293b;
   border-color: #334155;
   color: #94a3b8;
+  transition: all .25s ease;
+}
+
+.footer-trust-badge:hover{
+    border-color:#f97316;
+    color:#f97316;
+}
+
+.footer-social-btn:focus-visible,
+.footer-link:focus-visible{
+    outline:2px solid #f97316;
+    outline-offset:3px;
 }
