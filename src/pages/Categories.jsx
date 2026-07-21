@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CategoryCard from "../components/CategoryCard";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getCategories, searchCategories } from "../services/categoryService";
-// import "../styles/Categories.css";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
