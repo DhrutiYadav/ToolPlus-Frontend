@@ -29,7 +29,7 @@ function CategoryCard({ category }) {
       <p className="text-slate-500 dark:text-slate-400 text-truncate-2 text-sm mb-[16px] transition-colors">{description || "Explore specialized software deals in this category."}</p>
       
       <div className="mt-auto">
-        <span className="inline-block text-xs leading-none text-center whitespace-nowrap align-baseline bg-orange-500 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 px-6 py-1.5 rounded-full font-bold mb-[8px] transition-colors">
+        <span className="inline-block text-xs leading-none text-center whitespace-nowrap align-baseline bg-orange-300 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 px-6 py-1.5 rounded-full font-bold mb-[8px] transition-colors">
           {dealCount || 0} {dealCount === 1 ? "Deal" : "Deals"} available
         </span>
         
