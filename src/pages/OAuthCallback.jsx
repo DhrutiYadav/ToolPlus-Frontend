@@ -69,9 +69,9 @@ const OAuthCallback = () => {
 
   if (error) {
     return (
-      <div className="container py-5 text-center" style={{ minHeight: "80vh" }}>
-        <h2 className="text-danger mb-4">Authentication Failed</h2>
-        <p className="text-muted mb-4">{error}</p>
+      <div className="container py-12 text-center" style={{ minHeight: "80vh" }}>
+        <h2 className="text-danger mb-6">Authentication Failed</h2>
+        <p className="text-muted mb-6">{error}</p>
         <button className="btn btn-primary" onClick={() => navigate('/login')}>
           Return to Login
         </button>
@@ -80,9 +80,9 @@ const OAuthCallback = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+    <div className="flex justify-center items-center" style={{ minHeight: "80vh" }}>
       <div className="text-center">
-        <div className="spinner-border text-primary mb-3" role="status" style={{ width: '3rem', height: '3rem' }}></div>
+        <div className="inline-block border-4 border-current border-r-transparent rounded-full animate-spin text-orange-500 mb-6" role="status" style={{ width: '3rem', height: '3rem' }}></div>
         <h4 className="text-muted">Authenticating...</h4>
         <p className="text-muted small">Please wait while we complete your login.</p>
       </div>

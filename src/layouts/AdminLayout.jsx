@@ -163,7 +163,7 @@ function AdminLayout() {
 
         <div className="flex flex-col h-full overflow-hidden">
           {/* Logo Area */}
-          <div className="h-[80px] flex items-center justify-center border-b border-slate-800 shrink-0 px-4">
+          <div className="h-[80px] flex items-center justify-center border-b border-slate-800 shrink-0 px-6">
                 {isSidebarCollapsed ? (
               <Link to="/admin/dashboard" className="flex items-center justify-center w-full transition-transform hover:scale-105">
                 <img
@@ -184,7 +184,7 @@ function AdminLayout() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto py-4 scrollbar-hide">
+          <nav className="flex-1 overflow-y-auto py-6 scrollbar-hide">
             {navGroups.map((group, groupIdx) => (
               <div key={groupIdx} className="mb-6">
                 {!isSidebarCollapsed && (
@@ -192,9 +192,9 @@ function AdminLayout() {
                     {group.label}
                   </h3>
                 )}
-                {isSidebarCollapsed && <div className="h-4 border-b border-slate-800 mb-4 mx-4" />}
+                {isSidebarCollapsed && <div className="h-4 border-b border-slate-800 mb-6 mx-6" />}
                 
-                <ul className="space-y-1 px-3">
+                <ul className="space-y-1 px-6">
                   {group.items.map((item) => {
                     const Icon = item.icon;
                     const isActive = location.pathname.includes(item.path);
@@ -203,20 +203,20 @@ function AdminLayout() {
                         <Link
                           to={item.path}
                           className={`flex items-center ${
-                            isSidebarCollapsed ? "justify-center px-0" : "justify-start space-x-3 px-3"
+                            isSidebarCollapsed ? "justify-center px-0" : "justify-start space-x-3 px-6"
                           } py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                             isActive
                               ? "bg-orange-500/10 text-orange-500"
                               : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-100"
                           }`}
                         >
-                          <Icon size={20} className={`flex-shrink-0 ${isActive ? "text-orange-500" : ""}`} />
+                          <Icon size={20} className={`shrink-0 ${isActive ? "text-orange-500" : ""}`} />
                           {!isSidebarCollapsed && <span>{item.label}</span>}
                         </Link>
                         
                         {/* Tooltip for collapsed mode */}
                         {isSidebarCollapsed && (
-                          <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 shadow-xl">
+                          <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-slate-800 text-white px-6 py-1.5 rounded-lg text-xs font-bold opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 shadow-xl">
                             {item.label}
                             <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
                           </div>
@@ -230,10 +230,10 @@ function AdminLayout() {
           </nav>
 
           {/* Footer Area */}
-          <div className="p-4 border-t border-slate-800 shrink-0">
+          <div className="p-6 border-t border-slate-800 shrink-0">
             {!isSidebarCollapsed ? (
               <div className="flex flex-col space-y-3">
-                <div className="flex items-center space-x-3 bg-slate-800/50 p-3 rounded-xl border border-slate-700/50">
+                <div className="flex items-center space-x-3 bg-slate-800/50 p-6 rounded-xl border border-slate-700/50">
                   <div className="bg-gradient-to-br from-indigo-500 to-purple-600 h-10 w-10 rounded-full flex items-center justify-center text-white font-bold shadow-md">
                     {adminName.charAt(0)}
                   </div>
@@ -254,7 +254,7 @@ function AdminLayout() {
               <div className="flex flex-col items-center space-y-4">
                 <div className="bg-gradient-to-br from-indigo-500 to-purple-600 h-10 w-10 rounded-full flex items-center justify-center text-white font-bold shadow-md cursor-pointer group relative">
                   {adminName.charAt(0)}
-                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50">
+                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-slate-800 text-white px-6 py-1.5 rounded-lg text-xs font-bold opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50">
                     {adminName}
                     <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
                   </div>
@@ -264,7 +264,7 @@ function AdminLayout() {
                   className="p-2 rounded-xl text-rose-400 hover:bg-rose-500/10 transition-colors group relative"
                 >
                   <LogOut size={20} />
-                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-rose-900 text-rose-100 px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50">
+                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 bg-rose-900 text-rose-100 px-6 py-1.5 rounded-lg text-xs font-bold opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50">
                     Logout
                     <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-rose-900 rotate-45"></div>
                   </div>
@@ -309,7 +309,7 @@ function AdminLayout() {
               {/* Notification Dropdown */}
               {showNotifications && (
                 <div className="absolute right-0 mt-2 w-80 bg-[#ffffff] dark:!bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-[9999] transform origin-top-right transition-all">
-                  <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+                  <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
                     <h4 className="font-bold text-slate-800 dark:text-white">Notifications</h4>
                     {unreadCount > 0 && (
                       <span
@@ -329,7 +329,7 @@ function AdminLayout() {
                       notifications.map((notif) => {
                         const { icon, color } = getIconForType(notif.type);
                         return (
-                          <div key={notif.id} className={`p-4 border-b border-slate-50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer flex gap-3 ${!notif.isRead ? 'bg-slate-50/50 dark:bg-slate-800/80' : ''}`}
+                          <div key={notif.id} className={`p-6 border-b border-slate-50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer flex gap-3 ${!notif.isRead ? 'bg-slate-50/50 dark:bg-slate-800/80' : ''}`}
                             onClick={async (e) => {
                               if (!notif.isRead) {
                                 e.stopPropagation();
@@ -343,7 +343,7 @@ function AdminLayout() {
                               }
                             }}
                           >
-                            <div className={`mt-0.5 text-lg flex-shrink-0`}>
+                            <div className={`mt-0.5 text-lg shrink-0`}>
                               {icon}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -352,7 +352,7 @@ function AdminLayout() {
                               <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{timeAgo(notif.createdAt)}</p>
                             </div>
                             {!notif.isRead && (
-                              <div className="mt-2 flex-shrink-0">
+                              <div className="mt-2 shrink-0">
                                 <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                               </div>
                             )}
@@ -361,7 +361,7 @@ function AdminLayout() {
                       })
                     )}
                   </div>
-                  <div className="p-3 text-center border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                  <div className="p-6 text-center border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
                     <button
                       className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
                       onClick={() => { setShowNotifications(false); navigate('/notifications'); }}
@@ -392,7 +392,7 @@ function AdminLayout() {
         </header>
 
         {/* Content Outlet */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth dark:bg-slate-950">
+        <main className="flex-1 overflow-y-auto p-6 sm:p-6 lg:p-8 scroll-smooth dark:bg-slate-950">
           <Outlet />
         </main>
       </div>

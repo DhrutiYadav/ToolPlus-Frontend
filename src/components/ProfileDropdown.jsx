@@ -1,7 +1,7 @@
+// src/components/ProfileDropdown.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import '../styles/ProfileDropdown.css';
 
 const ProfileDropdown = ({ user, isAdmin, logout }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,11 +13,8 @@ const ProfileDropdown = ({ user, isAdmin, logout }) => {
         setIsOpen(false);
       }
     };
-    
     const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
+      if (event.key === 'Escape') setIsOpen(false);
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -29,8 +26,8 @@ const ProfileDropdown = ({ user, isAdmin, logout }) => {
   }, []);
 
   const getDisplayName = () => {
-    if (user.firstName || user.name) return user.firstName || user.name;
-    if (user.email) {
+    if (user?.firstName || user?.name) return user.firstName || user.name;
+    if (user?.email) {
       if (user.email.startsWith('fb_')) return 'Facebook User';
       if (user.email.startsWith('gh_')) return 'GitHub User';
       return user.email.split('@')[0];
@@ -38,92 +35,72 @@ const ProfileDropdown = ({ user, isAdmin, logout }) => {
     return 'User';
   };
 
-  const getInitials = () => {
-    const name = getDisplayName();
-    return name.charAt(0).toUpperCase();
-  };
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const closeDropdown = () => setIsOpen(false);
+  const getInitials = () => getDisplayName().charAt(0).toUpperCase();
 
   return (
-    <div className="position-relative ms-lg-2 mt-2 mt-lg-0" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
+      {/* Trigger Button */}
       <button
-        onClick={toggleDropdown}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-        className="btn d-flex align-items-center gap-2 rounded-pill px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-3 hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-1.5 rounded-2xl transition-all"
       >
-        <div className="bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-circle d-flex align-items-center justify-content-center fw-bold profile-initials">
+        <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-rose-500 text-white rounded-full flex items-center justify-center font-bold text-lg shadow">
           {getInitials()}
         </div>
-        <span className="fw-semibold text-slate-700 dark:text-slate-300 fs-7 text-truncate profile-name">
-          {getDisplayName()}
-        </span>
-        {isAdmin && (
-          <span className="badge bg-orange-500 text-uppercase ms-1 profile-admin-badge">
-            Admin
-          </span>
-        )}
-        <motion.svg
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-slate-500 dark:text-slate-400 ms-1"
-          width="16"
-          height="16"
-          fill="none"
+
+        <div className="hidden md:block text-left">
+          <div className="font-semibold text-sm">{getDisplayName()}</div>
+          {isAdmin && <span className="text-xs text-orange-500 font-bold">ADMIN</span>}
+        </div>
+
+        <svg 
+          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth={3} 
           viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </motion.svg>
+        </svg>
       </button>
 
+      {/* Dropdown Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="position-absolute end-0 mt-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg rounded-3 py-2 z-50 profile-dropdown-menu"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute right-0 mt-3 w-64 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl py-2 z-50 overflow-hidden"
           >
-            <div className="px-3 py-2 border-bottom border-slate-100 dark:border-slate-700 mb-2">
-              <p className="mb-0 fw-bold text-slate-800 dark:text-white fs-7">{getDisplayName()}</p>
-              {user.email && !user.email.startsWith('fb_') && !user.email.startsWith('gh_') && (
-                <p className="mb-0 text-slate-500 dark:text-slate-400 text-truncate profile-email">{user.email}</p>
-              )}
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700">
+              <p className="font-bold text-lg">{getDisplayName()}</p>
+              {user?.email && <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{user.email}</p>}
             </div>
 
-            <Link onClick={closeDropdown} to="/profile" className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-              My Profile
+            <Link to="/profile" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-6 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
+              👤 My Profile
             </Link>
-
-            <Link onClick={closeDropdown} to="/orders" className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-              My Orders
+            <Link to="/orders" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-6 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
+              📦 My Orders
             </Link>
 
             {isAdmin && (
-              <Link onClick={closeDropdown} to="/admin/dashboard" className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/10 transition-colors">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                Admin Panel
+              <Link to="/admin/dashboard" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-6 py-3 hover:bg-orange-50 dark:hover:bg-orange-900/30 text-orange-600 dark:text-orange-400">
+                ⚙️ Admin Panel
               </Link>
             )}
 
-            <div className="border-top border-slate-100 dark:border-slate-700 my-1"></div>
+            <div className="border-t border-slate-100 dark:border-slate-700 my-2"></div>
 
             <button
               onClick={() => {
-                closeDropdown();
+                setIsOpen(false);
                 logout();
               }}
-              className="dropdown-item py-2 px-3 d-flex align-items-center gap-2 fw-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors w-100 text-start"
+              className="flex items-center gap-3 px-6 py-3 w-full text-left text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30"
             >
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-              Logout
+              ← Logout
             </button>
           </motion.div>
         )}

@@ -195,7 +195,7 @@ function AdminDeals() {
             setIsCreateOpen(true);
             reset();
           }}
-          className="flex items-center space-x-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-500/20 self-stretch sm:self-auto"
+          className="flex items-center space-x-2 px-12 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-500/20 self-stretch sm:self-auto"
         >
           <Plus size={18} />
           <span>New Deal Listing</span>
@@ -240,7 +240,7 @@ function AdminDeals() {
                 </div>
 
                 {/* Content Body */}
-                <div className="p-5 flex-1 flex flex-col">
+                <div className="p-12 flex-1 flex flex-col">
                   <h3
                     className="font-extrabold text-slate-900 dark:text-white text-lg leading-tight mb-2 line-clamp-2"
                     title={deal.title}
@@ -248,7 +248,7 @@ function AdminDeals() {
                     {deal.title}
                   </h3>
 
-                  <div className="flex items-baseline space-x-2 mt-auto mb-4">
+                  <div className="flex items-baseline space-x-2 mt-auto mb-6">
                     <span className="text-2xl font-extrabold text-slate-900 dark:text-white">
                       ${deal.salePrice?.toFixed(2)}
                     </span>
@@ -258,7 +258,7 @@ function AdminDeals() {
                   </div>
 
                   {/* Stock Progress */}
-                  <div className="space-y-2 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <div className="space-y-2 mt-auto pt-6 border-t border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400">
                       <span className="flex items-center">
                         <Package size={12} className="mr-1" /> Remaining
@@ -280,7 +280,7 @@ function AdminDeals() {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center justify-between gap-2 mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
                     <button
                       onClick={() => handleEditOpen(deal)}
                       className="btn btn-outline-primary btn-sm"
@@ -310,7 +310,7 @@ function AdminDeals() {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center p-12 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl">
-          <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
             <TrendingUp size={24} className="text-slate-400" />
           </div>
           <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
@@ -355,7 +355,7 @@ function AdminDeals() {
                 type="text"
                 placeholder="e.g., Notion Premium Lifetime Plan"
                 {...register("title", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
             <div>
@@ -364,7 +364,7 @@ function AdminDeals() {
               </label>
               <select
                 {...register("categoryId", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               >
                 <option value="">Select Category...</option>
                 {categories.map((c) => (
@@ -383,7 +383,7 @@ function AdminDeals() {
                 step="0.01"
                 placeholder="e.g., 299"
                 {...register("originalPrice", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
             <div>
@@ -395,7 +395,7 @@ function AdminDeals() {
                 step="0.01"
                 placeholder="e.g., 49"
                 {...register("salePrice", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
             <div>
@@ -406,7 +406,7 @@ function AdminDeals() {
                 type="number"
                 placeholder="e.g., 150"
                 {...register("stockQuantity", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
           </div>
@@ -418,20 +418,20 @@ function AdminDeals() {
               rows={4}
               placeholder="Provide key details, features, and specs..."
               {...register("description", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
             />
           </div>
           <div className="flex justify-end space-x-3 pt-6 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsCreateOpen(false)}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-12 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
+              className="px-12 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
             >
               Save Deal
             </button>
@@ -458,7 +458,7 @@ function AdminDeals() {
               <input
                 type="text"
                 {...registerEdit("title", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
             <div>
@@ -467,7 +467,7 @@ function AdminDeals() {
               </label>
               <select
                 {...registerEdit("categoryId", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               >
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -484,7 +484,7 @@ function AdminDeals() {
                 type="number"
                 step="0.01"
                 {...registerEdit("originalPrice", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
             <div>
@@ -495,7 +495,7 @@ function AdminDeals() {
                 type="number"
                 step="0.01"
                 {...registerEdit("salePrice", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
             <div>
@@ -505,7 +505,7 @@ function AdminDeals() {
               <input
                 type="number"
                 {...registerEdit("stockQuantity", { required: true })}
-                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+                className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
               />
             </div>
           </div>
@@ -516,20 +516,20 @@ function AdminDeals() {
             <textarea
               rows={4}
               {...registerEdit("description", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
             />
           </div>
           <div className="flex justify-end space-x-3 pt-6 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setEditDeal(null)}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-12 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
+              className="px-12 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
             >
               Save Changes
             </button>
@@ -549,7 +549,7 @@ function AdminDeals() {
       >
         {uploadDeal && (
           <form onSubmit={handleImageUploadSubmit} className="space-y-6">
-            <div className="flex items-center space-x-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+            <div className="flex items-center space-x-4 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700">
               <img
                 src={uploadDeal.imageSrc}
                 alt={uploadDeal.title}
@@ -576,7 +576,7 @@ function AdminDeals() {
                 onChange={(e) => setSelectedFile(e.target.files[0])}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
-              <div className="p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm text-slate-500 dark:text-slate-400 rounded-xl mb-3">
+              <div className="p-6 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm text-slate-500 dark:text-slate-400 rounded-xl mb-6">
                 <ImageIcon size={24} />
               </div>
               <p className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">
@@ -594,13 +594,13 @@ function AdminDeals() {
                   setUploadDeal(null);
                   setSelectedFile(null);
                 }}
-                className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="px-12 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all flex items-center space-x-2"
+                className="px-12 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all flex items-center space-x-2"
               >
                 <Upload size={16} />
                 <span>Upload Asset</span>

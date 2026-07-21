@@ -71,12 +71,12 @@ function AppContent() {
   }
 
   return (
-    <div className="d-flex flex-column min-vh-100 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
       {/* Sticky top premium navbar - hidden on Auth Pages */}
       {!isAuthPage && <Navbar />}
 
       {/* Core page views */}
-      <main className="container flex-grow-1 py-4 px-4">
+      <main className="container grow py-6 px-6">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />

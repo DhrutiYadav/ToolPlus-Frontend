@@ -247,23 +247,23 @@ const Cart = () => {
 
   if (loading) {
     return (
-      <div className="container py-5">
-        <h2 className="mb-4 fw-bold text-slate-900 dark:text-white transition-colors">
+      <div className="container py-12">
+        <h2 className="mb-6 font-bold text-slate-900 dark:text-white transition-colors">
           Shopping Cart
         </h2>
-        <div className="row">
+        <div className="flex flex-wrap -mx-6">
           <div className="col-lg-8">
             {[1, 2].map((n) => (
               <div
                 key={n}
-                className="card mb-3 border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors"
+                className="flex flex-col relative min-w-0 break-words mb-6 border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors"
               >
-                <div className="card-body d-flex align-items-center">
+                <div className="flex-1 p-4 flex items-center">
                   <div
                     className="placeholder col-2 rounded bg-slate-200 dark:bg-slate-700 transition-colors"
                     style={{ height: "80px", width: "80px" }}
                   ></div>
-                  <div className="ms-3 flex-grow-1">
+                  <div className="ml-4 grow">
                     <h5 className="placeholder col-6 mb-2"></h5>
                     <p className="placeholder col-4 mb-2"></p>
                     <p className="placeholder col-2"></p>
@@ -273,11 +273,11 @@ const Cart = () => {
             ))}
           </div>
           <div className="col-lg-4">
-            <div className="card border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors">
-              <div className="card-body p-4">
-                <h5 className="placeholder col-6 mb-4"></h5>
+            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors">
+              <div className="flex-1 p-6">
+                <h5 className="placeholder col-6 mb-6"></h5>
                 <p className="placeholder col-12 mb-2"></p>
-                <p className="placeholder col-12 mb-4"></p>
+                <p className="placeholder col-12 mb-6"></p>
                 <button className="btn btn-primary disabled placeholder col-12 py-2"></button>
               </div>
             </div>
@@ -289,25 +289,25 @@ const Cart = () => {
 
   if (!summary || summary.items.length === 0) {
     return (
-      <div className="container py-5">
+      <div className="container py-12">
         <EmptyCart />
       </div>
     );
   }
 
   return (
-    <div className="container py-5">
-      <div className="d-flex align-items-center mb-4">
-        <h2 className="fw-bold mb-0 text-slate-900 dark:text-white transition-colors">
+    <div className="container py-12">
+      <div className="flex items-center mb-6">
+        <h2 className="font-bold mb-0 text-slate-900 dark:text-white transition-colors">
           Shopping Cart
         </h2>
-        <span className="badge bg-orange-500 rounded-pill ms-3 fs-6 transition-colors">
+        <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 bg-orange-500 rounded-full ml-4 text-base transition-colors text-white">
           {summary.totalItems} {summary.totalItems === 1 ? "Item" : "Items"}
         </span>
       </div>
 
-      <div className="row">
-        <div className="col-lg-8 mb-4 mb-lg-0">
+      <div className="flex flex-wrap -mx-6">
+        <div className="col-lg-8 mb-6 lg:mb-0">
           <div className="cart-items-container">
             {summary.items.map((item) => (
               <CartItem
@@ -319,12 +319,12 @@ const Cart = () => {
               />
             ))}
           </div>
-          <div className="mt-4">
+          <div className="mt-6">
             <Link
               to="/deals"
-              className="text-decoration-none text-orange-500 dark:text-orange-400 fw-medium hover:text-orange-600 dark:hover:text-orange-300 transition-colors"
+              className="no-underline text-orange-500 dark:text-orange-400 font-medium hover:text-orange-600 dark:hover:text-orange-300 transition-colors"
             >
-              <i className="bi bi-arrow-left me-2"></i> Continue Shopping
+              <i className="bi bi-arrow-left mr-2"></i> Continue Shopping
             </Link>
           </div>
         </div>

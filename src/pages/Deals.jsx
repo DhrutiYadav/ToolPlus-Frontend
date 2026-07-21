@@ -146,12 +146,12 @@ function Deals() {
   };
 
   const FilterPanel = () => (
-    <div className="d-flex flex-column gap-4">
+    <div className="flex flex-col gap-4">
       {/* Category Filter */}
       <div>
-        <h6 className="fw-bold text-slate-900 dark:text-white fs-7 mb-3 text-uppercase tracking-wider transition-colors">Category</h6>
-        <div className="d-flex flex-column gap-2">
-          <label className="d-flex align-items-center gap-2 cursor-pointer">
+        <h6 className="font-bold text-slate-900 dark:text-white text-sm mb-6 uppercase tracking-wider transition-colors">Category</h6>
+        <div className="flex flex-col gap-2">
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
               name="catFilter"
@@ -159,10 +159,10 @@ function Deals() {
               onChange={() => setSelectedCategoryFilter("")}
               className="form-check-input mt-0 accent-orange-500"
             />
-            <span className="text-slate-700 dark:text-slate-300 fs-7 transition-colors">All Categories</span>
+            <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors">All Categories</span>
           </label>
           {categories.map(cat => (
-            <label key={cat.id} className="d-flex align-items-center gap-2 cursor-pointer">
+            <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
                 name="catFilter"
@@ -170,8 +170,8 @@ function Deals() {
                 onChange={() => setSelectedCategoryFilter(cat.id.toString())}
                 className="form-check-input mt-0"
               />
-              <span className="text-slate-700 dark:text-slate-300 fs-7 transition-colors">{cat.name}</span>
-              <span className="ms-auto text-slate-400 dark:text-slate-500 fs-8">({cat.dealCount || 0})</span>
+              <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors">{cat.name}</span>
+              <span className="ml-auto text-slate-400 dark:text-slate-500 text-xs">({cat.dealCount || 0})</span>
             </label>
           ))}
         </div>
@@ -179,8 +179,8 @@ function Deals() {
 
       {/* Price Range */}
       <div>
-        <h6 className="fw-bold text-slate-900 dark:text-white fs-7 mb-3 text-uppercase tracking-wider transition-colors">Price Range</h6>
-        <div className="d-flex gap-2">
+        <h6 className="font-bold text-slate-900 dark:text-white text-sm mb-6 uppercase tracking-wider transition-colors">Price Range</h6>
+        <div className="flex gap-2">
           <input
             type="number"
             className="form-control py-1 px-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
@@ -202,13 +202,13 @@ function Deals() {
 
       {/* Rating Filter */}
       <div>
-        <h6 className="fw-bold text-slate-900 dark:text-white fs-7 mb-3 text-uppercase tracking-wider transition-colors">Min Rating</h6>
-        <div className="d-flex gap-2">
+        <h6 className="font-bold text-slate-900 dark:text-white text-sm mb-6 uppercase tracking-wider transition-colors">Min Rating</h6>
+        <div className="flex gap-2">
           {[1, 2, 3, 4, 5].map(star => (
             <button
               key={star}
               onClick={() => setMinRating(minRating === star ? 0 : star)}
-              className={`btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center transition-all ${
+              className={`btn btn-sm rounded-full p-0 flex items-center justify-center transition-all ${
                 minRating >= star ? "bg-warning border-warning text-white" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400"
               }`}
               style={{ width: 32, height: 32, fontSize: 14 }}
@@ -218,41 +218,41 @@ function Deals() {
             </button>
           ))}
         </div>
-        {minRating > 0 && <small className="text-slate-500 dark:text-slate-400 mt-1 d-block">{minRating}+ stars</small>}
+        {minRating > 0 && <small className="text-slate-500 dark:text-slate-400 mt-1 block">{minRating}+ stars</small>}
       </div>
 
       {/* Clear All */}
       <button
         onClick={handleClearFilters}
-        className="btn w-100 rounded-pill fw-bold py-2 border-0 text-white"
+        className="btn w-full rounded-full font-bold py-2 border-0 text-white"
         style={{ background: "linear-gradient(to right, #f97316, #ea580c)" }}
       >
-        <i className="bi bi-x-circle me-2"></i>Clear All Filters
+        <i className="bi bi-x-circle mr-2"></i>Clear All Filters
       </button>
     </div>
   );
 
   return (
-    <div className="deals-page py-4">
+    <div className="deals-page py-6">
       {/* Mobile Filters Bottom Drawer */}
       {showMobileFilters && (
-        <div className="d-lg-none">
+        <div className="lg:hidden">
           <div
-            className="position-fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-black/50 z-40"
             onClick={() => setShowMobileFilters(false)}
             style={{ zIndex: 1040 }}
           />
           <div
-            className="position-fixed bottom-0 start-0 w-100 bg-white dark:bg-slate-900 rounded-top-4 p-4 transition-colors"
+            className="fixed bottom-0 start-0 w-full bg-white dark:bg-slate-900 rounded-t-2xl p-6 transition-colors"
             style={{ zIndex: 1050, maxHeight: "80vh", overflowY: "auto" }}
           >
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h5 className="fw-bold text-slate-900 dark:text-white mb-0 transition-colors">Filters</h5>
+            <div className="flex justify-between items-center mb-6">
+              <h5 className="font-bold text-slate-900 dark:text-white mb-0 transition-colors">Filters</h5>
               <button
                 className="btn btn-link text-slate-500 dark:text-slate-400 p-0 transition-colors"
                 onClick={() => setShowMobileFilters(false)}
               >
-                <i className="bi bi-x-lg fs-5"></i>
+                <i className="bi bi-x-lg text-lg"></i>
               </button>
             </div>
             <FilterPanel />
@@ -261,22 +261,22 @@ function Deals() {
       )}
 
       {/* Top Banner */}
-      <div className="mb-4">
-        <h1 className="fw-extrabold text-slate-900 dark:text-white mb-2 transition-colors">Browse Lifetime Software Deals</h1>
+      <div className="mb-6">
+        <h1 className="font-extrabold text-slate-900 dark:text-white mb-2 transition-colors">Browse Lifetime Software Deals</h1>
         <p className="text-slate-500 dark:text-slate-400 transition-colors">Find tools and packages to scale your business and automate tasks.</p>
       </div>
 
       {/* Search & Sort Bar */}
-      <div className="card border border-slate-100 dark:border-slate-800 shadow-sm p-3 mb-4 rounded-4 bg-slate-50 dark:bg-slate-900 transition-colors">
-        <form onSubmit={handleSearchSubmit} className="row g-3 align-items-center">
+      <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 mb-6 rounded-2xl bg-slate-50 dark:bg-slate-900 transition-colors">
+        <form onSubmit={handleSearchSubmit} className="flex flex-wrap -mx-6 gap-4 items-center">
           <div className="col-lg-5 col-md-5">
-            <div className="input-group border border-slate-200 dark:border-slate-700 rounded-pill overflow-hidden transition-colors focus-within:border-orange-400 focus-within:shadow-md">
-              <span className="input-group-text bg-white dark:bg-slate-800 border-0 text-slate-400 dark:text-slate-500 ps-3 transition-colors">
+            <div className="input-group border border-slate-200 dark:border-slate-700 rounded-full overflow-hidden transition-colors focus-within:border-orange-400 focus-within:shadow-md">
+              <span className="input-group-text bg-white dark:bg-slate-800 border-0 text-slate-400 dark:text-slate-500 pl-4 transition-colors">
                 <i className="bi bi-search"></i>
               </span>
               <input
                 type="text"
-                className="form-control border-0 ps-1 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-colors focus:ring-0"
+                className="form-control border-0 pl-1 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-colors focus:ring-0"
                 placeholder="Search deals..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -286,7 +286,7 @@ function Deals() {
 
           <div className="col-lg-3 col-md-4">
             <select
-              className="form-select py-2 fw-semibold border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-colors rounded-pill"
+              className="form-select py-2 font-semibold border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-colors rounded-full"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -298,28 +298,28 @@ function Deals() {
             </select>
           </div>
 
-          <div className="col-lg-2 col-md-3 d-grid">
-            <button type="submit" className="btn btn-primary rounded-pill py-2 fw-bold text-uppercase border-0 shadow-sm">
+          <div className="col-lg-2 col-md-3 grid">
+            <button type="submit" className="btn btn-primary rounded-full py-2 font-bold uppercase border-0 shadow-sm">
               Search
             </button>
           </div>
 
           {/* View toggle + Mobile filter */}
-          <div className="col-auto d-flex gap-2 ms-auto">
+          <div className="col-auto flex gap-2 ml-auto">
             {/* Mobile filter toggle */}
             <button
               type="button"
-              className="btn btn-outline-secondary rounded-pill d-lg-none fw-semibold"
+              className="btn btn-outline-secondary rounded-full lg:hidden font-semibold"
               onClick={() => setShowMobileFilters(true)}
             >
-              <i className="bi bi-funnel me-1"></i>Filters
+              <i className="bi bi-funnel mr-1"></i>Filters
             </button>
 
             {/* View toggle buttons */}
             <div className="btn-group" role="group" aria-label="View mode">
               <button
                 type="button"
-                className={`btn rounded-start-pill fw-bold ${viewMode === "grid" ? "btn-primary border-0" : "btn-outline-secondary"}`}
+                className={`btn rounded-l-full font-bold ${viewMode === "grid" ? "btn-primary border-0" : "btn-outline-secondary"}`}
                 onClick={() => setViewMode("grid")}
                 title="Grid view"
               >
@@ -327,7 +327,7 @@ function Deals() {
               </button>
               <button
                 type="button"
-                className={`btn rounded-end-pill fw-bold ${viewMode === "list" ? "btn-primary border-0" : "btn-outline-secondary"}`}
+                className={`btn rounded-r-full font-bold ${viewMode === "list" ? "btn-primary border-0" : "btn-outline-secondary"}`}
                 onClick={() => setViewMode("list")}
                 title="List view"
               >
@@ -338,10 +338,10 @@ function Deals() {
         </form>
       </div>
 
-      <div className="row g-4">
+      <div className="flex flex-wrap -mx-6 gap-6">
         {/* Sidebar Filters — Desktop */}
-        <div className="col-lg-3 d-none d-lg-block">
-          <div className="card border border-slate-100 dark:border-slate-800 shadow-sm p-4 rounded-4 bg-white dark:bg-slate-900 position-sticky transition-colors" style={{ top: 80 }}>
+        <div className="col-lg-3 hidden lg:block">
+          <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 rounded-2xl bg-white dark:bg-slate-900 sticky transition-colors" style={{ top: 80 }}>
             <FilterPanel />
           </div>
         </div>
@@ -350,9 +350,9 @@ function Deals() {
         <div className="col-lg-9">
           {/* Results count */}
           {!loading && (
-            <div className="d-flex align-items-center justify-content-between mb-3">
-              <p className="text-slate-500 dark:text-slate-400 fw-medium mb-0 fs-7 transition-colors">
-                <span className="text-slate-900 dark:text-white fw-bold">{totalCount}</span> results found
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-slate-500 dark:text-slate-400 font-medium mb-0 text-sm transition-colors">
+                <span className="text-slate-900 dark:text-white font-bold">{totalCount}</span> results found
               </p>
             </div>
           )}
@@ -360,7 +360,7 @@ function Deals() {
           {loading ? (
             <SkeletonLoader type="deal" />
           ) : deals.length === 0 ? (
-            <div className="text-center py-5 border border-slate-100 dark:border-slate-800 rounded-4 bg-white dark:bg-slate-900 shadow-sm transition-colors empty-state-container d-flex flex-column align-items-center gap-3">
+            <div className="text-center py-12 border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 shadow-sm transition-colors empty-state-container flex flex-col items-center gap-3">
               {/* Illustrated SVG */}
               <svg width="120" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="20" y="30" width="80" height="50" rx="8" fill="#f1f5f9"/>
@@ -372,13 +372,13 @@ function Deals() {
                 <path d="M88 36l5-5" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round"/>
                 <circle cx="95" cy="39" r="3" fill="#f97316" opacity="0.6"/>
               </svg>
-              <h4 className="fw-bold text-slate-900 dark:text-white transition-colors mb-1">No Deals Found</h4>
+              <h4 className="font-bold text-slate-900 dark:text-white transition-colors mb-1">No Deals Found</h4>
               <p className="text-muted mx-auto transition-colors" style={{ maxWidth: "360px" }}>
                 We couldn't find any deals matching your criteria. Try adjusting your search term or filters.
               </p>
               <button
                 onClick={handleClearFilters}
-                className="btn btn-primary rounded-pill px-5 fw-bold mt-2 hover-lift shadow-sm border-0"
+                className="btn btn-primary rounded-full px-12 font-bold mt-2 hover-lift shadow-sm border-0"
                 style={{ background: "linear-gradient(to right, #f97316, #ea580c)" }}
               >
                 Clear All Filters
@@ -387,7 +387,7 @@ function Deals() {
           ) : (
             <>
               {viewMode === "grid" ? (
-                <div className="row g-4">
+                <div className="flex flex-wrap -mx-6 gap-6">
                   {deals.map((deal) => (
                     <div key={deal.id} className="col-lg-4 col-md-6">
                       <DealCard deal={deal} />
@@ -395,26 +395,26 @@ function Deals() {
                   ))}
                 </div>
               ) : (
-                <div className="d-flex flex-column gap-3">
+                <div className="flex flex-col gap-3">
                   {deals.map((deal) => (
-                    <div key={deal.id} className="card border border-slate-100 dark:border-slate-800 shadow-sm rounded-4 bg-white dark:bg-slate-900 transition-colors hover-lift overflow-hidden">
-                      <div className="d-flex align-items-center p-3 gap-3">
+                    <div key={deal.id} className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm rounded-2xl bg-white dark:bg-slate-900 transition-colors hover-lift overflow-hidden">
+                      <div className="flex items-center p-6 gap-3">
                         <img
                           src={deal.imageSrc || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=200&auto=format&fit=crop&q=60"}
                           alt={deal.title}
-                          className="rounded-3 object-cover"
+                          className="rounded-lg object-cover"
                           style={{ width: 80, height: 80, flexShrink: 0 }}
                           onError={e => { e.target.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=200&auto=format&fit=crop&q=60"; }}
                         />
-                        <div className="flex-grow-1">
-                          <h6 className="fw-bold text-slate-900 dark:text-white mb-1 transition-colors">{deal.title}</h6>
-                          <p className="text-slate-500 dark:text-slate-400 fs-8 mb-1 line-clamp-1 transition-colors">{deal.shortDescription}</p>
-                          <div className="d-flex align-items-center gap-2">
-                            <span className="fw-bold text-orange-500">₹{deal.discountPrice.toFixed(2)}</span>
-                            <span className="text-decoration-line-through text-slate-400 dark:text-slate-500 fs-8">₹{deal.originalPrice.toFixed(2)}</span>
+                        <div className="grow">
+                          <h6 className="font-bold text-slate-900 dark:text-white mb-1 transition-colors">{deal.title}</h6>
+                          <p className="text-slate-500 dark:text-slate-400 text-xs mb-1 line-clamp-1 transition-colors">{deal.shortDescription}</p>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-orange-500">₹{deal.discountPrice.toFixed(2)}</span>
+                            <span className="line-through text-slate-400 dark:text-slate-500 text-xs">₹{deal.originalPrice.toFixed(2)}</span>
                           </div>
                         </div>
-                        <a href={`/deals/${deal.id}`} className="btn btn-primary btn-sm rounded-pill px-3 fw-bold border-0" style={{ background: "linear-gradient(to right, #f97316, #ea580c)", whiteSpace: "nowrap" }}>
+                        <a href={`/deals/${deal.id}`} className="btn btn-primary btn-sm rounded-full px-6 font-bold border-0" style={{ background: "linear-gradient(to right, #f97316, #ea580c)", whiteSpace: "nowrap" }}>
                           View Deal →
                         </a>
                       </div>

@@ -282,7 +282,7 @@ function AdminUsers() {
               <button
                 key={tab}
                 onClick={() => { setActiveTab(tab); setCurrentPage(1); }}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
+                className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
                   activeTab === tab 
                     ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" 
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50"
@@ -303,7 +303,7 @@ function AdminUsers() {
             />
             <button 
               onClick={handleExport}
-              className="flex items-center space-x-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm whitespace-nowrap"
+              className="flex items-center space-x-2 px-6 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm whitespace-nowrap"
             >
               <Download size={16} />
               <span className="hidden sm:inline">Export</span>
@@ -313,7 +313,7 @@ function AdminUsers() {
 
         {/* Bulk Actions Bar */}
         {selectedIds.length > 0 && (
-          <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 rounded-xl animate-fade-in-up">
+          <div className="flex items-center justify-between p-6 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 rounded-xl animate-fade-in-up">
             <div className="flex items-center space-x-2 text-orange-700 dark:text-orange-400 font-bold text-sm px-2">
               <CheckSquare size={18} />
               <span>{selectedIds.length} users selected</span>
@@ -321,13 +321,13 @@ function AdminUsers() {
             <div className="flex space-x-2">
               <button
                 onClick={() => setActionType("bulkDeactivate")}
-                className="px-3 py-1.5 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
+                className="px-6 py-1.5 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
               >
                 Deactivate Selected
               </button>
               <button
                 onClick={() => setActionType("bulkDelete")}
-                className="px-3 py-1.5 bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
+                className="px-6 py-1.5 bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
               >
                 Delete Selected
               </button>
@@ -380,15 +380,15 @@ function AdminUsers() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-6 text-sm">
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700/50">
                 <p className="text-slate-400 font-bold uppercase tracking-wider text-xs mb-1">User Role</p>
                 <p className="font-extrabold text-slate-800 dark:text-slate-200">{viewUser.role}</p>
               </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700/50">
                 <p className="text-slate-400 font-bold uppercase tracking-wider text-xs mb-1">Account Created</p>
                 <p className="font-extrabold text-slate-800 dark:text-slate-200">{new Date(viewUser.createdAt).toLocaleDateString()}</p>
               </div>
-              <div className="col-span-2 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50">
+              <div className="col-span-2 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700/50">
                 <p className="text-slate-400 font-bold uppercase tracking-wider text-xs mb-1">Account ID</p>
                 <p className="font-mono text-slate-800 dark:text-slate-200 text-xs">{viewUser.id}</p>
               </div>
@@ -410,7 +410,7 @@ function AdminUsers() {
             <input
               type="text"
               {...register("username", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
             />
           </div>
           <div>
@@ -418,20 +418,20 @@ function AdminUsers() {
             <input
               type="email"
               {...register("email", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
             />
           </div>
           <div className="flex justify-end space-x-3 pt-6 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setEditUser(null)}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-12 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
+              className="px-12 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
             >
               Save Changes
             </button>

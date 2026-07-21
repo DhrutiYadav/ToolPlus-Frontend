@@ -25,9 +25,9 @@ function OrderTimeline({ status }) {
 
   if (isCancelled) {
     return (
-      <div className="order-timeline d-flex align-items-center gap-2 mt-3 flex-wrap">
-        <span className="text-slate-400 dark:text-slate-500 fs-8 fw-semibold text-uppercase">Order Status:</span>
-        <span className="badge rounded-pill px-3 py-1 fs-8 fw-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+      <div className="order-timeline flex items-center gap-2 mt-6 flex-wrap">
+        <span className="text-slate-400 dark:text-slate-500 text-xs font-semibold uppercase">Order Status:</span>
+        <span className="inline-block leading-none text-center whitespace-nowrap align-baseline rounded-full px-6 py-1 text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
           {s === "refundrequested" ? "Refund Requested" : status}
         </span>
       </div>
@@ -35,12 +35,12 @@ function OrderTimeline({ status }) {
   }
 
   return (
-    <div className="order-timeline d-flex align-items-center gap-0 mt-3">
+    <div className="order-timeline flex items-center gap-0 mt-6">
       {STATUS_FLOW.map((step, idx) => (
         <React.Fragment key={step}>
-          <div className="d-flex flex-column align-items-center">
+          <div className="flex flex-col items-center">
             <div
-              className={`timeline-dot rounded-circle d-flex align-items-center justify-content-center transition-all ${
+              className={`timeline-dot rounded-full flex items-center justify-center transition-all ${
                 idx <= activeStep
                   ? "bg-orange-500 text-white"
                   : "bg-slate-200 dark:bg-slate-700 text-slate-400"
@@ -49,13 +49,13 @@ function OrderTimeline({ status }) {
             >
               {idx < activeStep ? <i className="bi bi-check"></i> : idx + 1}
             </div>
-            <span className={`fs-9 mt-1 fw-semibold ${idx <= activeStep ? "text-orange-500" : "text-slate-400 dark:text-slate-600"}`}
+            <span className={`fs-9 mt-1 font-semibold ${idx <= activeStep ? "text-orange-500" : "text-slate-400 dark:text-slate-600"}`}
               style={{ fontSize: "0.65rem", whiteSpace: "nowrap" }}>
               {step}
             </span>
           </div>
           {idx < STATUS_FLOW.length - 1 && (
-            <div className={`flex-grow-1 transition-all mb-3`}
+            <div className={`grow transition-all mb-6`}
               style={{
                 height: 2,
                 background: idx < activeStep ? "#f97316" : "#e2e8f0",
@@ -191,7 +191,7 @@ function Orders() {
   });
 
   return (
-    <div className="orders-page py-5 container">
+    <div className="orders-page py-12 container">
       <style>{`
         .order-card { background: white; border-radius: 24px; padding: 0; box-shadow: 0 8px 30px rgba(0,0,0,0.06); overflow: hidden; transition: all 0.3s ease; border: 1px solid transparent; }
         .dark .order-card { background: #0f172a; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
@@ -232,10 +232,10 @@ function Orders() {
         size="md"
       >
         <div>
-          <p className="text-slate-600 dark:text-slate-400 text-sm mb-3">
+          <p className="text-slate-600 dark:text-slate-400 text-sm mb-6">
             Please describe the reason for your refund request. Our team will review it within 2–3 business days.
           </p>
-          <label className="form-label fw-bold text-slate-900 dark:text-white fs-7">
+          <label className="form-label font-bold text-slate-900 dark:text-white text-sm">
             Refund Reason <span className="text-rose-500">*</span>
           </label>
           <textarea
@@ -246,21 +246,21 @@ function Orders() {
             onChange={(e) => setRefundReason(e.target.value)}
             disabled={refundSubmitting}
           />
-          <div className="d-flex justify-content-end gap-2 mt-4">
+          <div className="flex justify-end gap-2 mt-6">
             <button
-              className="btn btn-outline-secondary rounded-pill px-4"
+              className="btn btn-outline-secondary rounded-full px-6"
               onClick={() => { setRefundModalOpen(false); setRefundReason(""); setPendingRefundId(null); }}
               disabled={refundSubmitting}
             >
               Cancel
             </button>
             <button
-              className="btn btn-danger rounded-pill px-4 fw-bold"
+              className="btn btn-danger rounded-full px-6 font-bold"
               onClick={handleSubmitRefund}
               disabled={refundSubmitting}
             >
               {refundSubmitting ? (
-                <><span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Submitting...</>
+                <><span className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2" role="status" aria-hidden="true"></span>Submitting...</>
               ) : "Submit Refund Request"}
             </button>
           </div>
@@ -268,8 +268,8 @@ function Orders() {
       </AdminModal>
 
       {/* Page Header */}
-      <div className="d-flex flex-column" style={{ marginBottom: '32px' }}>
-        <div className="d-flex align-items-center gap-3 mb-2">
+      <div className="flex flex-col" style={{ marginBottom: '32px' }}>
+        <div className="flex items-center gap-3 mb-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" className="text-slate-800 dark:text-white" viewBox="0 0 16 16">
             <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.239zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
           </svg>
@@ -280,7 +280,7 @@ function Orders() {
 
       {/* Filter Tabs */}
       {!loading && orders.length > 0 && (
-        <div className="d-flex gap-2 mb-4 flex-wrap p-2 bg-white dark:bg-slate-900 rounded-pill shadow-sm border border-slate-100 dark:border-slate-800 d-inline-flex transition-colors">
+        <div className="flex gap-2 mb-6 flex-wrap p-2 bg-white dark:bg-slate-900 rounded-full shadow-sm border border-slate-100 dark:border-slate-800 inline-flex transition-colors">
           {FILTER_TABS.map(tab => (
             <button
               key={tab}
@@ -289,7 +289,7 @@ function Orders() {
             >
               {tab}
               {tab !== "All" && (
-                <span className="ms-1" style={{ fontSize: 12, opacity: 0.7 }}>
+                <span className="ml-1" style={{ fontSize: 12, opacity: 0.7 }}>
                   ({orders.filter(o => {
                     const s = (o.status || "").toLowerCase();
                     if (tab === "Completed") return s === "completed" || s === "paid";
@@ -305,54 +305,54 @@ function Orders() {
       )}
 
       {loading ? (
-        <div className="py-4"><SkeletonLoader type="table" /></div>
+        <div className="py-6"><SkeletonLoader type="table" /></div>
       ) : filteredOrders.length === 0 ? (
         <motion.div
           initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
-          className="text-center py-5 rounded-[24px] bg-white dark:bg-[#0f172a] transition-colors d-flex flex-column align-items-center justify-content-center gap-3"
+          className="text-center py-12 rounded-[24px] bg-white dark:bg-[#0f172a] transition-colors flex flex-col items-center justify-center gap-3"
           style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.06)", border: "1px solid rgba(255,255,255,0.08)", minHeight: '400px' }}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#e2e8f0" className="mb-3 dark:opacity-20" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#e2e8f0" className="mb-6 dark:opacity-20" viewBox="0 0 16 16">
             <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
           </svg>
-          <h4 className="fw-bold text-slate-900 dark:text-white" style={{ fontSize: '28px' }}>
+          <h4 className="font-bold text-slate-900 dark:text-white" style={{ fontSize: '28px' }}>
             {activeTab === "All" ? "No Purchases Yet" : `No ${activeTab} Orders`}
           </h4>
-          <p className="text-slate-500 dark:text-slate-400 mb-4" style={{ maxWidth: "400px", fontSize: '16px' }}>
+          <p className="text-slate-500 dark:text-slate-400 mb-6" style={{ maxWidth: "400px", fontSize: '16px' }}>
             {activeTab === "All"
               ? "Looks like you haven't made any purchases yet. Browse our marketplace to discover incredible software tools."
               : `You have no ${activeTab.toLowerCase()} orders yet.`}
           </p>
-          <Link to="/deals" className="btn btn-primary rounded-pill fw-bold shadow-sm hover-lift" style={{ padding: '14px 32px', fontSize: '16px', background: 'linear-gradient(to right, #ff6b00, #ff8c00)', border: 'none', color: 'white' }}>
+          <Link to="/deals" className="btn btn-primary rounded-full font-bold shadow-sm hover-lift" style={{ padding: '14px 32px', fontSize: '16px', background: 'linear-gradient(to right, #ff6b00, #ff8c00)', border: 'none', color: 'white' }}>
             {activeTab === "All" ? "Browse Deals" : "View All Orders"}
           </Link>
         </motion.div>
       ) : (
-        <div className="d-flex flex-column" style={{ gap: '28px' }}>
+        <div className="flex flex-col" style={{ gap: '28px' }}>
           {filteredOrders.map((order, index) => (
             <motion.div
               key={order.orderId}
               initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: index * 0.06 }}
               className="order-card"
             >
-              <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-4" style={{ padding: '24px 28px' }}>
+              <div className="flex flex-col flex-lg-flex flex-wrap -mx-6 items-start lg:items-center justify-between gap-4" style={{ padding: '24px 28px' }}>
                 {/* Column 1: Items */}
-                <div className="flex-grow-1 w-100">
-                  <div className="d-flex flex-column gap-3">
+                <div className="grow w-full">
+                  <div className="flex flex-col gap-3">
                     {order.items && order.items.map((item, idx) => (
-                      <div key={idx} className="d-flex align-items-center gap-3">
+                      <div key={idx} className="flex items-center gap-3">
                         {item.imageUrl ? (
                           <img src={getImageUrl(item.imageUrl)} alt={item.dealTitle} className="object-cover bg-[#F8FAFC] dark:bg-slate-800" style={{ width: '64px', height: '64px', borderRadius: '14px' }} />
                         ) : (
-                          <div className="d-flex justify-content-center align-items-center bg-[#F8FAFC] dark:bg-slate-800" style={{ width: '64px', height: '64px', borderRadius: '14px' }}>
+                          <div className="flex justify-center items-center bg-[#F8FAFC] dark:bg-slate-800" style={{ width: '64px', height: '64px', borderRadius: '14px' }}>
                             <span style={{ fontSize: '24px' }}>📦</span>
                           </div>
                         )}
                         <div>
-                          <Link to={`/deals/${item.dealId}`} className="text-decoration-none">
+                          <Link to={`/deals/${item.dealId}`} className="no-underline">
                             <h3 className="mb-1 product-title">{item.dealTitle || `Deal Code #${item.dealId}`}</h3>
                           </Link>
-                          <div className="d-flex align-items-center gap-3">
+                          <div className="flex items-center gap-3">
                             <span style={{ fontSize: '14px', color: '#64748b' }}>Qty: {item.quantity}</span>
                             <span style={{ fontSize: '13px', color: '#94a3b8' }}>Order ID: #{order.orderId}</span>
                           </div>
@@ -365,26 +365,26 @@ function Orders() {
                 </div>
 
                 {/* Column 2: Date */}
-                <div className="d-flex flex-column align-items-start w-100 w-lg-auto" style={{ minWidth: '150px' }}>
+                <div className="flex flex-col items-start w-full w-lg-auto" style={{ minWidth: '150px' }}>
                   <span style={{ fontSize: '16px', fontWeight: 600 }} className="text-slate-900 dark:text-slate-200">{formatDateMain(order.createdAt)}</span>
                   <span style={{ fontSize: '14px', color: '#64748b' }} className="mt-1">{formatDateSecondary(order.createdAt)}</span>
                 </div>
 
                 {/* Column 3: Price */}
-                <div className="d-flex align-items-center w-100 w-lg-auto" style={{ minWidth: '120px' }}>
+                <div className="flex items-center w-full w-lg-auto" style={{ minWidth: '120px' }}>
                   <div style={{ fontSize: '30px', fontWeight: 800, color: '#ff6b00', textShadow: '0 0 10px rgba(255,107,0,.15)' }}>
                     ₹{(order.subtotal || 0).toFixed(2)}
                   </div>
                 </div>
 
                 {/* Column 4: Status & Actions */}
-                <div className="d-flex flex-column align-items-start align-items-lg-end gap-3 w-100 w-lg-auto" style={{ minWidth: '160px' }}>
+                <div className="flex flex-col items-start align-items-lg-end gap-3 w-full w-lg-auto" style={{ minWidth: '160px' }}>
                   <div>{getStatusBadge(order.status)}</div>
                   {['Completed', 'Paid'].includes(order.status) && (
-                    <button className="refund-btn w-100 mt-1" onClick={() => handleRefund(order.orderId)}>Request Refund</button>
+                    <button className="refund-btn w-full mt-1" onClick={() => handleRefund(order.orderId)}>Request Refund</button>
                   )}
                   {['Pending', 'AwaitingPayment'].includes(order.status) && (
-                    <button className="cancel-btn w-100 mt-1" onClick={() => handleCancel(order.orderId)}>Cancel Order</button>
+                    <button className="cancel-btn w-full mt-1" onClick={() => handleCancel(order.orderId)}>Cancel Order</button>
                   )}
                 </div>
               </div>

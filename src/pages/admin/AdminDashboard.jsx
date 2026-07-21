@@ -396,13 +396,13 @@ function AdminDashboard() {
           return (
             <div
               key={idx}
-              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 card-shadow hover-lift flex flex-col justify-between group relative overflow-hidden"
+              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 card-shadow hover-lift flex flex-col justify-between group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-bl-full"></div>
               
-              <div className={`absolute top-4 right-4 w-[8px] h-[8px] rounded-circle ${card.title.includes('Revenue') || card.title.includes('Value') ? 'bg-orange-500' : card.trend === 'up' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
+              <div className={`absolute top-4 right-4 w-[8px] h-[8px] rounded-full ${card.title.includes('Revenue') || card.title.includes('Value') ? 'bg-orange-500' : card.trend === 'up' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
 
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider z-10">
                   {card.title}
                 </span>
@@ -444,24 +444,24 @@ function AdminDashboard() {
       </div>
 
       {/* Quick Actions Row */}
-      <div className="row g-3 mb-4">
+      <div className="row gap-4 mb-6">
         <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/deals')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-emerald-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+          <button onClick={() => navigate('/admin/deals')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-emerald-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
             <Plus size={18} /> Add Deal
           </button>
         </div>
         <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/categories')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-blue-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+          <button onClick={() => navigate('/admin/categories')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-blue-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
             <FolderPlus size={18} /> Add Category
           </button>
         </div>
         <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/orders')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-orange-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+          <button onClick={() => navigate('/admin/orders')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-orange-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
             <ShoppingBag size={18} /> View Orders
           </button>
         </div>
         <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/reports')} className="btn w-100 rounded-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 bg-slate-700" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
+          <button onClick={() => navigate('/admin/reports')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-slate-700" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
             <BarChart2 size={18} /> View Reports
           </button>
         </div>
@@ -478,8 +478,8 @@ function AdminDashboard() {
       {/* Widgets Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Quick Actions */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-800 dark:text-white mb-4">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 shadow-sm">
+          <h3 className="text-sm font-bold text-slate-800 dark:text-white mb-6">
             Quick Actions
           </h3>
           <div className="grid grid-cols-2 gap-2.5">
@@ -489,7 +489,7 @@ function AdminDashboard() {
                 <Link
                   key={idx}
                   to={action.path}
-                  className={`${idx === quickActions.length - 1 ? "col-span-2" : ""} flex flex-col items-center justify-center p-3 rounded-xl border border-slate-100 dark:border-slate-700/50 hover:border-orange-500 dark:hover:border-orange-500 bg-slate-50 dark:bg-slate-800/30 hover:bg-orange-50 dark:hover:bg-orange-500/10 hover-lift group quick-action-card`}
+                  className={`${idx === quickActions.length - 1 ? "col-span-2" : ""} flex flex-col items-center justify-center p-6 rounded-xl border border-slate-100 dark:border-slate-700/50 hover:border-orange-500 dark:hover:border-orange-500 bg-slate-50 dark:bg-slate-800/30 hover:bg-orange-50 dark:hover:bg-orange-500/10 hover-lift group quick-action-card`}
                 >
                   <div
                     className={`p-2 rounded-lg ${action.bg} ${action.color} group-hover:scale-110 transition-transform mb-2`}
@@ -506,8 +506,8 @@ function AdminDashboard() {
         </div>
 
         {/* Recent Reviews Widget */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm flex flex-col">
-          <div className="flex justify-between items-center mb-4">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 shadow-sm flex flex-col">
+          <div className="flex justify-between items-center mb-6">
             <h3 className="text-sm font-bold text-slate-800 dark:text-white">
               Recent Reviews
             </h3>
@@ -522,7 +522,7 @@ function AdminDashboard() {
             {reviewsData?.items?.slice(0, 4).map((review) => (
               <div
                 key={review.id}
-                className="flex space-x-3 pb-3 border-b border-slate-50 dark:border-slate-800/50 last:border-0 last:pb-0"
+                className="flex space-x-3 pb-6 border-b border-slate-50 dark:border-slate-800/50 last:border-0 last:pb-0"
               >
                 <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs shrink-0">
                   {review.userName?.charAt(0).toUpperCase() || "U"}
@@ -554,8 +554,8 @@ function AdminDashboard() {
         </div>
 
         {/* Low Stock Deals Widget */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm flex flex-col">
-          <div className="flex justify-between items-center mb-4">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 shadow-sm flex flex-col">
+          <div className="flex justify-between items-center mb-6">
             <h3 className="text-sm font-bold text-slate-800 dark:text-white flex items-center">
               <AlertCircle size={14} className="text-rose-500 mr-2" />
               Low Stock Alert
@@ -615,7 +615,7 @@ function AdminDashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
         {/* Recent Orders */}
         <div className="xl:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden shadow-sm">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between px-12 py-6 border-b border-slate-100 dark:border-slate-800">
             <h3 className="text-sm font-bold text-slate-800 dark:text-white flex items-center space-x-2">
               <span>Recent Orders</span>
               <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-semibold">
@@ -640,7 +640,7 @@ function AdminDashboard() {
 
         {/* Top Selling Deals */}
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden shadow-sm">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between px-12 py-6 border-b border-slate-100 dark:border-slate-800">
             <h3 className="text-sm font-bold text-slate-800 dark:text-white flex items-center space-x-2">
               <span>Top Deals</span>
               <span className="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] px-2 py-0.5 rounded-full font-semibold">

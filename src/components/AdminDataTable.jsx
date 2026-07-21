@@ -24,7 +24,7 @@ function AdminDataTable({ columns, data, emptyMessage = "No records found.", emp
         <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-700 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 sticky top-0 z-10 backdrop-blur-md">
           <tr>
             {selectable && (
-              <th className="px-6 py-4 w-12">
+              <th className="px-6 py-6 w-12">
                 <input 
                   type="checkbox" 
                   className="rounded border-slate-300 text-orange-500 focus:ring-orange-500 dark:border-slate-600 dark:bg-slate-700"
@@ -34,7 +34,7 @@ function AdminDataTable({ columns, data, emptyMessage = "No records found.", emp
               </th>
             )}
             {columns.map((col, idx) => (
-              <th key={idx} className={`px-6 py-4 ${col.className || ''}`}>
+              <th key={idx} className={`px-6 py-6 ${col.className || ''}`}>
                 {col.header}
               </th>
             ))}
@@ -51,7 +51,7 @@ function AdminDataTable({ columns, data, emptyMessage = "No records found.", emp
                   className={`table-row-hover hover:bg-orange-50 dark:hover:bg-slate-800/60 transition-colors ${isSelected ? 'bg-orange-50/50 dark:bg-orange-500/10' : ''}`}
                 >
                   {selectable && (
-                    <td className="px-6 py-4 whitespace-nowrap align-middle">
+                    <td className="px-6 py-6 whitespace-nowrap align-middle">
                       <input 
                         type="checkbox" 
                         className="rounded border-slate-300 text-orange-500 focus:ring-orange-500 dark:border-slate-600 dark:bg-slate-700"
@@ -61,7 +61,7 @@ function AdminDataTable({ columns, data, emptyMessage = "No records found.", emp
                     </td>
                   )}
                   {columns.map((col, colIdx) => (
-                    <td key={colIdx} className="px-6 py-4 whitespace-nowrap align-middle">
+                    <td key={colIdx} className="px-6 py-6 whitespace-nowrap align-middle">
                       {col.render ? col.render(row) : row[col.accessor]}
                     </td>
                   ))}
@@ -71,9 +71,9 @@ function AdminDataTable({ columns, data, emptyMessage = "No records found.", emp
           ) : (
             <tr>
               <td colSpan={selectable ? columns.length + 1 : columns.length} className="px-6 py-12 text-center text-slate-400 dark:text-slate-500">
-                <div className="d-flex flex-column items-center justify-center empty-state-container py-5 gap-2 rounded-4 shadow-sm">
+                <div className="flex flex-col items-center justify-center empty-state-container py-12 gap-2 rounded-2xl shadow-sm">
                   <i className="bi bi-clipboard text-muted empty-state-icon"></i>
-                  <h4 className="fw-bold text-slate-900 dark:text-white mb-1 transition-colors">{emptyMessage}</h4>
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-1 transition-colors">{emptyMessage}</h4>
                   {emptyDescription && <p className="text-muted transition-colors empty-state-desc">{emptyDescription}</p>}
                 </div>
               </td>

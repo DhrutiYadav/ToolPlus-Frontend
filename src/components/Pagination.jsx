@@ -23,11 +23,11 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   };
 
   return (
-    <nav className="d-flex justify-content-center mt-5" aria-label="Deals navigation">
-      <ul className="pagination pagination-md rounded-pill overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-colors tp-pagination">
+    <nav className="flex justify-center mt-12" aria-label="Deals navigation">
+      <ul className="pagination pagination-md rounded-full overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-colors tp-pagination">
         <li className={`page-item ${currentPage === 1 ? "disabled opacity-40" : ""}`}>
           <button
-            className="page-link py-2 px-3 border-0 fw-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors tp-page-link-small"
+            className="page-link py-2 px-6 border-0 font-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors tp-page-link-small"
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
             style={{ fontSize: '0.875rem' }}
@@ -42,7 +42,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
             className={`page-item ${currentPage === pageNum ? "active" : ""}`}
           >
             <button
-              className={`page-link py-2 px-3 border-0 fw-bold transition-colors ${
+              className={`page-link py-2 px-6 border-0 font-bold transition-colors ${
                 currentPage === pageNum 
                   ? "bg-orange-500 text-white" 
                   : "bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800"
@@ -57,7 +57,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         
         <li className={`page-item ${currentPage === totalPages ? "disabled opacity-40" : ""}`}>
           <button
-            className="page-link py-2 px-3 border-0 fw-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors tp-page-link-small"
+            className="page-link py-2 px-6 border-0 font-semibold bg-transparent text-slate-600 dark:text-slate-400 hover:text-orange-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors tp-page-link-small"
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             

@@ -174,11 +174,11 @@ function AdminReviews() {
       header: "Status",
       render: (row) => {
         if (row.isApproved) {
-          return <span className="badge bg-success">Approved</span>;
+          return <span className="inline-block text-[0.75em] font-bold leading-none text-center whitespace-nowrap align-baseline rounded px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400">Approved</span>;
         } else if (row.isRejected) {
-          return <span className="badge bg-danger">Rejected</span>;
+          return <span className="inline-block text-[0.75em] font-bold leading-none text-center whitespace-nowrap align-baseline rounded px-2 py-1 bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-400">Rejected</span>;
         } else {
-          return <span className="badge bg-warning text-dark">Pending</span>;
+          return <span className="inline-block text-[0.75em] font-bold leading-none text-center whitespace-nowrap align-baseline rounded px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400">Pending</span>;
         }
       }
     },
@@ -225,8 +225,8 @@ function AdminReviews() {
         {analyticsCards.map((card, idx) => {
           const Icon = card.icon;
           return (
-            <div key={idx} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 card-shadow hover-lift flex items-center space-x-4">
-              <div className={`p-3 rounded-xl ${card.bg} ${card.color}`}>
+            <div key={idx} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 card-shadow hover-lift flex items-center space-x-4">
+              <div className={`p-6 rounded-xl ${card.bg} ${card.color}`}>
                 <Icon size={24} />
               </div>
               <div>
@@ -246,7 +246,7 @@ function AdminReviews() {
               <button
                 key={filter}
                 onClick={() => { setActiveFilter(filter); setCurrentPage(1); }}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
+                className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${
                   activeFilter === filter 
                     ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm" 
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50"
@@ -268,14 +268,14 @@ function AdminReviews() {
 
         {/* Bulk Actions Bar */}
         {selectedIds.length > 0 && (
-          <div className="flex items-center justify-between p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl animate-fade-in-up">
+          <div className="flex items-center justify-between p-6 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl animate-fade-in-up">
             <div className="flex items-center space-x-2 text-rose-700 dark:text-rose-400 font-bold text-sm px-2">
               <Trash2 size={18} />
               <span>{selectedIds.length} reviews selected</span>
             </div>
             <button
               onClick={() => setActionType("bulkDelete")}
-              className="px-4 py-1.5 bg-rose-600 text-white rounded-lg text-sm font-bold hover:bg-rose-700 transition-colors shadow-sm"
+              className="px-6 py-1.5 bg-rose-600 text-white rounded-lg text-sm font-bold hover:bg-rose-700 transition-colors shadow-sm"
             >
               Delete Selected
             </button>

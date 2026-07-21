@@ -26,7 +26,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="auth-page-wrapper auth-page-wrapper-forgot d-flex align-items-center justify-content-center py-5">
+    <div className="auth-page-wrapper auth-page-wrapper-forgot flex items-center justify-center py-12">
       {/* Animated background blobs */}
       <div className="auth-bg-blobs" aria-hidden="true">
         <div className="auth-blob auth-blob-1"></div>
@@ -34,73 +34,73 @@ const ForgotPassword = () => {
         <div className="auth-blob auth-blob-3"></div>
       </div>
 
-      <div className="login-card auth-card-foreground p-5 shadow-lg border border-slate-100 dark:border-slate-800 rounded-4 bg-white dark:bg-slate-900 transition-colors">
+      <div className="login-card auth-card-foreground p-12 shadow-lg border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 transition-colors">
 
         {/* Back to Login */}
-        <div className="mb-3">
-          <Link to="/login" className="text-slate-500 dark:text-slate-400 text-decoration-none d-flex align-items-center gap-1 fw-medium hover:text-orange-500 dark:hover:text-orange-400 transition-colors fs-7">
+        <div className="mb-6">
+          <Link to="/login" className="text-slate-500 dark:text-slate-400 no-underline flex items-center gap-1 font-medium hover:text-orange-500 dark:hover:text-orange-400 transition-colors text-sm">
             <i className="bi bi-arrow-left"></i> Back to Login
           </Link>
         </div>
 
         {/* Lock icon illustration */}
-        <div className="text-center mb-4">
-          <div className="bg-orange-100 dark:bg-orange-500/15 text-orange-500 dark:text-orange-400 rounded-circle d-inline-flex align-items-center justify-content-center mb-3 transition-colors auth-icon-circle-72">
+        <div className="text-center mb-6">
+          <div className="bg-orange-100 dark:bg-orange-500/15 text-orange-500 dark:text-orange-400 rounded-full inline-flex items-center justify-center mb-6 transition-colors auth-icon-circle-72">
             <Lock size={32} />
           </div>
         </div>
 
         {/* Logo */}
-        <div className="text-center mb-4">
+        <div className="text-center mb-6">
           <img
             src="/logo/logo-dark.png"
             alt="ToolPlus"
-            className="img-fluid mx-auto dark:hidden auth-logo-sm"
+            className="max-w-full h-auto mx-auto dark:hidden auth-logo-sm"
           />
           <img
             src="/logo/logo-white.png"
             alt="ToolPlus"
-            className="img-fluid mx-auto hidden dark:block auth-logo-sm"
+            className="max-w-full h-auto mx-auto hidden dark:block auth-logo-sm"
           />
         </div>
 
-        <div className="text-center mb-4">
-          <h2 className="fw-extrabold text-slate-900 dark:text-white mb-1 transition-colors">Forgot Password</h2>
-          <p className="text-slate-500 dark:text-slate-400 fs-6 transition-colors">Enter your email to receive a reset link</p>
+        <div className="text-center mb-6">
+          <h2 className="font-extrabold text-slate-900 dark:text-white mb-1 transition-colors">Forgot Password</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-base transition-colors">Enter your email to receive a reset link</p>
         </div>
 
         {emailSent ? (
           <div className="text-center">
-            <div className="alert alert-success border-0 bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded-4 py-3 mb-4">
-              <i className="bi bi-check-circle-fill me-2 fs-5 align-middle"></i>
+            <div className="relative px-4 border border-transparent bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded-2xl py-6 mb-6">
+              <i className="bi bi-check-circle-fill mr-2 text-lg align-middle"></i>
               Check your email for the reset link!
             </div>
-            <Link to="/login" className="btn btn-outline-primary w-100 py-3 rounded-pill fw-bold text-uppercase tracking-wider">
+            <Link to="/login" className="btn btn-outline-primary w-full py-6 rounded-full font-bold uppercase tracking-wider">
               Return to Log In
             </Link>
           </div>
         ) : (
           <form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
-            <div className="mb-4">
-              <label className="form-label fw-bold text-slate-900 dark:text-white fs-7 transition-colors">Email Address</label>
+            <div className="mb-6">
+              <label className="form-label font-bold text-slate-900 dark:text-white text-sm transition-colors">Email Address</label>
               <input
                 type="email"
-                className={`form-control py-2 px-3 border ${errors.email ? 'is-invalid border-danger' : 'border-slate-200 dark:border-slate-700'} bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors`}
+                className={`form-control py-2 px-6 border ${errors.email ? 'is-invalid border-danger' : 'border-slate-200 dark:border-slate-700'} bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors`}
                 placeholder="name@example.com"
                 disabled={loading}
                 {...register("email", { required: "Email is required" })}
               />
-              {errors.email && <div className="invalid-feedback d-block">{errors.email.message}</div>}
+              {errors.email && <div className="invalid-feedback block">{errors.email.message}</div>}
             </div>
 
             <button
-              className="btn btn-primary w-100 py-3 rounded-pill fw-bold text-uppercase tracking-wider d-flex justify-content-center align-items-center mb-3 shadow-sm hover-lift"
+              className="btn btn-primary w-full py-6 rounded-full font-bold uppercase tracking-wider flex justify-center items-center mb-6 shadow-sm hover-lift"
               type="submit"
               disabled={loading}
             >
               {loading ? (
                 <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2" role="status" aria-hidden="true"></span>
                   Sending...
                 </>
               ) : (
@@ -111,10 +111,10 @@ const ForgotPassword = () => {
         )}
 
         {!emailSent && (
-          <div className="text-center mt-3">
-            <p className="text-slate-500 dark:text-slate-400 fs-7 mb-0 transition-colors">
+          <div className="text-center mt-6">
+            <p className="text-slate-500 dark:text-slate-400 text-sm mb-0 transition-colors">
               Remember your password?{" "}
-              <Link to="/login" className="text-orange-500 dark:text-orange-400 fw-bold text-decoration-none hover:text-orange-600 dark:hover:text-orange-300 transition-colors">
+              <Link to="/login" className="text-orange-500 dark:text-orange-400 font-bold no-underline hover:text-orange-600 dark:hover:text-orange-300 transition-colors">
                 Log In
               </Link>
             </p>

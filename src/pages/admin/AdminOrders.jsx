@@ -256,14 +256,14 @@ function AdminOrders() {
           <div className="flex items-center space-x-3 w-full sm:w-auto">
             <button 
               onClick={() => handleExport("CSV")}
-              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm whitespace-nowrap"
+              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-6 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm whitespace-nowrap"
             >
               <Download size={16} />
               <span>CSV</span>
             </button>
             <button 
               onClick={() => handleExport("Excel")}
-              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 rounded-xl font-bold hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors text-sm whitespace-nowrap"
+              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-6 py-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 rounded-xl font-bold hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors text-sm whitespace-nowrap"
             >
               <Download size={16} />
               <span>Excel</span>
@@ -273,7 +273,7 @@ function AdminOrders() {
 
         {/* Bulk Actions Bar */}
         {selectedIds.length > 0 && (
-          <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 rounded-xl animate-fade-in-up">
+          <div className="flex items-center justify-between p-6 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 rounded-xl animate-fade-in-up">
             <div className="flex items-center space-x-2 text-orange-700 dark:text-orange-400 font-bold text-sm px-2">
               <CheckSquare size={18} />
               <span>{selectedIds.length} orders selected</span>
@@ -281,13 +281,13 @@ function AdminOrders() {
             <div className="flex space-x-2">
               <button
                 onClick={() => setActionType("bulkComplete")}
-                className="px-3 py-1.5 bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors"
+                className="px-6 py-1.5 bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors"
               >
                 Mark Completed
               </button>
               <button
                 onClick={() => setActionType("bulkDelete")}
-                className="px-3 py-1.5 bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
+                className="px-6 py-1.5 bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
               >
                 Delete Selected
               </button>
@@ -322,7 +322,7 @@ function AdminOrders() {
       <div className={`fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 transition-opacity duration-300 ${viewOrder ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
         <div className={`fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${viewOrder ? 'translate-x-0' : 'translate-x-full'}`}>
           {/* Drawer Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
+          <div className="flex items-center justify-between px-6 py-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
             <div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">Order Details</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">ID: #{viewOrder?.id}</p>
@@ -340,17 +340,17 @@ function AdminOrders() {
             <div className="flex-1 overflow-y-auto p-6 space-y-8 scrollbar-hide">
               
               {/* Status Section */}
-              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700">
                 <span className="font-bold text-slate-700 dark:text-slate-300">Current Status</span>
                 <AdminStatusBadge status={viewOrder.status} type="order" />
               </div>
 
               {/* Customer Info */}
               <div>
-                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">
                   <User size={14} className="mr-2" /> Customer Information
                 </h4>
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-3 shadow-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6 space-y-3 shadow-sm">
                   <div>
                     <p className="text-xs text-slate-500 dark:text-slate-400">Name</p>
                     <p className="font-bold text-slate-900 dark:text-white">{viewOrder.userName || viewOrder.userEmail?.split("@")[0]}</p>
@@ -364,10 +364,10 @@ function AdminOrders() {
 
               {/* Deal Info */}
               <div>
-                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">
                   <Box size={14} className="mr-2" /> Deal Information
                 </h4>
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-3 shadow-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6 space-y-3 shadow-sm">
                   <div>
                     <p className="text-xs text-slate-500 dark:text-slate-400">Product</p>
                     <p className="font-bold text-slate-900 dark:text-white">{viewOrder.dealTitle}</p>
@@ -397,10 +397,10 @@ function AdminOrders() {
 
               {/* Invoice & Payment */}
               <div>
-                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">
                   <Receipt size={14} className="mr-2" /> Invoice Details
                 </h4>
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
                   <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
                     <span className="text-sm text-slate-500 dark:text-slate-400">Payment Method</span>
                     <span className="text-sm font-semibold flex items-center text-slate-800 dark:text-slate-200">
@@ -420,7 +420,7 @@ function AdminOrders() {
 
               {/* Timeline */}
               <div>
-                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+                <h4 className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">
                   <Clock size={14} className="mr-2" /> Order Timeline
                 </h4>
                 <div className="relative pl-4 space-y-6 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-slate-300 before:to-transparent">
@@ -448,10 +448,10 @@ function AdminOrders() {
           )}
 
           {/* Drawer Footer */}
-          <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex justify-end">
+          <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex justify-end">
              <button 
                onClick={() => setSelectedOrderId(null)}
-                className="px-5 py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
+                className="px-12 py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
              >
                Close Details
              </button>

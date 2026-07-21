@@ -1,12 +1,12 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useLogout } from "../hooks/useLogout";
 import { useCart } from "../context/CartContext";
+import { useLogout } from "../hooks/useLogout";
 import ThemeToggle from "./ThemeToggle";
 import NotificationBell from "./NotificationBell";
 import ProfileDropdown from "./ProfileDropdown";
-import "../styles/Navbar.css";
 
 function Navbar() {
   const { user, isAdmin } = useAuth();
@@ -14,23 +14,19 @@ function Navbar() {
   const logout = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const urlSearch = searchParams.get("search") || "";
-  
-  const [navSearch, setNavSearch] = useState(urlSearch);
+
+  const [navSearch, setNavSearch] = useState("");
   const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Sync navSearch with URL if it changes externally
   useEffect(() => {
-    setNavSearch(urlSearch);
-  }, [urlSearch]);
+    const params = new URLSearchParams(location.search);
+    setNavSearch(params.get("search") || "");
+  }, [location.search]);
 
-  // Add scroll shadow effect
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 8);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -43,117 +39,171 @@ function Navbar() {
     }
   };
 
-  const isActive = (path) => location.pathname === path ? "active" : "";
-
   return (
-    <nav className={`navbar navbar-expand-lg sticky-top transition-all duration-300 z-50 position-relative ${scrolled ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 py-2 scrolled scrolled-border' : 'bg-white dark:bg-slate-900 border-b border-transparent dark:border-transparent py-3'}`}>
-      <div className="container px-3 px-lg-4">
-        {/* Brand/Logo */}
-        <Link to="/" className="navbar-brand d-flex align-items-center me-3">
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 border-b backdrop-blur-md ${
+        scrolled
+          ? "bg-white/95 dark:bg-slate-950/95 shadow-sm border-slate-200 dark:border-slate-800"
+          : "bg-white dark:bg-slate-950 border-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo - Square on Mobile, Horizontal on Desktop */}
+          <Link to="/" className="flex items-center flex-shrink-0">
+            {/* Mobile Square Logo - Light */}
+            <img
+              src="/logo/logo-square.png"
+              alt="ToolPlus"
+              className="h-9 block md:hidden dark:hidden"
+            />
+
+            {/* Mobile Square Logo - Dark */}
+            <img
+              src="/logo/logo-square-dark.png"
+              alt="ToolPlus"
+              className="h-9 hidden dark:block md:dark:hidden"
+            />
+
+            {/* Desktop Horizontal Logo - Light */}
             <img
               src="/logo/logo-horizontal.png"
-              alt="ToolPlus Logo"
-              className="img-fluid dark:hidden nav-logo-img"
+              alt="ToolPlus"
+              className="hidden h-9 md:block dark:hidden"
             />
+
+            {/* Desktop Horizontal Logo - Dark */}
             <img
               src="/logo/dark-horizontal-logo.png"
-              alt="ToolPlus Logo"
-              className="img-fluid hidden dark:block nav-logo-img"
+              alt="ToolPlus"
+              className="hidden h-9 md:dark:block"
             />
-        </Link>
+          </Link>
 
-        {/* Toggle Button for Mobile */}
-        <button
-          className="navbar-toggler border-0 dark:invert p-2"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        {/* Navbar Content */}
-        <div className="collapse navbar-collapse" id="navbarContent">
-          <form className="d-flex mx-auto my-2 my-lg-0 px-lg-3 w-full nav-search-max" onSubmit={handleSearchSubmit}>
-            <div className="input-group search-group rounded-pill w-100 overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 transition-all duration-300 focus-within:shadow-md focus-within:border-orange-400 dark:focus-within:border-orange-500/50 focus-within:bg-white dark:focus-within:bg-slate-900">
-              <span className="input-group-text border-0 px-3 bg-transparent d-flex align-items-center !text-slate-400 dark:!text-slate-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </span>
+          {/* Search Bar */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="hidden md:flex flex-1 max-w-xl mx-6"
+          >
+            <div className="relative w-full">
               <input
                 type="text"
-                className="form-control border-0 py-2 pe-4 ps-0 navbar-search-input bg-transparent !text-slate-900 dark:!text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0"
-                placeholder="Search software deals..."
                 value={navSearch}
                 onChange={(e) => setNavSearch(e.target.value)}
+                placeholder="Search lifetime deals..."
+                className="w-full pl-12 py-3 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:border-orange-500 text-sm"
               />
+              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">
+                🔍
+              </div>
             </div>
           </form>
 
-          {/* Right Links */}
-          <ul className="navbar-nav align-items-lg-center ms-auto gap-1 gap-lg-2">
-            <li className="nav-item flex-shrink-0">
-              <Link to="/deals" className={`nav-link fw-bold px-2 px-xl-3 d-flex align-items-center whitespace-nowrap flex-shrink-0 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 position-relative nav-link-animated ${isActive("/deals")}`}>
-                Browse Deals
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <Link
+              to="/deals"
+              className="hover:text-orange-500 transition-colors"
+            >
+              Deals
+            </Link>
+            <Link
+              to="/categories"
+              className="hover:text-orange-500 transition-colors"
+            >
+              Categories
+            </Link>
+            {user && (
+              <Link
+                to="/orders"
+                className="hover:text-orange-500 transition-colors"
+              >
+                My Orders
               </Link>
-            </li>
-            <li className="nav-item flex-shrink-0">
-              <Link to="/categories" className={`nav-link fw-bold px-2 px-xl-3 d-flex align-items-center whitespace-nowrap flex-shrink-0 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 position-relative nav-link-animated ${isActive("/categories")}`}>
-                Categories
-              </Link>
-            </li>
+            )}
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-4 md:gap-5">
+            {/* <ThemeToggle /> */}
 
             {user ? (
-              <>
-                <li className="nav-item flex-shrink-0 d-flex align-items-center">
-                  <NotificationBell />
-                </li>
-                <li className="nav-item flex-shrink-0 ms-lg-1 mt-2 mt-lg-0">
-                  <Link to="/cart" className="nav-link d-flex align-items-center whitespace-nowrap flex-shrink-0 cart-link py-2 px-2 px-xl-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:!text-orange-600 transition-all duration-300 hover:scale-105 hover-lift">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    {cartCount > 0 && (
-                      <span className="cart-badge ms-1 fw-bold d-flex align-items-center justify-content-center bg-orange-500 text-white rounded-circle shadow-sm cart-badge-small">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                </li>
-                <li className="nav-item flex-shrink-0 ms-lg-1">
-                  <Link to="/orders" className={`nav-link fw-bold px-2 px-xl-3 d-flex align-items-center whitespace-nowrap flex-shrink-0 !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-all duration-300 position-relative nav-link-animated ${isActive("/orders")}`}>
-                    My Orders
-                  </Link>
-                </li>
-                
-                {/* Theme Toggle */}
-                <li className="nav-item flex-shrink-0 d-flex align-items-center ms-lg-1">
-                  <ThemeToggle />
-                </li>
+              <div className="flex items-center gap-4 md:gap-6">
+                <NotificationBell />
 
-                {/* User Dropdown Profile / Logout */}
-                <li className="nav-item flex-shrink-0 d-flex align-items-center">
-                  <ProfileDropdown user={user} isAdmin={isAdmin} logout={logout} />
-                </li>
-              </>
-            ) : (
-              <div className="d-flex align-items-center mt-3 mt-lg-0 ms-lg-2 gap-2 flex-shrink-0">
-                {/* Theme Toggle for unauthenticated users */}
-                <ThemeToggle />
-                <Link to="/login" className="btn btn-link d-flex align-items-center whitespace-nowrap flex-shrink-0 text-decoration-none fw-bold !text-slate-700 dark:!text-slate-300 hover:!text-orange-500 dark:hover:!text-orange-400 transition-colors">
-                  Log In
+                <Link
+                  to="/cart"
+                  className="relative text-2xl hover:text-orange-500 transition-colors"
+                >
+                  🛒
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
-                <Link to="/register" className="btn btn-primary d-flex align-items-center whitespace-nowrap flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 border-0 rounded-pill px-3 px-xl-4 fw-bold shadow-sm hover-lift hover:shadow-orange-500/30 transition-all duration-300">
+
+                <ThemeToggle />
+                <ProfileDropdown
+                  user={user}
+                  isAdmin={isAdmin}
+                  logout={logout}
+                />
+                
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center gap-4">
+                <ThemeToggle />
+                <Link to="/login" className="font-medium hover:text-orange-500">
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-2xl font-medium text-sm"
+                >
                   Sign Up
                 </Link>
               </div>
             )}
-          </ul>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-3xl text-slate-700 dark:text-slate-300"
+            >
+              {isMobileMenuOpen ? "✕" : "☰"}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+            <div className="flex flex-col gap-4 px-4">
+              <Link to="/deals" className="py-3 text-lg">
+                Deals
+              </Link>
+              <Link to="/categories" className="py-3 text-lg">
+                Categories
+              </Link>
+              {user && (
+                <Link to="/orders" className="py-3 text-lg">
+                  My Orders
+                </Link>
+              )}
+              {!user && (
+                <>
+                  <Link to="/login" className="py-3 text-lg">
+                    Login
+                  </Link>
+                  <Link to="/register" className="py-3 text-lg">
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

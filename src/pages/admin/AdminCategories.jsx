@@ -114,7 +114,7 @@ function AdminCategories() {
             setIsCreateOpen(true);
             reset();
           }}
-          className="flex items-center justify-center space-x-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-500/20 w-full sm:w-auto"
+          className="flex items-center justify-center space-x-2 px-12 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-500/20 w-full sm:w-auto"
         >
           <PlusCircle size={18} />
           <span>New Category</span>
@@ -126,16 +126,16 @@ function AdminCategories() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {paginatedCategories.map((category) => (
             <div key={category.id} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 flex flex-col hover:shadow-md hover:bg-orange-50 dark:hover:bg-slate-800/60 transition-colors group">
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex items-start justify-between mb-6">
                 <div className="w-12 h-12 bg-orange-50 dark:bg-orange-500/10 text-orange-500 rounded-xl flex items-center justify-center shadow-sm">
                   <Folder size={24} />
                 </div>
               </div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{category.name}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-3 mb-4 flex-1">
+              <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-3 mb-6 flex-1">
                 {category.description || "No description provided for this category."}
               </p>
-              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 mt-auto space-y-4">
+              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-mono text-slate-400 dark:text-slate-500">ID: {category.id}</span>
                 </div>
@@ -161,7 +161,7 @@ function AdminCategories() {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center p-12 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl">
-          <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
             <Layers size={24} className="text-slate-400" />
           </div>
           <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">No categories found</h3>
@@ -197,7 +197,7 @@ function AdminCategories() {
               type="text"
               placeholder="e.g., Marketing Tools"
               {...register("name", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
             />
           </div>
           <div>
@@ -206,20 +206,20 @@ function AdminCategories() {
               rows={3}
               placeholder="Describe the type of deals in this category..."
               {...register("description", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
             />
           </div>
           <div className="flex justify-end space-x-3 pt-6 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsCreateOpen(false)}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-12 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
+              className="px-12 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
             >
               Create Category
             </button>
@@ -240,7 +240,7 @@ function AdminCategories() {
             <input
               type="text"
               {...registerEdit("name", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all"
             />
           </div>
           <div>
@@ -248,20 +248,20 @@ function AdminCategories() {
             <textarea
               rows={3}
               {...registerEdit("description", { required: true })}
-              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
+              className="w-full px-6 py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all resize-none"
             />
           </div>
           <div className="flex justify-end space-x-3 pt-6 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setEditCategory(null)}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-12 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
+              className="px-12 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-all"
             >
               Save Changes
             </button>

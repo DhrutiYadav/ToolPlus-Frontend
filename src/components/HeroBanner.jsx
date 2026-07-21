@@ -18,7 +18,7 @@ function HeroBanner() {
   };
 
   return (
-    <section className="hero-banner shadow-sm mb-3 overflow-hidden position-relative rounded-4">
+    <section className="hero-banner shadow-sm mb-6 overflow-hidden relative rounded-2xl">
       <motion.div
         className="hero-content z-10"
         initial={{ opacity: 0, x: -50 }}
@@ -26,7 +26,7 @@ function HeroBanner() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <motion.span
-          className="hero-badge mb-[10px] d-inline-block bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 transition-colors shadow-sm"
+          className="hero-badge mb-[10px] inline-block bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 transition-colors shadow-sm"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -35,7 +35,7 @@ function HeroBanner() {
         </motion.span>
 
         <motion.h1
-          className="fw-extrabold text-slate-900 dark:text-white transition-colors mb-[12px]"
+          className="font-extrabold text-slate-900 dark:text-white transition-colors mb-[12px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -46,7 +46,7 @@ function HeroBanner() {
         </motion.h1>
 
         <motion.p
-          className="lead text-slate-600 dark:text-slate-300 mb-[14px] transition-colors fw-medium"
+          className="lead text-slate-600 dark:text-slate-300 mb-[14px] transition-colors font-medium"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -81,7 +81,7 @@ function HeroBanner() {
 
         {/* Trust Badges */}
         <motion.div
-          className="d-flex flex-wrap gap-[8px] mb-[14px]"
+          className="flex flex-wrap gap-[8px] mb-[14px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -93,29 +93,29 @@ function HeroBanner() {
             { icon: "✅", text: "60-Day Guarantee" },
             { icon: "⚡", text: "Instant Access" },
           ].map((badge, i) => (
-            <div key={i} className="d-flex align-items-center bg-white dark:bg-slate-800 px-[14px] py-[6px] rounded-pill shadow-sm border border-slate-100 dark:border-slate-700">
-              <span className="me-2">{badge.icon}</span>
-              <span className="fw-bold !text-slate-700 dark:!text-slate-300 fs-7">{badge.text}</span>
+            <div key={i} className="flex items-center bg-white dark:bg-slate-800 px-[14px] py-[6px] rounded-full shadow-sm border border-slate-100 dark:border-slate-700">
+              <span className="mr-2">{badge.icon}</span>
+              <span className="font-bold !text-slate-700 dark:!text-slate-300 text-sm">{badge.text}</span>
             </div>
           ))}
         </motion.div>
 
         <motion.div
-          className="hero-buttons gap-[14px] mt-[12px] d-flex flex-wrap"
+          className="hero-buttons gap-[14px] mt-[12px] flex flex-wrap"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
           <Link
             to="/deals"
-            className="btn btn-primary border-0 rounded-pill fw-bold shadow-lg text-uppercase tracking-wider hero-cta-primary"
+            className="btn btn-primary border-0 rounded-full font-bold shadow-lg uppercase tracking-wider hero-cta-primary"
           >
             Browse All Deals →
           </Link>
 
           <Link
             to="/categories"
-            className="btn rounded-pill fw-bold text-uppercase tracking-wider hero-cta-secondary"
+            className="btn rounded-full font-bold uppercase tracking-wider hero-cta-secondary"
           >
             View Categories
           </Link>
@@ -124,7 +124,7 @@ function HeroBanner() {
 
       {/* Animated SVG Illustration */}
       <motion.div
-        className="hero-image d-none d-md-block z-10"
+        className="hero-image hidden md:block z-10"
         initial={{ opacity: 0, scale: 0.9, x: 50 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
@@ -203,15 +203,15 @@ function HeroBanner() {
       </motion.div>
 
       {/* Decorative background elements */}
-      <div className="position-absolute top-0 end-0 w-50 h-100 bg-gradient-to-bl from-orange-100/50 to-transparent dark:from-orange-500/10 rounded-circle blur-3xl opacity-50 z-0 translate-x-1/4 -translate-y-1/4"></div>
+      <div className="absolute top-0 end-0 w-50 h-full bg-gradient-to-bl from-orange-100/50 to-transparent dark:from-orange-500/10 rounded-full blur-3xl opacity-50 z-0 translate-x-1/4 -translate-y-1/4"></div>
 
       {/* "As Seen On" Strip */}
-      <div className="hero-seen-on-strip w-100 position-absolute bottom-0 start-0 px-4 py-2 d-flex align-items-center gap-3 flex-wrap">
-        <span className="text-slate-400 dark:text-slate-600 fs-8 fw-semibold text-uppercase tracking-wider me-1">As seen on</span>
+      <div className="hero-seen-on-strip w-full absolute bottom-0 start-0 px-6 py-2 flex items-center gap-3 flex-wrap">
+        <span className="text-slate-400 dark:text-slate-600 text-xs font-semibold uppercase tracking-wider mr-1">As seen on</span>
         {["Product Hunt", "TechCrunch", "Forbes", "Indie Hackers"].map((brand) => (
           <span
             key={brand}
-            className="seen-on-badge px-[10px] py-[4px] rounded-pill border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-500 fs-8 fw-bold bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm"
+            className="seen-on-badge px-[10px] py-[4px] rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-500 text-xs font-bold bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm"
           >
             {brand}
           </span>

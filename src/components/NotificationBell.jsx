@@ -1,6 +1,6 @@
+// src/components/NotificationBell.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/NotificationBell.css';
+import { useNavigate } from 'react-router-dom';
 import notificationService from '../services/notificationService';
 
 const NotificationBell = () => {
@@ -13,7 +13,7 @@ const NotificationBell = () => {
   const fetchNotifications = async () => {
     try {
       const data = await notificationService.getUserNotifications();
-      setNotifications(data.slice(0, 5)); // Last 5 for dropdown
+      setNotifications(data.slice(0, 5));
       const unreadData = await notificationService.getUnreadCount();
       setUnreadCount(unreadData.count || 0);
     } catch (error) {
@@ -23,13 +23,8 @@ const NotificationBell = () => {
 
   useEffect(() => {
     fetchNotifications();
-    // Poll every 30 seconds
-    const interval = setInterval(fetchNotifications, 30000);
-    window.addEventListener('notificationsUpdated', fetchNotifications);
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('notificationsUpdated', fetchNotifications);
-    };
+    const interval = setInterval(fetchNotifications, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -42,8 +37,7 @@ const NotificationBell = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleMarkAsRead = async (e, id) => {
-    e.stopPropagation();
+  const handleMarkAsRead = async (id) => {
     try {
       await notificationService.markAsRead(id);
       fetchNotifications();
@@ -56,104 +50,83 @@ const NotificationBell = () => {
   const getIconForType = (type) => {
     switch (type) {
       case 'Success': return '✅';
-      case 'Error': return '❌';
-      case 'Warning': return '⚠️';
       case 'Order': return '🛒';
       case 'Refund': return '💸';
-      case 'Coupon': return '🎟️';
-      case 'Inventory': return '📦';
-      case 'System': return '⚙️';
-      case 'Info':
-      default: return 'ℹ️';
+      default: return '🛎️';
     }
   };
 
   const timeAgo = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
-    const diff = Math.floor((now - date) / 1000); // in seconds
+    const diff = Math.floor((now - date) / 1000);
     if (diff < 60) return 'Just now';
     if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
     if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
     return `${Math.floor(diff / 86400)}d ago`;
   };
 
-  const handleViewAll = () => {
-    setIsOpen(false);
-    navigate('/notifications');
-  };
-
   return (
-    <div className="nav-item position-relative d-flex align-items-center ms-lg-1" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button 
-        className="btn btn-link nav-link d-flex align-items-center cart-link py-2 px-3 rounded-pill !text-slate-700 dark:!text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 group"
         onClick={() => setIsOpen(!isOpen)}
+        className="relative p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-all active:scale-95"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="transition-transform duration-300 origin-top group-hover:rotate-12">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-        </svg>
+        <span className="text-2xl">🛎️</span>
         {unreadCount > 0 && (
-          <span className="cart-badge ms-1 fw-bold d-flex align-items-center justify-content-center bg-rose-500 text-white rounded-circle notification-unread-badge">
+          <span className="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center shadow">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
       </button>
 
+      {/* Responsive Dropdown */}
       {isOpen && (
-        <div className="dropdown-menu dropdown-menu-end show shadow-lg border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-3 mt-2 notification-dropdown">
-          <div className="d-flex justify-content-between align-items-center p-3 border-bottom border-slate-100 dark:border-slate-700">
-            <h6 className="m-0 fw-bold !text-slate-800 dark:!text-slate-200">Notifications</h6>
+        <div className="fixed md:absolute md:right-0 md:mt-3 left-4 right-4 md:left-auto md:w-96 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl z-[100] max-h-[85vh] overflow-hidden">
+          {/* Header */}
+          <div className="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-800 z-10">
+            <h6 className="font-bold text-lg">Notifications</h6>
             {unreadCount > 0 && (
-              <span className="badge bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 rounded-pill">
+              <span className="text-xs bg-rose-100 text-rose-600 px-3 py-1 rounded-full font-medium">
                 {unreadCount} New
               </span>
             )}
           </div>
-          
-          <div className="notification-list">
+
+          {/* Notification List */}
+          <div className="overflow-auto max-h-[420px]">
             {notifications.length === 0 ? (
-              <div className="p-4 text-center text-slate-500 dark:text-slate-400">
-                <p className="mb-0">No notifications yet</p>
+              <div className="p-12 text-center text-slate-500 dark:text-slate-400">
+                No notifications yet
               </div>
             ) : (
-              notifications.map((notification) => (
+              notifications.map((n) => (
                 <div 
-                  key={notification.id} 
-                  className={`d-flex p-3 border-bottom border-slate-50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer ${!notification.isRead ? 'bg-slate-50/50 dark:bg-slate-800/80' : ''}`}
-                  onClick={() => {
-                    if (!notification.isRead) handleMarkAsRead({ stopPropagation: () => {} }, notification.id);
-                  }}
+                  key={n.id}
+                  className="p-5 border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer active:bg-slate-100"
+                  onClick={() => handleMarkAsRead(n.id)}
                 >
-                  <div className="me-3 fs-4">
-                    {getIconForType(notification.type)}
-                  </div>
-                  <div className="flex-grow-1 overflow-hidden">
-                    <div className="d-flex justify-content-between align-items-start mb-1">
-                      <h6 className={`m-0 text-truncate ${!notification.isRead ? 'fw-bold !text-slate-900 dark:!text-slate-100' : 'fw-medium !text-slate-700 dark:!text-slate-300'}`}>
-                        {notification.title}
-                      </h6>
-                      <small className="text-slate-400 dark:text-slate-500 ms-2 flex-shrink-0 notification-time">
-                        {timeAgo(notification.createdAt)}
-                      </small>
+                  <div className="flex gap-4">
+                    <div className="text-2xl flex-shrink-0 mt-0.5">{getIconForType(n.type)}</div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm leading-tight">{n.title}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{n.message}</p>
+                      <p className="text-[10px] text-slate-400 mt-2">{timeAgo(n.createdAt)}</p>
                     </div>
-                    <p className={`m-0 text-truncate ${!notification.isRead ? '!text-slate-600 dark:!text-slate-300' : '!text-slate-500 dark:!text-slate-400'}`}>
-                      {notification.message}
-                    </p>
                   </div>
-                  {!notification.isRead && (
-                    <div className="ms-2 d-flex align-items-center">
-                      <div className="bg-orange-500 rounded-circle notification-dot"></div>
-                    </div>
-                  )}
                 </div>
               ))
             )}
           </div>
-          
-          <div className="p-2 border-top border-slate-100 dark:border-slate-700 text-center">
+
+          {/* Footer */}
+          <div className="p-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
             <button 
-              className="btn btn-link text-decoration-none fw-semibold !text-orange-500 hover:!text-orange-600 w-100"
-              onClick={handleViewAll}
+              onClick={() => {
+                setIsOpen(false);
+                navigate('/notifications');
+              }}
+              className="w-full py-3.5 text-orange-500 font-medium hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-2xl transition-colors"
             >
               View All Notifications
             </button>
