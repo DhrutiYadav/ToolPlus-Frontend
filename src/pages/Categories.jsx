@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CategoryCard from "../components/CategoryCard";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getCategories, searchCategories } from "../services/categoryService";
-import "../styles/Categories.css";
+// import "../styles/Categories.css";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -38,22 +38,30 @@ function Categories() {
     <div className="categories-page py-12">
       {/* Page Header */}
       <div className="text-center mb-12">
-        <span className="text-orange-500 font-bold uppercase text-sm tracking-wider transition-colors">Browse by Field</span>
-        <h1 className="font-extrabold text-slate-900 dark:text-white mt-1 transition-colors">Explore Software Categories</h1>
-        <p className="lead text-slate-500 dark:text-slate-400 mx-auto transition-colors categories-copy-width">
-          Filter deals by business niche. Find exactly what your project needs from marketing to development.
+        <span className="text-orange-500 font-bold uppercase text-sm tracking-wider transition-colors">
+          Browse by Field
+        </span>
+        <h1 className="font-extrabold text-slate-900 dark:text-white mt-1 transition-colors">
+          Explore Software Categories
+        </h1>
+        <p className="lead text-slate-500 dark:text-slate-400 mx-auto transition-colors mx-auto max-w-2xl">
+          Filter deals by business niche. Find exactly what your project needs
+          from marketing to development.
         </p>
-        
+
         {/* Inline Category Search */}
-        <div className="mx-auto mt-6 categories-search-width">
-          <div className="input-group shadow-sm rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 transition-colors">
-            <span className="input-group-text bg-white dark:bg-slate-800 border-end-0 text-slate-400 dark:text-slate-500 pl-4 py-2 transition-colors">🔍</span>
+        <div className="mx-auto mt-6 max-w-md">
+          <div className="flex items-center rounded-full border border-slate-200 bg-white px-4 py-3 shadow-sm transition-colors dark:border-slate-700 dark:bg-slate-800">
+            <span className="mr-3 text-lg text-slate-400 dark:text-slate-500">
+              🔍
+            </span>
+
             <input
               type="text"
-              className="form-control border-start-0 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-colors focus:ring-0"
               placeholder="Search categories..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 outline-none dark:text-slate-100 dark:placeholder:text-slate-500"
             />
           </div>
         </div>
@@ -63,16 +71,20 @@ function Categories() {
         <SkeletonLoader type="category" />
       ) : categories.length === 0 ? (
         <div className="text-center py-12 border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 card-shadow transition-colors">
-          <div className="bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400 rounded-full inline-flex items-center justify-center mb-6 transition-colors categories-empty-icon">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-orange-50 text-orange-600 transition-colors dark:bg-orange-500/10 dark:text-orange-400">
             <span className="text-2xl font-bold">🗂️</span>
           </div>
-          <h4 className="font-bold text-slate-900 dark:text-white transition-colors">No Categories Found</h4>
-          <p className="text-slate-500 dark:text-slate-400 mb-0 transition-colors">No categories matching "{searchTerm}"</p>
+          <h4 className="font-bold text-slate-900 dark:text-white transition-colors">
+            No Categories Found
+          </h4>
+          <p className="text-slate-500 dark:text-slate-400 mb-0 transition-colors">
+            No categories matching "{searchTerm}"
+          </p>
         </div>
       ) : (
-        <div className="flex flex-wrap -mx-6 gap-6">
+        <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
           {categories.map((category) => (
-            <div key={category.id} className="col-lg-4 col-md-6">
+            <div key={category.id}>
               <CategoryCard category={category} />
             </div>
           ))}
