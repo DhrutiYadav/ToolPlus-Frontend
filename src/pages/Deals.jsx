@@ -192,7 +192,7 @@ function Deals() {
           Category
         </h6>
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex items-center gap-2 cursor-pointer group">
             <input
               type="radio"
               name="catFilter"
@@ -200,7 +200,7 @@ function Deals() {
               onChange={() => setSelectedCategoryFilter("")}
               className="h-4 w-4 accent-orange-500 mt-0"
             />
-            <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors">
+            <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors hover:text-orange-400">
               All Categories
             </span>
           </label>
@@ -216,10 +216,10 @@ function Deals() {
                 onChange={() => setSelectedCategoryFilter(cat.id.toString())}
                 className="h-4 w-4 accent-orange-500 mt-0"
               />
-              <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors">
+              <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors group-hover:text-orange-400">
                 {cat.name}
               </span>
-              <span className="ml-auto text-slate-400 dark:text-slate-500 text-xs">
+              <span className="ml-auto rounded-full bg-slate-700 px-2 py-0.5 text-[11px] font-medium text-slate-300">
                 ({cat.dealCount || 0})
               </span>
             </label>
@@ -326,19 +326,28 @@ ${
       </div>
 
       {/* Search & Sort Bar */}
-      <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 mb-6 rounded-2xl bg-slate-50 dark:bg-slate-900 transition-colors">
+      <div className="flex flex-col relative min-w-0 break-words dark:border-slate-800 shadow-lg p-6 mb-6 rounded-2xl bg-slate-50 dark:bg-slate-900 transition-colors border border-slate-800">
         <form
           onSubmit={handleSearchSubmit}
           className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center"
         >
           <div className="lg:col-span-5">
-            <div className="flex items-center rounded-full border border-slate-300 bg-white dark:border-slate-700  overflow-hidden transition-colors focus-within:border-orange-400 focus-within:shadow-md">
-              <span className="px-4 text-slate-400 bg-white dark:bg-slate-800  dark:text-slate-500 pl-4 transition-colors">
+            <div className="flex items-center rounded-2xl border border-slate-700 bg-slate-800 overflow-hidden transition-all duration-200 focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/20">
+              <span className="pl-5 pr-3 text-slate-400 dark:text-slate-500">
                 <i className="bi bi-search"></i>
               </span>
               <input
                 type="text"
-                className="flex-1 bg-transparent px-2 outline-none py-2 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-colors focus:ring-0"
+                // className="flex-1 bg-transparent px-2 outline-none py-2 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-colors focus:ring-0"
+                className="
+                  flex-1
+                  bg-transparent
+                  py-3
+                  pr-5
+                  outline-none
+                  text-white
+                  placeholder:text-slate-500
+                  "
                 placeholder="Search deals..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -347,7 +356,21 @@ ${
           </div>
           <div className="lg:col-span-3">
             <select
-              className="w-full rounded-full border border-slate-300 px-4 py-3 font-semibold dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-colors "
+              className="
+                w-full
+                rounded-2xl
+                border
+                border-slate-700
+                bg-slate-800
+                px-5
+                py-3
+                font-semibold
+                text-white
+                transition-all
+                focus:border-orange-500
+                focus:ring-2
+                focus:ring-orange-500/20
+            "
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -362,7 +385,7 @@ ${
           <div className="lg:col-span-2">
             <button
               type="submit"
-              className="w-full rounded-xl bg-orange-500 hover:bg-orange-600 text-white py-3 font-semibold transition-all duration-200 hover:shadow-lg"
+              className="w-full rounded-2xl bg-orange-500 hover:bg-orange-600 text-white py-3 font-semibold transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
             >
               Search
             </button>
@@ -381,16 +404,16 @@ ${
 
             {/* View toggle buttons */}
             <div
-              className="flex rounded-full overflow-hidden border"
+              className="inline-flex rounded-xl border border-slate-700 overflow-hidden bg-slate-800"
               role="group"
               aria-label="View mode"
             >
               <button
                 type="button"
-                className={`px-4 py-2 transition-colors duration-200 ${
+                className={`px-5 py-3 transition-all duration-200 ${
                   viewMode === "grid"
                     ? "bg-orange-500 text-white"
-                    : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                    : "text-slate-400 hover:bg-slate-700"
                 }`}
                 onClick={() => setViewMode("grid")}
                 title="Grid view"
@@ -399,10 +422,10 @@ ${
               </button>
               <button
                 type="button"
-                className={`px-4 py-2 transition-colors duration-200 ${
-                  viewMode === "list"
+                className={`px-5 py-3 transition-all duration-200 ${
+                  viewMode === "grid"
                     ? "bg-orange-500 text-white"
-                    : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                    : "text-slate-400 hover:bg-slate-700"
                 }`}
                 onClick={() => setViewMode("list")}
                 title="List view"
@@ -428,10 +451,10 @@ ${
           {!loading && (
             <div className="flex items-center justify-between mb-6">
               <p className="text-slate-500 dark:text-slate-400 font-medium mb-0 text-sm transition-colors">
-                <span className="text-orange-500 font-bold text-lg">
+                <span className="text-orange-500 font-extrabold text-2xl">
                   {totalCount}
                 </span>
-                <span className="text-slate-400 ml-2">Results Found</span>
+                <span className="uppercase tracking-wide text-xs text-slate-400 ml-2">Results Found</span>
               </p>
             </div>
           )}
