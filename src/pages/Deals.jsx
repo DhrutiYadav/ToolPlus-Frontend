@@ -329,9 +329,9 @@ ${
       <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 mb-6 rounded-2xl bg-slate-50 dark:bg-slate-900 transition-colors">
         <form
           onSubmit={handleSearchSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center"
         >
-          <div>
+          <div className="lg:col-span-5">
             <div className="flex items-center rounded-full border border-slate-300 bg-white dark:border-slate-700  overflow-hidden transition-colors focus-within:border-orange-400 focus-within:shadow-md">
               <span className="px-4 text-slate-400 bg-white dark:bg-slate-800  dark:text-slate-500 pl-4 transition-colors">
                 <i className="bi bi-search"></i>
@@ -345,7 +345,7 @@ ${
               />
             </div>
           </div>
-          <div>
+          <div className="lg:col-span-3">
             <select
               className="w-full rounded-full border border-slate-300 px-4 py-3 font-semibold dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-colors "
               value={sortBy}
@@ -359,17 +359,17 @@ ${
             </select>
           </div>
 
-          <div>
+          <div className="lg:col-span-2">
             <button
               type="submit"
-              className="w-full rounded-full bg-orange-500 hover:bg-orange-600 text-white py-3 font-semibold uppercase shadow-sm"
+              className="w-full rounded-xl bg-orange-500 hover:bg-orange-600 text-white py-3 font-semibold transition-all duration-200 hover:shadow-lg"
             >
               Search
             </button>
           </div>
 
           {/* View toggle + Mobile filter */}
-          <div className="flex gap-2 ml-auto">
+          <div className="lg:col-span-2 flex justify-end">
             {/* Mobile filter toggle */}
             <button
               type="button"
