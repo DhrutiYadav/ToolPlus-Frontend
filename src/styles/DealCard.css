@@ -65,32 +65,7 @@ html.dark .deal-image-wrapper {
 }
 
 /* ---- Premium Pill Badges ---- */
-.deal-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  color: white;
-}
 
-.deal-badge-featured {
-  background: linear-gradient(135deg, #06b6d4, #0891b2);
-  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
-}
-
-.deal-badge-bestseller {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-}
-
-.deal-badge-limited {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-}
 
 /* ---- Urgency Indicator ---- */
 .deal-urgency-badge {
@@ -144,37 +119,6 @@ html.dark .deal-urgency-badge-limited {
   overflow: hidden;
 }
 
-.deal-title {
-  font-size: 1.05rem;
-  line-height: 1.35;
-}
-
-.deal-title a {
-  font-size: 1.05rem;
-}
-
-.deal-rating-row {
-  min-height: 24px;
-  font-size: 0.85rem;
-}
-
-.deal-short-desc {
-  font-size: 0.84rem;
-  line-height: 1.55;
-}
-
-.deal-save-percent {
-  font-size: 0.8rem;
-}
-
-.fw-extrabold {
-  font-weight: 800;
-}
-
-.fs-7 {
-  font-size: 0.85rem;
-}
-
 /* ---- CTA Button — arrow slide animation ---- */
 .deal-cta-btn {
   font-size: 0.9rem;
@@ -211,17 +155,7 @@ html.dark .deal-urgency-badge-limited {
 }
 
 /* ---- Price Section ---- */
-.deal-price-current {
-  font-family: "Outfit", sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  line-height: 1.1;
-}
 
-.deal-price-original {
-  font-weight: 500;
-  font-size: 0.875rem;
-}
 
 /* ---- Stock Indicator ---- */
 .stock-indicator {

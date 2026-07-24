@@ -22,11 +22,13 @@ function DealCard({ deal }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const savingsPercent = originalPrice > 0
-    ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100)
-    : 0;
+  const savingsPercent =
+    originalPrice > 0
+      ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100)
+      : 0;
 
-  const defaultImage = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3";
+  const defaultImage =
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3";
 
   // Calculate days left
   const getDaysLeft = () => {
@@ -52,10 +54,17 @@ function DealCard({ deal }) {
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-800">
               <div className="text-slate-400 dark:text-slate-600">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
                 </svg>
               </div>
             </div>
@@ -63,7 +72,7 @@ function DealCard({ deal }) {
           <img
             src={imageSrc || defaultImage}
             alt={title}
-            className={`rounded-t-2xl deal-img w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`rounded-t-2xl deal-img w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
             onLoad={() => setImageLoaded(true)}
             onError={(e) => {
               e.target.onerror = null;
@@ -73,12 +82,12 @@ function DealCard({ deal }) {
             }}
           />
           {savingsPercent > 0 && (
-            <span className="absolute top-0 end-0 m-6 px-6 py-1.5 font-bold bg-white dark:bg-slate-900 text-orange-600 dark:text-orange-500 rounded-full shadow-sm text-xs border border-slate-100 dark:border-slate-700">
+            <span className="absolute top-0 right-0 m-6 px-6 py-1.5 font-bold bg-white dark:bg-slate-900 text-orange-600 dark:text-orange-500 rounded-full shadow-sm text-xs border border-slate-100 dark:border-slate-700">
               🔥 Save {savingsPercent}%
             </span>
           )}
           {categoryName && (
-            <span className="inline-block text-[0.75em] leading-none text-center whitespace-nowrap align-baseline text-white bg-dark/80 backdrop-blur-sm absolute bottom-0 start-0 m-6 px-6 py-1.5 rounded-full uppercase font-semibold border border-white/10">
+            <span className="inline-block text-[0.75em] leading-none text-center whitespace-nowrap align-baseline text-white bg-dark/80 backdrop-blur-sm absolute bottom-0 left-0 m-6 px-6 py-1.5 rounded-full uppercase font-semibold border border-white/10">
               {categoryName}
             </span>
           )}
@@ -93,43 +102,61 @@ function DealCard({ deal }) {
               </span>
             )}
             {averageRating >= 4.5 && reviewCount > 0 && (
-              <span className="deal-badge deal-badge-bestseller">
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-2.5 py-1 text-[0.7rem] font-bold tracking-[0.2px] text-white shadow-[0_2px_8px_rgba(59,130,246,0.3)]">
                 <i className="bi bi-trophy-fill mr-1"></i>Best Seller
               </span>
             )}
             {stock <= 10 && stock > 0 && (
-              <span className="deal-badge deal-badge-limited">
-                <i className="bi bi-fire mr-1"></i>Limited
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-2.5 py-1 text-[0.7rem] font-bold tracking-[0.2px] text-white shadow-[0_2px_8px_rgba(245,158,11,0.3)]">
+                <i className="bi bi-fire mr-1"></i>
+                Limited
               </span>
             )}
           </div>
 
-          <h5 className="text-slate-900 dark:text-white font-bold mb-0 line-clamp-2 hover-primary deal-title">
-            <Link to={`/deals/${id}`} className="no-underline text-inherit text-dashboard-title">{title}</Link>
+          <h5 className="text-[1.05rem] leading-[1.35] text-slate-900 dark:text-white font-bold mb-0 line-clamp-2 hover-primary">
+            <Link
+              to={`/deals/${id}`}
+              className="no-underline text-inherit text-dashboard-title"
+            >
+              {title}
+            </Link>
           </h5>
 
           {/* Premium Ratings section */}
-          <div className="flex items-center mb-6 mt-1 deal-rating-row">
-            <div className={reviewCount > 0 ? "text-warning mr-2 flex items-center gap-1" : "text-slate-300 dark:text-slate-600 mr-2 flex items-center gap-1"}>
+          <div className="flex items-center min-h-6 text-[0.85rem] mb-6 mt-1">
+            <div
+              className={
+                reviewCount > 0
+                  ? "text-yellow-400 mr-2 flex items-center gap-1"
+                  : "text-slate-300 dark:text-slate-600 mr-2 flex items-center gap-1"
+              }
+            >
               {renderStars(averageRating || 0)}
             </div>
-            <span className="text-slate-900 dark:text-white font-bold text-sm">{(averageRating || 0).toFixed(1)}</span>
-            <span className="text-slate-400 dark:text-slate-500 ml-1 text-sm">({reviewCount || 0} reviews)</span>
+            <span className="text-slate-900 dark:text-white font-bold text-sm">
+              {(averageRating || 0).toFixed(1)}
+            </span>
+            <span className="text-slate-400 dark:text-slate-500 ml-1 text-sm">
+              ({reviewCount || 0} reviews)
+            </span>
           </div>
 
-          <p className="text-slate-500 dark:text-slate-400 mb-[12px] line-clamp-2 deal-short-desc">{shortDescription}</p>
+          <p className="text-[0.84rem] leading-[1.55] text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+            {shortDescription}
+          </p>
 
           <div className="mt-auto pt-[12px] border-t border-slate-100 dark:border-slate-800">
             {/* Price section */}
             <div className="flex items-baseline mb-2">
-              <span className="deal-price-current text-slate-900 dark:text-white text-xl font-bold mr-2">
+              <span className="font-['Outfit'] text-xl font-extrabold tracking-[-0.5px] leading-tight text-slate-900 dark:text-white mr-2">
                 ₹{discountPrice.toFixed(2)}
               </span>
-              <span className="deal-price-original line-through text-slate-400 dark:text-slate-500 mr-2">
+              <span className="text-sm font-medium line-through text-slate-400 dark:text-slate-500 mr-2">
                 ₹{originalPrice.toFixed(2)}
               </span>
               {savingsPercent > 0 && (
-                <span className="text-emerald-600 dark:text-emerald-400 font-bold deal-save-percent">
+                <span className="text-[0.8rem] font-bold text-emerald-600 dark:text-emerald-400">
                   Save {savingsPercent}%
                 </span>
               )}
@@ -166,7 +193,7 @@ function DealCard({ deal }) {
 
             <Link
               to={`/deals/${id}`}
-              className="deal-cta-btn btn w-full rounded-full h-[48px] flex items-center justify-center font-bold text-white"
+              className="deal-cta-btn w-full rounded-full h-[48px] flex items-center justify-center font-bold text-white"
             >
               <span className="deal-cta-text">Get Lifetime Deal</span>
               <span className="deal-cta-arrow ml-2">→</span>

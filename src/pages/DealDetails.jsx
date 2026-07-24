@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getDealById, uploadDealImage, deleteDeal, updateDeal } from "../services/dealService";
-import { purchaseDeal, getMyOrders } from "../services/orderService";
+// import { purchaseDeal, getMyOrders } from "../services/orderService";
+import { getMyOrders } from "../services/orderService";
+
 import { 
   getReviewsByDealId, 
   createReview, 
@@ -355,13 +357,13 @@ function DealDetails() {
   return (
     <div className="deal-details-page py-12">
       {/* Back button */}
-      <Link to="/deals" className="btn btn-link no-underline font-bold text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 pl-0 mb-6 transition-colors">
+      <Link to="/deals" className="no-underline font-bold text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 pl-0 mb-6 transition-colors">
         &larr; Back to all deals
       </Link>
 
-      <div className="flex flex-wrap -mx-6 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Column: Details Info */}
-        <div className="col-lg-8">
+        <div className="lg:col-span-8">
           {/* Main Deal Header */}
           <div className="mb-6">
             {deal.categoryName && (
@@ -378,7 +380,7 @@ function DealDetails() {
             <img
               src={imageSrc}
               alt={deal.title}
-              className="max-w-full h-auto w-full"
+              className="w-full h-[520px] object-cover"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = defaultImage;
@@ -393,9 +395,9 @@ function DealDetails() {
             <div className="flex flex-col relative min-w-0 break-words border-primary p-6 rounded-2xl bg-primary-subtle shadow-sm my-12">
               <h4 className="font-bold text-primary mb-6">⚙️ Admin Control Panel</h4>
               
-              <div className="flex flex-wrap -mx-6 gap-6 items-center mb-6">
+              <div className="grid md:grid-cols-12 gap-6 items-end mb-6">
                 {/* Upload Section */}
-                <div className="col-md-8">
+                <div className="md:col-span-8">
                   <form onSubmit={handleImageUpload} className="flex items-center gap-2">
                     <div className="grow">
                       <label className="form-label font-bold text-sm text-slate-700 dark:text-slate-300 mb-1">Upload Deal Cover Image</label>
@@ -409,7 +411,7 @@ function DealDetails() {
                     </div>
                     <button 
                       type="submit" 
-                      className="btn btn-primary mt-6 py-2 px-6 font-bold align-self-end"
+                      className="mt-6 py-2 px-6 font-bold align-self-end"
                       disabled={uploadingImage}
                     >
                       {uploadingImage ? "Uploading..." : "Upload"}
@@ -418,16 +420,16 @@ function DealDetails() {
                 </div>
                 
                 {/* Actions Section */}
-                <div className="col-md-4 md:text-right flex gap-2 justify-content-md-end">
+                <div className="md:col-span-4 flex justify-end gap-2 md:text-right justify-content-md-end">
                   <button 
                     onClick={openEditForm} 
-                    className="btn btn-warning py-2 px-6 font-bold rounded-full shadow-sm text-dark"
+                    className="py-2 px-6 font-bold rounded-full shadow-sm text-dark"
                   >
                     ✏️ Edit Deal
                   </button>
                   <button 
                     onClick={handleDeleteDeal} 
-                    className="btn btn-danger py-2 px-6 font-bold rounded-full shadow-sm"
+                    className="py-2 px-6 font-bold rounded-full shadow-sm"
                   >
                     🗑️ Delete
                   </button>
@@ -441,16 +443,16 @@ function DealDetails() {
                     <label className="form-label font-bold text-sm text-slate-900 dark:text-white">Title</label>
                     <input type="text" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.title} onChange={e => setEditForm({...editForm, title: e.target.value})} required />
                   </div>
-                  <div className="flex flex-wrap -mx-6 mb-6">
-                    <div className="col-md-4">
+                  <div className="grid md:grid-cols-3 gap-4 mb-6">
+                    <div className="md:col-span-4 flex justify-end gap-2">
                       <label className="form-label font-bold text-sm text-slate-900 dark:text-white">Original Price ($)</label>
                       <input type="number" step="0.01" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.originalPrice} onChange={e => setEditForm({...editForm, originalPrice: e.target.value})} required />
                     </div>
-                    <div className="col-md-4">
+                    <div className="md:col-span-4 flex justify-end gap-2">
                       <label className="form-label font-bold text-sm text-slate-900 dark:text-white">Sale Price ($)</label>
                       <input type="number" step="0.01" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.salePrice} onChange={e => setEditForm({...editForm, salePrice: e.target.value})} required />
                     </div>
-                    <div className="col-md-4">
+                    <div className="md:col-span-4 flex justify-end gap-2">
                       <label className="form-label font-bold text-sm text-slate-900 dark:text-white">Stock Quantity</label>
                       <input type="number" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.stockQuantity} onChange={e => setEditForm({...editForm, stockQuantity: e.target.value})} required />
                     </div>
@@ -460,8 +462,8 @@ function DealDetails() {
                     <textarea rows="4" className="form-control bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" value={editForm.description} onChange={e => setEditForm({...editForm, description: e.target.value})} required></textarea>
                   </div>
                   <div className="flex justify-end gap-2 mt-6">
-                    <button type="button" className="btn btn-outline-secondary font-bold px-6" onClick={() => setIsEditing(false)}>Cancel</button>
-                    <button type="submit" className="btn btn-primary font-bold px-6" disabled={updatingDeal}>
+                    <button type="button" className="font-bold px-6" onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button type="submit" className="font-bold px-6" disabled={updatingDeal}>
                       {updatingDeal ? "Saving..." : "Save Changes"}
                     </button>
                   </div>
@@ -476,7 +478,7 @@ function DealDetails() {
               {['Overview', 'Features', 'Reviews'].map(tab => (
                 <button
                   key={tab}
-                  className={`btn px-6 py-6 font-bold rounded-none ${activeTab === tab ? 'text-orange-500' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'}`}
+                  className={`px-6 py-6 font-bold rounded-none ${activeTab === tab ? 'text-orange-500' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'}`}
                   style={{
                     borderBottom: activeTab === tab ? '2px solid #f97316' : '2px solid transparent',
                     background: 'transparent',
@@ -502,9 +504,9 @@ function DealDetails() {
           {/* Features checklist */}
           <div className="deal-features mb-12 p-6 rounded-2xl card-shadow bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-colors">
             <h4 className="font-bold text-slate-900 dark:text-white mb-6 transition-colors">🛠️ Features Included</h4>
-            <div className="flex flex-wrap -mx-6 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {featureList.map((feature, idx) => (
-                <div key={idx} className="col-md-6 flex items-center">
+                <div key={idx} className="flex items-center gap-3">
                   <div className="bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-full flex items-center justify-center mr-4 transition-colors" style={{width: '24px', height: '24px'}}>
                     <span className="font-bold text-sm">✓</span>
                   </div>
@@ -609,7 +611,7 @@ function DealDetails() {
                     
                       <button
                         type="submit"
-                        className="btn btn-primary px-6 py-2 font-bold rounded-full hover-lift"
+                        className="px-6 py-2 font-bold rounded-full hover-lift"
                         disabled={submittingReview}
                       >
                         {submittingReview ? "Submitting..." : "Submit Review"}
@@ -693,9 +695,9 @@ function DealDetails() {
         </div>
 
         {/* Right Column: Floating Purchase Card */}
-        <div className="col-lg-4">
-          <div className="sticky-top" style={{ top: "2rem", zIndex: 10 }}>
-            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 card-shadow p-6 rounded-2xl bg-white dark:bg-slate-900 mb-6 transition-colors">
+        <div className="lg:col-span-4">
+            <div className="sticky top-24 self-start">
+            <div className="deal-purchase-card flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 card-shadow p-6 rounded-2xl bg-white dark:bg-slate-900 mb-6 transition-colors">
             <h5 className="uppercase text-slate-500 dark:text-slate-400 font-bold text-xs tracking-wider mb-2 transition-colors">Lifetime Deal Offer</h5>
             <h3 className="font-extrabold text-slate-900 dark:text-white mb-6 transition-colors">{deal.title}</h3>
             
@@ -756,7 +758,7 @@ function DealDetails() {
                   
                   <div className="grid gap-2">
                     <button 
-                      className="btn btn-primary py-6 rounded-full font-bold uppercase tracking-wider shadow-sm flex justify-center items-center"
+                      className="py-6 rounded-full font-bold uppercase tracking-wider shadow-sm flex justify-center items-center"
                       onClick={handleAddToCart}
                       disabled={addingToCart || purchasing}
                     >
@@ -770,7 +772,7 @@ function DealDetails() {
                       )}
                     </button>
                     <button 
-                      className="btn btn-outline-primary py-6 rounded-full font-bold uppercase tracking-wider flex justify-center items-center"
+                      className="py-6 rounded-full font-bold uppercase tracking-wider flex justify-center items-center"
                       onClick={handlePurchase}
                       disabled={addingToCart || purchasing}
                     >
@@ -819,10 +821,10 @@ function DealDetails() {
             <div className="text-orange-500 font-extrabold text-lg">₹{deal.discountPrice.toFixed(2)}</div>
           </div>
           <div className="flex gap-2">
-            <button className="btn btn-outline-primary font-bold rounded-full" onClick={handleAddToCart} disabled={addingToCart || purchasing}>
+            <button className="font-bold rounded-full" onClick={handleAddToCart} disabled={addingToCart || purchasing}>
               {addingToCart ? "Adding..." : "Add to Cart"}
             </button>
-            <button className="btn btn-primary font-bold rounded-full shadow-sm" onClick={handlePurchase} disabled={addingToCart || purchasing}>
+            <button className="font-bold rounded-full shadow-sm" onClick={handlePurchase} disabled={addingToCart || purchasing}>
               {purchasing ? "Processing..." : "Buy Now"}
             </button>
           </div>
