@@ -138,13 +138,15 @@ function HeroBanner() {
             className="
               flex
               items-center
-              h-[62px]
               rounded-full
               border
               border-slate-300/70
               bg-white/95
-              px-6
-              gap-4
+              h-14
+              px-4
+              gap-3
+              sm:h-[58px]
+              sm:px-5
               shadow-black/5
               backdrop-blur-sm
               transition-all
@@ -157,13 +159,13 @@ function HeroBanner() {
           >
             <svg
               className="
-                mr-3
                 shrink-0
                 text-slate-400
                 "
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="18"
+              height="18"
+              mr-2
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -181,7 +183,9 @@ function HeroBanner() {
                 flex-1
                 h-full
                 bg-transparent
-                text-[16px]
+                text-sm
+                sm:text-base
+                min-w-0
                 font-medium
                 tracking-tight
                 text-slate-900
@@ -201,14 +205,15 @@ function HeroBanner() {
                 flex
                 items-center
                 justify-center
-
-                h-10
-                min-w-[130px]
-                px-8
-
                 bg-orange-500
                 hover:bg-orange-600
-
+                h-9
+                sm:h-10
+                min-w-[100px]
+                sm:min-w-[120px]
+                px-5
+                sm:px-7
+                text-sm
                 text-white
                 font-semibold
 
@@ -224,7 +229,13 @@ function HeroBanner() {
 
         {/* Trust Badges */}
         <motion.div
-          className="mb-4 flex flex-wrap gap-3"
+          className="mb-4 flex
+            flex-wrap
+            justify-center
+            lg:justify-start
+            gap-2
+            sm:gap-3
+            mt-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -238,10 +249,11 @@ function HeroBanner() {
           ].map((badge, i) => (
             <div
               key={i}
-              className="flex items-center bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
+              className="flex items-center bg-white dark:bg-slate-800 px-3
+              sm:px-4 py-1.5 sm:py-2 gap-1.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
             >
-              <span className="mr-2">{badge.icon}</span>
-              <span className="font-bold !text-slate-700 dark:!text-slate-300 text-sm">
+              <span className="flex items-center gap-1.5 text-base">{badge.icon}</span>
+              <span className="font-semibold !text-slate-700 dark:!text-slate-300 text-sm">
                 {badge.text}
               </span>
             </div>
