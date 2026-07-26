@@ -252,7 +252,9 @@ function HeroBanner() {
               className="flex items-center bg-white dark:bg-slate-800 px-3
               sm:px-4 py-1.5 sm:py-2 gap-1.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
             >
-              <span className="flex items-center gap-1.5 text-base">{badge.icon}</span>
+              <span className="flex items-center gap-1.5 text-base">
+                {badge.icon}
+              </span>
               <span className="font-semibold !text-slate-700 dark:!text-slate-300 text-sm">
                 {badge.text}
               </span>
@@ -261,7 +263,11 @@ function HeroBanner() {
         </motion.div>
 
         <motion.div
-          className="mt-4 flex flex-wrap gap-4 "
+          className="mt-5
+            flex
+            flex-wrap
+            gap-3
+            sm:gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
@@ -274,14 +280,20 @@ function HeroBanner() {
               justify-center
               rounded-xl
               bg-blue-600
-              px-8
-              py-4
+              px-6
+              sm:px-7
+              py-3
+              text-sm
+              sm:text-base
               font-semibold
               text-white
-              shadow-lg
-              transition
-              hover:-translate-y-1
-            hover:bg-blue-700
+              shadow-md
+              transition-all
+              duration-300
+              hover:bg-blue-700
+              hover:-translate-y-0.5
+              hover:shadow-lg
+              active:translate-y-0
             "
           >
             Browse All Deals →
@@ -296,23 +308,30 @@ function HeroBanner() {
               rounded-xl
               border
               border-slate-300
-              bg-white
-              px-8
-              py-4
+              bg-white/90
+              backdrop-blur-sm
+              px-6
+              sm:px-7
+              py-3
+              text-sm
+              sm:text-base
               font-semibold
-              uppercase
-              tracking-wide
               text-slate-700
-              transition
-              hover:-translate-y-1
+              shadow-sm
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
               hover:border-orange-500
-              hover:text-orange-500
+              hover:bg-orange-50
+              hover:text-orange-600
+              hover:shadow-md
               dark:border-slate-700
-              dark:bg-slate-800
+              dark:bg-slate-800/80
               dark:text-slate-300
               dark:hover:border-orange-500
-              dark:hover:text-orange-500
-              "
+              dark:hover:bg-slate-700
+              dark:hover:text-orange-400
+            "
           >
             View Categories
           </Link>
