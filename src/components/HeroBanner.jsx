@@ -80,15 +80,22 @@ function HeroBanner() {
 
         <motion.h1
           className="
-          mb-4
-          text-4xl
-          font-extrabold
-          leading-[1.08]
-          tracking-tight
-          text-slate-900
-          transition-colors
-          dark:text-white
-          lg:text-6xl
+            mb-5
+
+            text-[2.4rem]
+            sm:text-5xl
+            lg:text-[4.25rem]
+
+            font-extrabold
+            tracking-tight
+
+            leading-[1.12]
+            sm:leading-[1.1]
+            lg:leading-[1.05]
+
+            text-slate-900
+            transition-colors
+            dark:text-white
           "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
