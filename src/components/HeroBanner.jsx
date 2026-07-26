@@ -22,11 +22,15 @@ function HeroBanner() {
       className="
         relative
         mx-auto
-        my-6
+        mt-4
+        mb-5
+        max-w-[1450px]
         flex
-        max-w-[1400px]
         items-center
         justify-between
+        gap-8
+        xl:gap-12
+        2xl:gap-16
         overflow-hidden
         rounded-[20px]
         border
@@ -35,19 +39,25 @@ function HeroBanner() {
         from-orange-50
         via-white
         to-orange-50
-        px-8
-        py-12
+        py-10
         shadow-sm
         dark:border-slate-700
         dark:from-slate-900
         dark:via-slate-800
         dark:to-slate-900
-        lg:px-16
-        lg:py-14
+        px-6
+        sm:px-8
+        lg:px-14
+        xl:px-20
+        2xl:px-24
+        lg:py-12
+        xl:py-14
       "
     >
       <motion.div
-        className="relative z-10 max-w-xl"
+        className="relative z-10 w-full
+          max-w-[680px]
+          xl:max-w-[720px]"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -60,8 +70,8 @@ function HeroBanner() {
             border
             border-orange-200
             bg-orange-50
-            px-4
-            py-2
+            px-3.5
+            py-1.5
             text-xs
             font-semibold
             tracking-wide
@@ -80,7 +90,7 @@ function HeroBanner() {
 
         <motion.h1
           className="
-            mb-5
+            mb-4
 
             text-[2.4rem]
             sm:text-5xl
@@ -110,20 +120,20 @@ function HeroBanner() {
 
         <motion.p
           className="
-            mt-2
-            mb-8
-            max-w-[620px]
+            mt-0
+            mb-6
+            max-w-[600px]
 
-            text-base
+            text-[15px]
             leading-7
 
             font-normal
 
-            text-slate-500
+            text-slate-400
             dark:text-slate-400
 
-            lg:text-[19px]
-            lg:leading-8
+            lg:text-[17px]
+            lg:leading-[1.8]
           "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -149,11 +159,11 @@ function HeroBanner() {
               border
               border-slate-300/70
               bg-white/95
-              h-14
+              h-12
+              sm:h-[52px]
               px-4
-              gap-3
-              sm:h-[58px]
               sm:px-5
+              gap-3
               shadow-black/5
               backdrop-blur-sm
               transition-all
@@ -214,8 +224,8 @@ function HeroBanner() {
                 justify-center
                 bg-orange-500
                 hover:bg-orange-600
-                h-9
-                sm:h-10
+                h-8
+                sm:h-9
                 min-w-[100px]
                 sm:min-w-[120px]
                 px-5
@@ -236,13 +246,13 @@ function HeroBanner() {
 
         {/* Trust Badges */}
         <motion.div
-          className="mb-4 flex
+          className="mb-3 flex
             flex-wrap
             justify-center
             lg:justify-start
             gap-2
             sm:gap-3
-            mt-5"
+            mt-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -257,12 +267,12 @@ function HeroBanner() {
             <div
               key={i}
               className="flex items-center bg-white dark:bg-slate-800 px-3
-              sm:px-4 py-1.5 sm:py-2 gap-1.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
+                sm:px-4 py-1 sm:py-1.5 gap-1.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
             >
-              <span className="flex items-center gap-1.5 text-base">
+              <span className="flex items-center gap-1.5 text-[15px]">
                 {badge.icon}
               </span>
-              <span className="font-semibold !text-slate-700 dark:!text-slate-300 text-sm">
+              <span className="font-semibold !text-slate-700 dark:!text-slate-300 text-[14px]">
                 {badge.text}
               </span>
             </div>
@@ -270,7 +280,7 @@ function HeroBanner() {
         </motion.div>
 
         <motion.div
-          className="mt-5
+          className="mt-4
             flex
             flex-wrap
             gap-3
@@ -289,7 +299,7 @@ function HeroBanner() {
               bg-blue-600
               px-6
               sm:px-7
-              py-3
+              py-2.5
               text-sm
               sm:text-base
               font-semibold
@@ -319,7 +329,7 @@ function HeroBanner() {
               backdrop-blur-sm
               px-6
               sm:px-7
-              py-3
+              py-2.5
               text-sm
               sm:text-base
               font-semibold
@@ -351,8 +361,10 @@ function HeroBanner() {
           relative
           z-10
           hidden
-          shrink-0
-          lg:block
+          lg:flex
+          items-center
+          justify-center
+          flex-1
           "
         initial={{ opacity: 0, scale: 0.9, x: 50 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -360,8 +372,8 @@ function HeroBanner() {
       >
         <div className="drop-shadow-2xl">
           <svg
-            width="410"
-            height="340"
+            width="420"
+            height="350"
             viewBox="0 0 380 320"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -618,18 +630,18 @@ function HeroBanner() {
           w-full
           flex-wrap
           items-center
-          gap-3
+          gap-2.5
           border-t
           border-slate-200/60
           bg-white/40
-          px-8
-          py-3
+          px-6
+          py-2
           backdrop-blur-md
           dark:border-slate-700/50
           dark:bg-slate-900/40
           "
       >
-        <span className="text-slate-400 dark:text-slate-600 text-xs font-semibold uppercase tracking-wider mr-1">
+        <span className="text-slate-400 dark:text-slate-500 text-[11px] font-semibold uppercase tracking-[0.18em] mr-2">
           As seen on
         </span>
         {["Product Hunt", "TechCrunch", "Forbes", "Indie Hackers"].map(
@@ -641,8 +653,8 @@ function HeroBanner() {
                 border
                 border-slate-200
                 bg-white/70
-                px-3
-                py-1
+                px-2.5
+                py-0.5
                 text-xs
                 font-semibold
                 text-slate-500
