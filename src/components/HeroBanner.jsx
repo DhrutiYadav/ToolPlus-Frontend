@@ -103,14 +103,21 @@ function HeroBanner() {
 
         <motion.p
           className="
-            mb-6
-            max-w-xl
-            text-lg
-            leading-8
-            text-slate-600
-            font-medium
+            mt-2
+            mb-8
+            max-w-[620px]
+
+            text-base
+            leading-7
+
+            font-normal
+
+            text-slate-500
             dark:text-slate-400
-            "
+
+            lg:text-[19px]
+            lg:leading-8
+          "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
