@@ -22,7 +22,7 @@ function HeroBanner() {
       className="
         relative
         mx-auto
-        mt-4
+        mt-2
         mb-5
         max-w-[1450px]
         flex
@@ -39,7 +39,7 @@ function HeroBanner() {
         from-orange-50
         via-white
         to-orange-50
-        py-10
+        py-8
         shadow-sm
         dark:border-slate-700
         dark:from-slate-900
@@ -50,14 +50,14 @@ function HeroBanner() {
         lg:px-14
         xl:px-20
         2xl:px-24
-        lg:py-12
-        xl:py-14
+        lg:py-10
+        xl:py-12
       "
     >
       <motion.div
         className="relative z-10 w-full
-          max-w-[680px]
-          xl:max-w-[720px]"
+          max-w-[900px]
+          xl:max-w-[980px]"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -90,18 +90,18 @@ function HeroBanner() {
 
         <motion.h1
           className="
-            mb-4
+            mt-0
+            mb-1
 
-            text-[2.4rem]
-            sm:text-5xl
-            lg:text-[4.25rem]
-
+            text-[2.85rem]
+            sm:text-[3.9rem]
+            lg:text-[6.2rem]
             font-extrabold
             tracking-tight
 
-            leading-[1.12]
-            sm:leading-[1.1]
-            lg:leading-[1.05]
+            leading-[1.1]
+            sm:leading-[1.06]
+            lg:leading-[1.02]
 
             text-slate-900
             transition-colors
@@ -121,19 +121,19 @@ function HeroBanner() {
         <motion.p
           className="
             mt-0
-            mb-6
-            max-w-[600px]
+            mb-2
+            max-w-[700px]
 
-            text-[15px]
-            leading-7
+            text-[14px]
+            leading-6
 
             font-normal
 
             text-slate-400
             dark:text-slate-400
 
-            lg:text-[17px]
-            lg:leading-[1.8]
+            lg:text-[16px]
+            lg:leading-7
           "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
