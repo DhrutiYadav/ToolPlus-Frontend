@@ -129,7 +129,7 @@ function HeroBanner() {
 
             font-normal
 
-            text-slate-400
+            text-slate-500
             dark:text-slate-400
 
             lg:text-[16px]
@@ -299,7 +299,7 @@ function HeroBanner() {
               bg-blue-600
               px-6
               sm:px-7
-              py-2.5
+              py-2
               text-sm
               sm:text-base
               font-semibold
@@ -365,15 +365,25 @@ function HeroBanner() {
           items-center
           justify-center
           flex-1
-          "
+          lg:max-w-[42%]
+          lg:-translate-y-3 xl:-translate-y-4
+        "
         initial={{ opacity: 0, scale: 0.9, x: 50 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
       >
-        <div className="drop-shadow-2xl">
+        <div
+          className="
+            hero-illustration
+            drop-shadow-2xl
+            w-[360px]
+            xl:w-[420px]
+            2xl:w-[470px]
+            shrink-0
+          "
+        >
           <svg
-            width="420"
-            height="350"
+            className="w-full h-auto"
             viewBox="0 0 380 320"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
