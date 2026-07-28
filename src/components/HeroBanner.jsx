@@ -89,24 +89,39 @@ function HeroBanner() {
         </motion.span>
 
         <motion.h1
-          className="
-            mt-0
-            mb-1
+          // className="
+          //   mt-0
+          //   mb-1
 
-            text-[2.85rem]
-            sm:text-[3.9rem]
-            lg:text-[6.2rem]
+          //   text-[2.85rem]
+          //   sm:text-[3.9rem]
+          //   lg:text-[6.2rem]
+          //   font-extrabold
+          //   tracking-tight
+
+          //   leading-[1.1]
+          //   sm:leading-[1.06]
+          //   lg:leading-[1.02]
+
+          //   text-slate-900
+          //   transition-colors
+          //   dark:text-white
+          // "
+
+          className="
+            font-display
             font-extrabold
             tracking-tight
-
-            leading-[1.1]
-            sm:leading-[1.06]
-            lg:leading-[1.02]
-
             text-slate-900
-            transition-colors
-            dark:text-white
-          "
+          dark:text-white
+            leading-[1.02]
+            mb-5
+            text-[3rem]
+            sm:text-[4rem]
+            lg:text-[6rem]
+            xl:text-[6.75rem]
+            2xl:text-[7.25rem]
+            "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}

@@ -16,7 +16,7 @@
     "bootstrap": "^5.3.8",
     "framer-motion": "^12.40.0",
     "jwt-decode": "^4.0.0",
-    "lucide-react": "^1.18.0",
+    "lucide-react": "^1.27.0",
     "papaparse": "^5.5.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
