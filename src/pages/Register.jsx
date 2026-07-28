@@ -84,7 +84,7 @@ const Register = () => {
         <div className="login-header text-center mb-6">
           <div className="mb-6 flex justify-center">
             <img
-              src="/logo/logo-horizontal-removebg-preview.png"
+              src="/logo/logo-horizontal-removebg.png"
               alt="ToolPlus Logo"
               className="block h-16 md:h-20 w-auto dark:hidden"
             />
