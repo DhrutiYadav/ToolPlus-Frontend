@@ -66,7 +66,9 @@ function Profile() {
       setConfirmPassword("");
     } catch (error) {
       console.error("Error changing password:", error);
-      toast.error(error.response?.data?.message || "Failed to change password.");
+      toast.error(
+        error.response?.data?.message || "Failed to change password.",
+      );
     } finally {
       setChangingPassword(false);
     }
@@ -91,11 +93,21 @@ function Profile() {
     }
   };
 
-  if (loading) return <div className="py-12"><SkeletonLoader type="dealDetails" /></div>;
+  if (loading)
+    return (
+      <div className="py-12">
+        <SkeletonLoader type="dealDetails" />
+      </div>
+    );
 
-  const totalOrdersCount = orders.length;
-  const completedOrders = orders.filter(o => (o.status || "").toLowerCase() === "completed" || !(o.status));
-  const totalInvested = completedOrders.reduce((sum, o) => sum + (o.purchasePrice * (o.quantity || 1)), 0);
+  // const totalOrdersCount = orders.length;
+  // const completedOrders = orders.filter(
+  //   (o) => (o.status || "").toLowerCase() === "completed" || !o.status,
+  // );
+  // const totalInvested = completedOrders.reduce(
+  //   (sum, o) => sum + o.purchasePrice * (o.quantity || 1),
+  //   0,
+  // );
 
   const tabs = [
     { key: "profile", label: "Profile Settings", icon: "bi-person-fill" },
@@ -105,180 +117,589 @@ function Profile() {
 
   const getOrderStatusBadge = (status) => {
     const s = (status || "").toLowerCase();
-    if (s === "completed" || s === "paid") return <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 font-semibold">{status}</span>;
-    if (s === "pending" || s === "refundrequested") return <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 font-semibold">{status}</span>;
-    if (s === "cancelled" || s === "refunded") return <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 font-semibold">{status}</span>;
-    return <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">{status || "Unknown"}</span>;
+    if (s === "completed" || s === "paid")
+      return (
+        <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 font-semibold">
+          {status}
+        </span>
+      );
+    if (s === "pending" || s === "refundrequested")
+      return (
+        <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 font-semibold">
+          {status}
+        </span>
+      );
+    if (s === "cancelled" || s === "refunded")
+      return (
+        <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 font-semibold">
+          {status}
+        </span>
+      );
+    return (
+      <span className="inline-block leading-none text-center whitespace-nowrap align-baseline px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">
+        {status || "Unknown"}
+      </span>
+    );
   };
 
   return (
-    <div className="profile-page py-6">
-      <div className="mb-6">
-        <h1 className="font-extrabold text-slate-900 dark:text-white mb-1 transition-colors">Account Profile Settings</h1>
-        <p className="text-slate-500 dark:text-slate-400 transition-colors">Manage your credentials, view roles, and see transaction statistics.</p>
+    <div className="relative overflow-hidden py-10">
+      {/* Animated Background Blobs */}
+      <div className="auth-bg-blobs pointer-events-none" aria-hidden="true">
+        <div className="auth-blob auth-blob-1"></div>
+        <div className="auth-blob auth-blob-2"></div>
+        <div className="auth-blob auth-blob-3"></div>
       </div>
 
-      <div className="flex flex-wrap -mx-6 gap-6">
-        {/* Left Column: Sidebar Tabs */}
-        <div className="col-lg-3">
-          <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 rounded-2xl text-center bg-white dark:bg-slate-900 mb-6 transition-colors">
-            <div className="avatar-wrapper bg-orange-500 text-white rounded-full mx-auto flex items-center justify-center mb-6 transition-colors" style={{ width: "80px", height: "80px" }}>
-              <span className="text-3xl font-bold font-bold">{(profile?.name || "U")[0].toUpperCase()}</span>
-            </div>
-            <h5 className="font-bold text-lg text-slate-900 dark:text-white mb-1 transition-colors">{profile?.name || "Member"}</h5>
-            <span className="text-slate-500 text-sm dark:text-slate-400 transition-colors mb-2 block">{profile?.email}</span>
-            <span className="text-slate-500 text-sm dark:text-slate-400 transition-colors mb-6 block">
-              Member since {profile?.createdAt ? new Date(profile?.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Unknown'}
-            </span>
-            <span className="inline-block leading-none text-center whitespace-nowrap align-baseline bg-slate-900 dark:bg-slate-700 text-white uppercase px-6 py-1 rounded-full font-semibold text-xs transition-colors">
-              {profile?.role || "User"} Member
-            </span>
-          </div>
-
-          <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm rounded-2xl bg-white dark:bg-slate-900 overflow-hidden transition-colors">
-            <div className="nav flex-flex flex-wrap -mx-6 flex-lg-column nav-pills p-2 overflow-auto" style={{ whiteSpace: 'nowrap' }}>
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
-                    style={{
-                      borderLeft: isActive ? "3px solid #f97316" : "3px solid transparent",
-                    }}
-                    className={`nav-link text-left px-6 py-6 font-semibold rounded-lg mb-1 transition-colors lg:block inline-block ${
-                      isActive
-                        ? "active bg-orange-50 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 lg:block border-bottom-0"
-                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 lg:block"
-                    }`}
-                  >
-                    <i className={`bi ${tab.icon} mr-4`}></i>
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <h1
+            className="
+              text-4xl
+              sm:text-5xl
+              font-black
+              tracking-tight
+              text-slate-900
+              dark:text-white
+              mb-2
+              "
+          >
+            Account Profile Settings
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400 transition-colors">
+            Manage your credentials, view roles, and see transaction statistics.
+          </p>
         </div>
 
-        {/* Right Column: Tabbed Content */}
-        <div className="col-lg-9">
-          {/* Tab: Profile Info */}
-          {activeTab === "profile" && (
-            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors">
-              <h4 className="font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2 mb-6 transition-colors">Edit Profile Information</h4>
-              <form onSubmit={handleUpdateProfile}>
-                <div className="mb-6">
-                  <label className="form-label font-bold text-slate-900 dark:text-white text-sm transition-colors">Full Name</label>
-                  <input
-                    type="text"
-                    className="form-control py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    disabled={updating}
-                    required
-                  />
-                </div>
-                <div className="mb-6">
-                  <label className="form-label font-bold text-slate-900 dark:text-white text-sm transition-colors">Email Address</label>
-                  <input
-                    type="email"
-                    className="form-control py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={updating}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary rounded-full px-6 py-2 font-bold uppercase shadow-sm" disabled={updating}>
-                  {updating ? (<><span className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2" role="status" aria-hidden="true"></span>Saving Changes...</>) : "Save Settings"}
-                </button>
-              </form>
-            </div>
-          )}
-
-          {/* Tab: Security */}
-          {activeTab === "security" && (
-            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors">
-              <h4 className="font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2 mb-6 transition-colors">Change Password</h4>
-              <form onSubmit={handleChangePassword}>
-                <div className="mb-6">
-                  <label className="form-label font-bold text-slate-900 dark:text-white text-sm transition-colors">Current Password</label>
-                  <input
-                    type="password"
-                    className="form-control py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                    disabled={changingPassword}
-                    required
-                  />
-                </div>
-                <div className="mb-6">
-                  <label className="form-label font-bold text-slate-900 dark:text-white text-sm transition-colors">New Password</label>
-                  <input
-                    type="password"
-                    className="form-control py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    disabled={changingPassword}
-                    required
-                  />
-                </div>
-                <div className="mb-6">
-                  <label className="form-label font-bold text-slate-900 dark:text-white text-sm transition-colors">Confirm New Password</label>
-                  <input
-                    type="password"
-                    className="form-control py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    disabled={changingPassword}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-warning rounded-full px-6 py-2 font-bold uppercase shadow-sm text-dark" disabled={changingPassword}>
-                  {changingPassword ? (<><span className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2" role="status" aria-hidden="true"></span>Changing...</>) : "Change Password"}
-                </button>
-              </form>
-            </div>
-          )}
-
-          {/* Tab: My Orders */}
-          {activeTab === "orders" && (
-            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors">
-              <div className="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-6 mb-6 transition-colors">
-                <h4 className="font-bold text-slate-900 dark:text-white mb-0">Order History</h4>
-                <Link to="/orders" className="btn btn-outline-primary btn-sm font-bold rounded-full px-6 shadow-sm hover-lift">View my orders</Link>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-10">
+          {/* Left Column: Sidebar Tabs */}
+          <div className="lg:col-span-4 xl:col-span-3 space-y-6">
+            <div
+              className="
+                rounded-2xl
+                border
+                border-slate-200
+                dark:border-slate-700
+                bg-white/95
+                dark:bg-slate-900/95
+                backdrop-blur-2xl
+                shadow-[0_25px_70px_rgba(0,0,0,0.18)]
+                dark:shadow-[0_30px_80px_rgba(0,0,0,0.45)]
+                p-8
+                text-center
+                transition-all
+                duration-300
+                "
+            >
+              <div
+                className="
+                  mx-auto
+                  flex
+                  h-24
+                  w-24
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-gradient-to-br
+                  from-orange-500
+                  to-orange-600
+                  shadow-lg
+                  text-white
+                  "
+              >
+                <span className="text-4xl font-black">
+                  {(profile?.name || "U")[0].toUpperCase()}
+                </span>
               </div>
-              {orders.length === 0 ? (
-                <div className="text-center py-12">
-                  <i className="bi bi-bag-x text-slate-300 dark:text-slate-700" style={{ fontSize: '3rem' }}></i>
-                  <p className="text-slate-500 dark:text-slate-400 mt-6 mb-0">You haven't placed any orders yet.</p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-3">
-                  {orders.map((order) => (
-                    <div
-                      key={order.orderId}
-                      className="flex items-center justify-between gap-3 p-6 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 transition-colors"
-                    >
-                      <div className="grow">
-                        <div className="font-bold text-slate-900 dark:text-white" style={{ fontSize: '14px' }}>
-                          Order #{order.orderId}
-                        </div>
-                        <div className="text-slate-500 dark:text-slate-400" style={{ fontSize: '12px' }}>
-                          {order.createdAt ? new Date(order.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A"}
-                        </div>
-                      </div>
-                      <div className="font-bold text-orange-500" style={{ fontSize: '15px' }}>
-                        ₹{(order.subtotal || 0).toFixed(2)}
-                      </div>
-                      <div>{getOrderStatusBadge(order.status)}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <h5
+                className="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-1 transition-colors"
+              >
+                {profile?.name || "Member"}
+              </h5>
+              <span className="text-slate-500 text-sm dark:text-slate-400 transition-colors mb-2 block">
+                {profile?.email}
+              </span>
+              <span className="text-slate-500 text-sm dark:text-slate-400 transition-colors mb-6 block">
+                Member since{" "}
+                {profile?.createdAt
+                  ? new Date(profile?.createdAt).toLocaleDateString("en-US", {
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : "Unknown"}
+              </span>
+              <span className="inline-block leading-none text-center whitespace-nowrap align-baseline bg-slate-900 dark:bg-slate-700 text-white uppercase px-6 py-1 rounded-full font-semibold text-xs transition-colors">
+                {profile?.role || "User"} Member
+              </span>
             </div>
-          )}
+
+            <div
+              className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+              dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
+              backdrop-blur-2xl
+              bg-white/95
+              dark:bg-slate-900/95 
+              rounded-2xl  overflow-hidden transition-colors"
+            >
+              <div className="space-y-2 p-3" style={{ whiteSpace: "nowrap" }}>
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      style={{
+                        borderLeft: isActive
+                          ? "3px solid #f97316"
+                          : "3px solid transparent",
+                      }}
+                      className={`
+                        w-full
+                        flex
+                        items-center
+                        rounded-xl
+                        px-4
+                        py-3.5
+                        text-left
+                        font-semibold
+                        transition-all
+                        duration-300
+
+                        ${
+                          isActive
+                            ? "bg-orange-500 text-white shadow-lg"
+                            : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70"
+                        }
+                        `}
+                    >
+                      <i className={`bi ${tab.icon} mr-4`}></i>
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Tabbed Content */}
+          <div className="lg:col-span-8 xl:col-span-9">
+            {/* Tab: Profile Info */}
+            {activeTab === "profile" && (
+              <div
+                className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+                dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
+                backdrop-blur-2xl
+                bg-white/95
+                dark:bg-slate-900/95
+                hover:-translate-y-1
+                hover:shadow-2xl
+                duration-300
+                
+                p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors"
+              >
+                <h4 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2 mb-6 transition-colors">
+                  Edit Profile Information
+                </h4>
+                <form onSubmit={handleUpdateProfile}>
+                  <div className="mb-6">
+                    <label
+                      className="
+                        mb-2
+                        block
+                        text-sm
+                        font-semibold
+                        tracking-wide
+                        text-slate-800
+                        dark:text-slate-200
+                        uppercase
+                        "
+                    >
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-slate-300
+                        dark:border-slate-600
+                        bg-white
+                        dark:bg-slate-800
+                        text-slate-900
+                        dark:text-white
+                        placeholder:text-slate-400
+                        px-4
+                        py-3.5
+                        outline-none
+                        transition-all
+                        focus:border-orange-500
+                        focus:ring-2
+                        ring-
+                        ring-orange-500/30
+                        "
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      disabled={updating}
+                      required
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      className="
+                        mb-2
+                        block
+                        text-sm
+                        font-semibold
+                        tracking-wide
+                        text-slate-800
+                        dark:text-slate-200
+                        "
+                    >
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-slate-300
+                        dark:border-slate-600
+                        bg-white
+                        dark:bg-slate-800
+                        text-slate-900
+                        dark:text-white
+                        placeholder:text-slate-400
+                        px-4
+                        py-3.5
+                        outline-none
+                        transition-all
+                        focus:border-orange-500
+                        focus:ring-2
+                        focus:ring-orange-500/30
+                        "
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      disabled={updating}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="
+                      inline-flex
+                      items-center
+                      justify-center
+                      rounded-xl
+                      bg-gradient-to-r
+                      from-orange-500
+                      to-orange-600
+                      px-6
+                      py-3.5
+                      font-semibold
+                      text-white
+                      shadow-lg
+                      transition-all
+                      duration-300
+                      hover:-translate-y-0.5
+                      active:scale-95
+                      hover:shadow-xl
+                      disabled:opacity-60
+                      "
+                    disabled={updating}
+                  >
+                    {updating ? (
+                      <>
+                        <span
+                          className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Saving Changes...
+                      </>
+                    ) : (
+                      "Save Settings"
+                    )}
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Tab: Security */}
+            {activeTab === "security" && (
+              <div
+                className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+                dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
+                backdrop-blur-2xl
+                bg-white/95
+                dark:bg-slate-900/95 
+                p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors"
+              >
+                <h4 className="font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2 mb-6 transition-colors">
+                  Change Password
+                </h4>
+                <form onSubmit={handleChangePassword}>
+                  <div className="mb-6">
+                    <label
+                      className="
+                        mb-2
+                        block
+                        text-sm
+                        font-semibold
+                        tracking-wide
+                        text-slate-800
+                        dark:text-slate-200
+                        "
+                    >
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-slate-300
+                        dark:border-slate-600
+                        bg-white
+                        dark:bg-slate-800
+                        text-slate-900
+                        dark:text-white
+                        placeholder:text-slate-400
+                        px-4
+                        py-3.5
+                        outline-none
+                        transition-all
+                        focus:border-orange-500
+                        focus:ring-2
+                        focus:ring-orange-500/30
+                        "
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      disabled={changingPassword}
+                      required
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      className="
+                        mb-2
+                        block
+                        text-sm
+                        font-semibold
+                        tracking-wide
+                        text-slate-800
+                        dark:text-slate-200
+                        "
+                    >
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-slate-300
+                        dark:border-slate-600
+                        bg-white
+                        dark:bg-slate-800
+                        text-slate-900
+                        dark:text-white
+                        placeholder:text-slate-400
+                        px-4
+                        py-3.5
+                        outline-none
+                        transition-all
+                        focus:border-orange-500
+                        focus:ring-2
+                        focus:ring-orange-500/30
+                        "
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      disabled={changingPassword}
+                      required
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      className="
+                        mb-2
+                        block
+                        text-sm
+                        font-semibold
+                        tracking-wide
+                        text-slate-800
+                        dark:text-slate-200
+                        uppercase
+                      "
+                    >
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-slate-300
+                        dark:border-slate-600
+                        bg-white
+                        dark:bg-slate-800
+                        text-slate-900
+                        dark:text-white
+                        placeholder:text-slate-400
+                        px-4
+                        py-3.5
+                        outline-none
+                        transition-all
+                        focus:border-orange-500
+                        focus:ring-2
+                        focus:ring-orange-500/30
+                        "
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      disabled={changingPassword}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="
+                      inline-flex
+                      items-center
+                      justify-center
+                      rounded-xl
+                      bg-gradient-to-r
+                      from-amber-500
+                      to-orange-500
+                      px-6
+                      py-3.5
+                      font-semibold
+                      text-white
+                      shadow-lg
+                      transition-all
+                      duration-300
+                      hover:-translate-y-0.5
+                      active:scale-95
+                      hover:shadow-xl
+                      disabled:opacity-60
+                      "
+                    disabled={changingPassword}
+                  >
+                    {changingPassword ? (
+                      <>
+                        <span
+                          className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Changing...
+                      </>
+                    ) : (
+                      "Change Password"
+                    )}
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Tab: My Orders */}
+            {activeTab === "orders" && (
+              <div
+                className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+                dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
+                backdrop-blur-2xl
+                bg-white/95
+                dark:bg-slate-900/95 
+                p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors"
+              >
+                <div className="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-6 mb-6 transition-colors">
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-0">
+                    Order History
+                  </h4>
+                  <Link
+                    to="/orders"
+                    className="
+                      inline-flex
+                      items-center
+                      rounded-xl
+                      border
+                      border-orange-500
+                      text-orange-500
+                      px-4
+                      py-2
+                      font-semibold
+                      transition-all
+                      hover:bg-orange-500
+                      hover:text-white
+                      "
+                  >
+                    View my orders
+                  </Link>
+                </div>
+                {orders.length === 0 ? (
+                  <div className="text-center py-12">
+                    <i
+                      className="bi bi-bag-x text-slate-300 dark:text-slate-700"
+                      style={{ fontSize: "3rem" }}
+                    ></i>
+                    <p className="text-slate-500 dark:text-slate-400 mt-6 mb-0">
+                      You haven't placed any orders yet.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-4">
+                    {orders.map((order) => (
+                      <div
+                        key={order.orderId}
+                        className="flex items-center justify-between gap-4 p-6 rounded-2xl bg-white
+                        dark:bg-slate-800
+                        hover:-translate-y-1
+                        hover:shadow-xl
+                        transition-all
+                        duration-300 
+                        border border-slate-100 
+                        dark:border-slate-700"
+                      >
+                        <div className="grow">
+                          <div
+                            className="font-bold text-slate-900 dark:text-white"
+                            style={{ fontSize: "14px" }}
+                          >
+                            Order #{order.orderId}
+                          </div>
+                          <div
+                            className="text-slate-500 dark:text-slate-400"
+                            style={{ fontSize: "12px" }}
+                          >
+                            {order.createdAt
+                              ? new Date(order.createdAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  },
+                                )
+                              : "N/A"}
+                          </div>
+                        </div>
+                        <div
+                          className="font-bold text-orange-500"
+                          style={{ fontSize: "15px" }}
+                        >
+                          ₹{(order.subtotal || 0).toFixed(2)}
+                        </div>
+                        <div>{getOrderStatusBadge(order.status)}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
