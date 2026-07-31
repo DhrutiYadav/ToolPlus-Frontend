@@ -1,7 +1,6 @@
 /* Payment Success styles moved from inline */
 .payment-card {
-  max-width: 620px;
-  width: 100%;
+  width: min(100%, 850px);
   position: relative;
   z-index: 1;
 }
@@ -30,25 +29,6 @@
 
 .payment-empty-icon {
   color: #94a3b8;
-}
-
-.order-item-thumb {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-}
-
-.order-item-placeholder {
-  width: 40px;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.share-whatsapp {
-  background: #25D366;
-  color: white;
 }
 
 .payment-page-container {

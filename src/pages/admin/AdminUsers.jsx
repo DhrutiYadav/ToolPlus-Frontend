@@ -321,13 +321,13 @@ function AdminUsers() {
             <div className="flex space-x-2">
               <button
                 onClick={() => setActionType("bulkDeactivate")}
-                className="px-6 py-1.5 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
+                className="px-6 py-2 hover:shadow-md transition-all duration-200 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
               >
                 Deactivate Selected
               </button>
               <button
                 onClick={() => setActionType("bulkDelete")}
-                className="px-6 py-1.5 bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
+                className="px-6 py-2 hover:shadow-md transition-all duration-200 bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-500 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
               >
                 Delete Selected
               </button>
