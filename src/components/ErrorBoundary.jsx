@@ -1,5 +1,4 @@
-import React from 'react';
-import '../styles/ErrorBoundary.css';
+import React from "react";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -7,7 +6,7 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -18,26 +17,33 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center bg-slate-50 dark:bg-slate-950 transition-colors error-boundary-root">
-          <div className="flex flex-col relative min-w-0 break-words rounded-2xl shadow-sm mx-auto border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors error-boundary-card">
-            <div className="flex-1 p-12 flex flex-col items-center gap-3">
-              <div className="relative p-6 text-rose-800 bg-rose-50 border border-rose-200 dark:text-rose-400 dark:bg-rose-900/10 dark:border-rose-800 rounded-2xl flex items-center justify-center mb-0 error-boundary-alert">
-                <span className="text-4xl font-bold">⚠️</span>
+        <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6 text-center transition-colors dark:bg-slate-950">
+          <div className="w-full max-w-[500px] rounded-2xl border border-slate-200 bg-white shadow-lg transition-colors dark:border-slate-800 dark:bg-slate-900">
+            <div className="flex flex-col items-center gap-5 p-10 sm:p-12">
+              <div className="inline-flex h-20 w-20 items-center justify-center rounded-full border border-rose-200 bg-rose-50 text-5xl dark:border-rose-800 dark:bg-rose-900/20">
+                ⚠️
               </div>
-              <h2 className="font-bold mb-1 text-slate-900 dark:text-white transition-colors">Something went wrong.</h2>
-              <p className="text-muted mb-6 transition-colors">
-                Please refresh the page to try again, or return to the homepage.
+
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                Something went wrong
+              </h2>
+
+              <p className="max-w-md text-slate-600 dark:text-slate-400">
+                An unexpected error occurred. Please refresh the page or return
+                to the homepage.
               </p>
-              <div className="flex gap-3 flex-wrap justify-center w-full">
+
+              <div className="mt-3 flex w-full flex-col gap-3 sm:flex-row sm:justify-center">
                 <button
                   onClick={() => window.location.reload()}
-                  className="btn btn-primary rounded-full px-6 py-2 shadow-sm font-bold hover-lift"
+                  className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg active:translate-y-0"
                 >
                   Refresh
                 </button>
+
                 <button
-                  onClick={() => window.location.href = '/'}
-                  className="btn btn-outline-secondary rounded-full px-6 py-2 shadow-sm font-bold hover-lift"
+                  onClick={() => (window.location.href = "/")}
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-600 hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-orange-500 dark:hover:bg-orange-500/10 dark:hover:text-orange-400"
                 >
                   Go Home
                 </button>
