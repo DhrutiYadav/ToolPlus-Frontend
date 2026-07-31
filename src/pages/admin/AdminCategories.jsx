@@ -142,14 +142,14 @@ function AdminCategories() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditOpen(category)}
-                    className="btn btn-outline-primary btn-sm"
+                    className="flex items-center justify-center rounded-lg border border-blue-500 px-3 py-2 text-blue-600 transition-all duration-200 hover:bg-blue-500 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 dark:hover:text-white"
                     title="Edit Category"
                   >
                     <Pencil size={15} />
                   </button>
                   <button
                     onClick={() => setDeleteId(category.id)}
-                    className="btn btn-outline-danger btn-sm"
+                    className="flex items-center justify-center rounded-lg border border-red-500 px-3 py-2 text-red-600 transition-all duration-200 hover:bg-red-500 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
                     title="Delete Category"
                   >
                     <Trash2 size={15} />

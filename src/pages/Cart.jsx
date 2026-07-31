@@ -9,6 +9,7 @@ import { useCart } from "../context/CartContext";
 import CartItem from "../components/cart/CartItem";
 import CartSummary from "../components/cart/CartSummary";
 import EmptyCart from "../components/cart/EmptyCart";
+import { ArrowLeft } from "lucide-react";
 import { invokeRazorpayFlow } from "../utils/razorpayUtils";
 
 const Cart = () => {
@@ -32,7 +33,7 @@ const Cart = () => {
       setSummary({
         items: [buyNowItem],
         totalAmount: buyNowItem.discountPrice * buyNowItem.quantity,
-        totalItems: buyNowItem.quantity
+        totalItems: buyNowItem.quantity,
       });
       setLoading(false);
       return;
@@ -84,7 +85,10 @@ const Cart = () => {
 
       if (buyNowItem && id === buyNowItem.id) {
         const updatedItem = { ...buyNowItem, quantity: newQuantity };
-        navigate("/cart", { state: { buyNowItem: updatedItem }, replace: true });
+        navigate("/cart", {
+          state: { buyNowItem: updatedItem },
+          replace: true,
+        });
         return;
       }
 
@@ -148,14 +152,14 @@ const Cart = () => {
 
     try {
       setClearing(true);
-      
+
       if (buyNowItem) {
-         setSummary({ items: [], totalAmount: 0, totalItems: 0 });
-         setAppliedCoupon(null);
-         setCouponCodeInput("");
-         toast.success("Cart cleared successfully");
-         navigate("/deals", { replace: true });
-         return;
+        setSummary({ items: [], totalAmount: 0, totalItems: 0 });
+        setAppliedCoupon(null);
+        setCouponCodeInput("");
+        toast.success("Cart cleared successfully");
+        navigate("/deals", { replace: true });
+        return;
       }
 
       await cartService.clearCart();
@@ -241,18 +245,18 @@ const Cart = () => {
       },
       finallyCallback: () => {
         setIsCheckingOut(false);
-      }
+      },
     });
   };
 
   if (loading) {
     return (
-      <div className="container py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="mb-6 font-bold text-slate-900 dark:text-white transition-colors">
           Shopping Cart
         </h2>
-        <div className="flex flex-wrap -mx-6">
-          <div className="col-lg-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-8">
             {[1, 2].map((n) => (
               <div
                 key={n}
@@ -263,22 +267,22 @@ const Cart = () => {
                     className="placeholder col-2 rounded bg-slate-200 dark:bg-slate-700 transition-colors"
                     style={{ height: "80px", width: "80px" }}
                   ></div>
-                  <div className="ml-4 grow">
-                    <h5 className="placeholder col-6 mb-2"></h5>
-                    <p className="placeholder col-4 mb-2"></p>
-                    <p className="placeholder col-2"></p>
+                  <div className="ml-4 flex-1">
+                    <div className="h-5 w-2/3 rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-2"></div>
+                    <div className="h-4 w-1/2 rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-2"></div>
+                    <div className="h-4 w-1/2 rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-2"></div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="col-lg-4">
+          <div className="lg:col-span-4">
             <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors">
               <div className="flex-1 p-6">
                 <h5 className="placeholder col-6 mb-6"></h5>
-                <p className="placeholder col-12 mb-2"></p>
+                <div className="h-4 w-1/4 rounded bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
                 <p className="placeholder col-12 mb-6"></p>
-                <button className="btn btn-primary disabled placeholder col-12 py-2"></button>
+                <div className="h-10 w-full rounded-lg bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
               </div>
             </div>
           </div>
@@ -289,14 +293,14 @@ const Cart = () => {
 
   if (!summary || summary.items.length === 0) {
     return (
-      <div className="container py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <EmptyCart />
       </div>
     );
   }
 
   return (
-    <div className="container py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex items-center mb-6">
         <h2 className="font-bold mb-0 text-slate-900 dark:text-white transition-colors">
           Shopping Cart
@@ -306,8 +310,8 @@ const Cart = () => {
         </span>
       </div>
 
-      <div className="flex flex-wrap -mx-6">
-        <div className="col-lg-8 mb-6 lg:mb-0">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-8">
           <div className="cart-items-container">
             {summary.items.map((item) => (
               <CartItem
@@ -322,15 +326,16 @@ const Cart = () => {
           <div className="mt-6">
             <Link
               to="/deals"
-              className="no-underline text-orange-500 dark:text-orange-400 font-medium hover:text-orange-600 dark:hover:text-orange-300 transition-colors"
+              className="inline-flex items-center gap-2 text-orange-500 dark:text-orange-400 font-medium hover:text-orange-600 dark:hover:text-orange-300 transition-colors"
             >
-              <i className="bi bi-arrow-left mr-2"></i> Continue Shopping
+              <ArrowLeft className="w-4 h-4" />
+              Continue Shopping
             </Link>
           </div>
         </div>
 
-        <div className="col-lg-4">
-          <div className="sticky-top" style={{ top: "2rem", zIndex: 10 }}>
+        <div className="lg:col-span-4">
+          <div className="sticky top-8 z-10">
             <CartSummary
               summary={summary}
               onClearCart={handleClearCart}
