@@ -14,7 +14,7 @@ function MyReviews() {
   const [profile, setProfile] = useState(null);
   const [purchasedDeals, setPurchasedDeals] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Modal state
   const [showModal, setShowModal] = useState(false);
   const [editingReview, setEditingReview] = useState(null);
@@ -35,11 +35,11 @@ function MyReviews() {
 
       // Deduplicate deals
       const uniqueDealsMap = new Map();
-      (ordersData || []).forEach(order => {
+      (ordersData || []).forEach((order) => {
         // Only consider completed orders or those without status (assume completed)
         const status = (order.status || "").toLowerCase();
         if (status === "completed" || !order.status) {
-          (order.items || []).forEach(item => {
+          (order.items || []).forEach((item) => {
             if (!uniqueDealsMap.has(item.dealId)) {
               uniqueDealsMap.set(item.dealId, {
                 orderId: order.orderId,
@@ -47,7 +47,7 @@ function MyReviews() {
                 title: item.dealTitle || `Deal Code #${item.dealId}`,
                 image: item.imageUrl || null, // Might be null, will handle in UI
                 purchaseDate: order.createdAt,
-                review: null
+                review: null,
               });
             }
           });
@@ -63,16 +63,19 @@ function MyReviews() {
           try {
             const reviews = await getReviewsByDealId(deal.dealId);
             // Match review by userId first, fallback to userName comparison
-            const myReview = reviews.find(r => 
-              (r.userId && profileData.id && r.userId === profileData.id) || 
-              (r.userName && profileData.name && r.userName.toLowerCase() === profileData.name.toLowerCase())
+            const myReview = reviews.find(
+              (r) =>
+                (r.userId && profileData.id && r.userId === profileData.id) ||
+                (r.userName &&
+                  profileData.name &&
+                  r.userName.toLowerCase() === profileData.name.toLowerCase()),
             );
             return { ...deal, review: myReview || null };
           } catch (e) {
             console.error(`Error fetching reviews for deal ${deal.dealId}:`, e);
             return { ...deal, review: null };
           }
-        })
+        }),
       );
 
       setPurchasedDeals(dealsWithReviews);
@@ -113,7 +116,11 @@ function MyReviews() {
         fetchReviewsData();
       } catch (error) {
         console.error("Error deleting review:", error);
-        toast.error(error.response?.data?.message || error.response?.data?.Message || "Failed to delete review.");
+        toast.error(
+          error.response?.data?.message ||
+            error.response?.data?.Message ||
+            "Failed to delete review.",
+        );
       }
     }
   };
@@ -124,7 +131,7 @@ function MyReviews() {
       toast.error("Rating and comment are required.");
       return;
     }
-    
+
     if (!selectedDeal?.dealId) {
       toast.error("Deal not found.");
       return;
@@ -135,14 +142,14 @@ function MyReviews() {
       if (editingReview) {
         await updateReview(editingReview.id, {
           rating: Number(rating),
-          comment: comment.trim()
+          comment: comment.trim(),
         });
         toast.success("Review updated successfully!");
       } else {
         await createReview({
           orderId: selectedDeal.orderId,
           rating: Number(rating),
-          comment: comment.trim()
+          comment: comment.trim(),
         });
         toast.success("Review submitted successfully!");
       }
@@ -150,7 +157,11 @@ function MyReviews() {
       fetchReviewsData();
     } catch (error) {
       console.error("Error submitting review:", error);
-      toast.error(error.response?.data?.message || error.response?.data?.Message || "Failed to submit review.");
+      toast.error(
+        error.response?.data?.message ||
+          error.response?.data?.Message ||
+          "Failed to submit review.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -164,7 +175,11 @@ function MyReviews() {
           <Star
             key={star}
             size={16}
-            className={star <= rounded ? "text-orange-500 fill-orange-500" : "text-slate-300 dark:text-slate-600 fill-transparent"}
+            className={
+              star <= rounded
+                ? "text-orange-500 fill-orange-500"
+                : "text-slate-300 dark:text-slate-600 fill-transparent"
+            }
           />
         ))}
       </div>
@@ -177,32 +192,46 @@ function MyReviews() {
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
-      day: "numeric"
+      day: "numeric",
     });
   };
 
-  if (loading) return <div className="py-12"><SkeletonLoader type="deal" /></div>;
+  if (loading)
+    return (
+      <div className="py-12">
+        <SkeletonLoader type="deal" />
+      </div>
+    );
 
-  const unreviewedCount = purchasedDeals.filter(d => !d.review).length;
+  const unreviewedCount = purchasedDeals.filter((d) => !d.review).length;
   const allReviewed = purchasedDeals.length > 0 && unreviewedCount === 0;
 
   return (
-    <div className="profile-page py-6">
+    <div className="py-6">
       <div className="mb-6">
-        <h1 className="font-extrabold text-slate-900 dark:text-white mb-1 transition-colors">My Reviews</h1>
-        <p className="text-slate-500 dark:text-slate-400 transition-colors">Manage your reviews and rate your purchased deals.</p>
+        <h1 className="font-extrabold text-slate-900 dark:text-white mb-1 transition-colors">
+          My Reviews
+        </h1>
+        <p className="text-slate-500 dark:text-slate-400 transition-colors">
+          Manage your reviews and rate your purchased deals.
+        </p>
       </div>
 
       {purchasedDeals.length === 0 ? (
-        <div className="text-center py-12 border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 shadow-sm mt-6 transition-colors empty-state-container flex flex-col items-center gap-2">
-          <div className="empty-state-icon bg-orange-500 text-white rounded-full flex items-center justify-center mb-2" style={{ width: "80px", height: "80px" }}>
+        <div className="text-center py-12 border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 shadow-sm mt-6 transition-colors flex flex-col items-center gap-2">
+          <div className="bg-orange-500 text-white rounded-full flex items-center justify-center mb-2 h-20 w-20">
             <Star size={40} />
           </div>
-          <h4 className="font-bold text-slate-900 dark:text-white transition-colors">No reviews yet</h4>
-          <p className="text-muted mx-auto mb-6 transition-colors" style={{ maxWidth: "400px" }}>
+          <h4 className="font-bold text-slate-900 dark:text-white transition-colors">
+            No reviews yet
+          </h4>
+          <p className="mx-auto text-slate-500 dark:text-slate-400 mb-6 transition-colors max-w-sm">
             Purchase a deal to leave your first review.
           </p>
-          <Link to="/deals" className="btn btn-primary rounded-full px-12 py-2 font-bold shadow-sm hover-lift">
+          <Link
+            to="/deals"
+            className="inline-flex items-center justify-center rounded-full bg-orange-500 px-12 py-3 font-bold text-white shadow transition hover:bg-orange-600"
+          >
             Browse Deals
           </Link>
         </div>
@@ -212,38 +241,51 @@ function MyReviews() {
             <div className="relative px-4 py-3 bg-emerald-50 text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shadow-sm rounded-2xl mb-6 flex items-center transition-colors">
               <span className="text-2xl font-bold mr-4">🎉</span>
               <div>
-                <h5 className="font-bold mb-1">Awesome job!</h5>
-                <p className="mb-0 text-emerald-700 dark:text-emerald-400 transition-colors">You've reviewed all your purchases. Thank you for your feedback!</p>
+                <h3 className="font-bold mb-1">Awesome job!</h3>
+                <p className="mb-0 text-emerald-700 dark:text-emerald-400 transition-colors">
+                  You've reviewed all your purchases. Thank you for your
+                  feedback!
+                </p>
               </div>
             </div>
           )}
 
-          <div className="flex flex-wrap -mx-6 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {purchasedDeals.map((deal) => (
-              <div className="col-md-6 col-lg-4" key={deal.dealId}>
+              <div key={deal.dealId}>
                 <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm rounded-2xl h-full bg-white dark:bg-slate-900 transition-colors">
                   <div className="flex-1 p-6 flex flex-col">
                     <div className="flex items-start mb-6">
                       {deal.image ? (
-                        <img src={deal.image} alt={deal.title} className="rounded-lg mr-4 object-cover" style={{width: '56px', height: '56px'}} />
+                        <img
+                          src={deal.image}
+                          alt={deal.title}
+                          className="rounded-lg mr-4 object-cover h-14 w-14"
+                        />
                       ) : (
-                        <div className="bg-slate-100 dark:bg-slate-800 rounded-lg mr-4 flex items-center justify-center transition-colors" style={{width: '56px', height: '56px'}}>
+                        <div className="bg-slate-100 dark:bg-slate-800 rounded-lg mr-4 flex items-center justify-center transition-colors h-14 w-14">
                           <Package size={24} className="text-slate-400" />
                         </div>
                       )}
                       <div>
-                        <h5 className="font-bold text-slate-900 dark:text-white mb-1 truncate transition-colors" style={{maxWidth: '200px'}}>{deal.title}</h5>
+                        <h3 className="font-bold text-slate-900 dark:text-white mb-1 truncate transition-colors max-w-[200px]">
+                          {deal.title}
+                        </h3>
                         {deal.review ? (
                           renderStars(deal.review.rating)
                         ) : (
-                          <span className="inline-block text-[0.75em] font-bold leading-none text-center whitespace-nowrap align-baseline rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-1 mt-1 transition-colors">Not Reviewed</span>
+                          <span className="inline-block text-[0.75em] font-bold leading-none text-center whitespace-nowrap align-baseline rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-1 mt-1 transition-colors">
+                            Not Reviewed
+                          </span>
                         )}
                       </div>
                     </div>
 
                     {deal.review ? (
                       <div className="grow">
-                        <p className="text-slate-900 dark:text-slate-100 mb-2 transition-colors" style={{fontSize: '0.95rem'}}>{deal.review.comment}</p>
+                        <p className="text-slate-900 dark:text-slate-100 mb-2 transition-colors text-[0.95rem]">
+                          {deal.review.comment}
+                        </p>
                         <small className="text-slate-500 dark:text-slate-400 font-medium block mb-6 transition-colors">
                           Reviewed on {formatDate(deal.review.createdAt)}
                         </small>
@@ -259,22 +301,22 @@ function MyReviews() {
                     <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2 justify-between items-center transition-colors">
                       {deal.review ? (
                         <>
-                          <button 
-                            className="btn btn-outline-primary btn-sm rounded-full px-6 font-bold hover-lift"
+                          <button
+                            className="rounded-full border border-orange-500 px-5 py-2 text-sm font-semibold text-orange-500 transition hover:bg-orange-500 hover:text-white"
                             onClick={() => handleOpenEditReview(deal)}
                           >
                             Edit Review
                           </button>
-                          <button 
-                            className="btn btn-outline-danger btn-sm rounded-full px-6 font-bold hover-lift dark:border-rose-500 dark:text-rose-500 dark:hover:bg-rose-500 dark:hover:text-white"
+                          <button
+                            className="rounded-full border border-red-500 px-5 py-2 text-sm font-semibold text-red-500 transition hover:bg-red-500 hover:text-white"
                             onClick={() => handleDeleteReview(deal)}
                           >
                             Delete
                           </button>
                         </>
                       ) : (
-                        <button 
-                          className="btn btn-primary rounded-full px-6 py-2 font-bold shadow-sm w-full flex justify-center items-center hover-lift"
+                        <button
+                          className="flex w-full items-center justify-center rounded-full bg-orange-500 px-6 py-3 font-bold text-white shadow transition hover:bg-orange-600"
                           onClick={() => handleOpenWriteReview(deal)}
                         >
                           <span className="mr-2">✍️</span> Write Review
@@ -291,39 +333,57 @@ function MyReviews() {
 
       {/* Review Modal */}
       {showModal && (
-        <div className="modal fade show block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content border border-slate-200 dark:border-slate-800 shadow-lg rounded-2xl overflow-hidden bg-white dark:bg-slate-900 transition-colors">
-              <div className="modal-header border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 pt-6 px-6 pb-6 transition-colors">
-                <h5 className="modal-title font-bold text-slate-900 dark:text-white transition-colors">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-2xl">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl transition-colors dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-5 transition-colors dark:border-slate-800 dark:bg-slate-800/50">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                   {editingReview ? "Edit Your Review" : "Write a Review"}
-                </h5>
-                <button type="button" className="btn-close dark:invert" onClick={() => setShowModal(false)}></button>
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-200 hover:text-slate-900 dark:hover:bg-slate-700 dark:hover:text-white"
+                >
+                  ✕
+                </button>
               </div>
-              
+
               <form onSubmit={handleSubmitReview}>
-                <div className="modal-body px-6 py-6">
+                <div className="space-y-6 px-6 py-6">
                   <div className="flex items-center mb-6 p-6 bg-slate-50 dark:bg-slate-800 rounded-lg transition-colors">
                     <div className="bg-white dark:bg-slate-900 rounded p-2 mr-4 shadow-sm transition-colors border border-slate-100 dark:border-slate-700">
                       <span className="text-xl font-bold">📦</span>
                     </div>
                     <div>
-                      <h6 className="font-bold mb-0 text-slate-900 dark:text-white transition-colors">{selectedDeal?.title}</h6>
-                      <small className="text-slate-500 dark:text-slate-400 transition-colors">Purchased on {formatDate(selectedDeal?.purchaseDate)}</small>
+                      <h4 className="font-bold mb-0 text-slate-900 dark:text-white transition-colors">
+                        {selectedDeal?.title}
+                      </h4>
+                      <small className="text-slate-500 dark:text-slate-400 transition-colors">
+                        Purchased on {formatDate(selectedDeal?.purchaseDate)}
+                      </small>
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <label className="form-label font-bold text-slate-900 dark:text-white mb-2 transition-colors">Star Rating</label>
+                    <label className="mb-2 block font-bold text-slate-900 dark:text-white">
+                      Star Rating
+                    </label>
                     <div className="flex gap-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
                           type="button"
-                          className="btn btn-link no-underline p-0"
+                          className="p-0 transition hover:scale-110"
                           onClick={() => setRating(star)}
                         >
-                          <span className={`fs-2 transition-colors ${rating >= star ? 'text-warning' : 'text-slate-300 dark:text-slate-700'}`}>
+                          <span
+                            className={`text-4xl transition-colors ${
+                              rating >= star
+                                ? "text-yellow-400"
+                                : "text-slate-300 dark:text-slate-700"
+                            }`}
+                          >
                             ★
                           </span>
                         </button>
@@ -332,10 +392,12 @@ function MyReviews() {
                   </div>
 
                   <div className="mb-6">
-                    <label className="form-label font-bold text-slate-900 dark:text-white transition-colors">Review Message</label>
-                    <textarea 
-                      className="form-control rounded-lg py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 transition-colors" 
-                      rows="4" 
+                    <label className="mb-2 block font-bold text-slate-900 dark:text-white">
+                      Review Message
+                    </label>
+                    <textarea
+                      className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:ring-orange-500/30"
+                      rows="4"
                       placeholder="What did you like or dislike about this product?"
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
@@ -343,24 +405,30 @@ function MyReviews() {
                     ></textarea>
                   </div>
                 </div>
-                
-                <div className="modal-footer border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-6 transition-colors bg-white dark:bg-slate-900">
-                  <button 
-                    type="button" 
-                    className="px-6 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors" 
-                    onClick={() => setShowModal(false)} 
+
+                <div className="flex justify-end gap-3 border-t border-slate-200 bg-white px-6 py-5 transition-colors dark:border-slate-800 dark:bg-slate-900">
+                  <button
+                    type="button"
+                    className="px-6 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                    onClick={() => setShowModal(false)}
                     disabled={submitting}
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-primary rounded-full px-6 font-bold shadow-sm" disabled={submitting}>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-2.5 font-bold text-white shadow transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={submitting}
+                  >
                     {submitting ? (
                       <>
                         <span className="inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin mr-2"></span>
                         Saving...
                       </>
+                    ) : editingReview ? (
+                      "Update Review"
                     ) : (
-                      editingReview ? "Update Review" : "Submit Review"
+                      "Submit Review"
                     )}
                   </button>
                 </div>

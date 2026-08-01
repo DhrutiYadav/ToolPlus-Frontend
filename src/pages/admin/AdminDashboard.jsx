@@ -27,7 +27,7 @@ import {
   Activity,
   CreditCard,
   Plus,
-  FolderPlus
+  FolderPlus,
 } from "lucide-react";
 import RevenueAreaChart from "../../components/charts/RevenueAreaChart";
 import PaymentLineChart from "../../components/charts/PaymentLineChart";
@@ -97,7 +97,11 @@ function AdminDashboard() {
   });
 
   if (statsLoading) {
-    return <div className="p-6"><SkeletonLoader type="dealDetails" /></div>;
+    return (
+      <div className="p-6">
+        <SkeletonLoader type="dealDetails" />
+      </div>
+    );
   }
 
   if (statsError) {
@@ -252,7 +256,7 @@ function AdminDashboard() {
         <div className="flex items-center space-x-2">
           <Link
             to={`/admin/orders`}
-            className="p-1.5 text-slate-400 hover:text-blue-500 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-blue-500 `transition`-colors"
             title="View Order"
           >
             <Edit2 size={16} />
@@ -399,8 +403,10 @@ function AdminDashboard() {
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 card-shadow hover-lift flex flex-col justify-between group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-bl-full"></div>
-              
-              <div className={`absolute top-4 right-4 w-[8px] h-[8px] rounded-full ${card.title.includes('Revenue') || card.title.includes('Value') ? 'bg-orange-500' : card.trend === 'up' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
+
+              <div
+                className={`absolute top-4 right-4 w-[8px] h-[8px] rounded-full ${card.title.includes("Revenue") || card.title.includes("Value") ? "bg-orange-500" : card.trend === "up" ? "bg-emerald-500" : "bg-slate-400"}`}
+              ></div>
 
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider z-10">
@@ -444,27 +450,38 @@ function AdminDashboard() {
       </div>
 
       {/* Quick Actions Row */}
-      <div className="row gap-4 mb-6">
-        <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/deals')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-emerald-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
-            <Plus size={18} /> Add Deal
-          </button>
-        </div>
-        <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/categories')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-blue-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
-            <FolderPlus size={18} /> Add Category
-          </button>
-        </div>
-        <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/orders')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-orange-500" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
-            <ShoppingBag size={18} /> View Orders
-          </button>
-        </div>
-        <div className="col-6 col-lg-3">
-          <button onClick={() => navigate('/admin/reports')} className="btn w-full rounded-lg text-white font-bold flex items-center justify-center gap-2 bg-slate-700" style={{ transition: 'filter 0.2s', border: 'none', height: '48px' }} onMouseOver={e => e.currentTarget.style.filter = 'brightness(0.9)'} onMouseOut={e => e.currentTarget.style.filter = 'none'}>
-            <BarChart2 size={18} /> View Reports
-          </button>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <button
+          onClick={() => navigate("/admin/deals")}
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-600 hover:shadow-md active:scale-95"
+        >
+          <Plus size={18} />
+          Add Deal
+        </button>
+
+        <button
+          onClick={() => navigate("/admin/categories")}
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-blue-500 font-bold text-white transition hover:bg-blue-600 active:scale-[0.98]"
+        >
+          <FolderPlus size={18} />
+          Add Category
+        </button>
+
+        <button
+          onClick={() => navigate("/admin/orders")}
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 font-bold text-white transition hover:bg-orange-600 active:scale-[0.98]"
+        >
+          <ShoppingBag size={18} />
+          View Orders
+        </button>
+
+        <button
+          onClick={() => navigate("/admin/reports")}
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-700 font-bold text-white transition hover:bg-slate-800 active:scale-[0.98]"
+        >
+          <BarChart2 size={18} />
+          View Reports
+        </button>
       </div>
 
       {/* Analytics Charts Section — Recharts */}

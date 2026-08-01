@@ -24,7 +24,7 @@ import {
   Star,
   Package,
   TrendingUp,
-  Pencil
+  Pencil,
 } from "lucide-react";
 
 function AdminDeals() {
@@ -283,22 +283,22 @@ function AdminDeals() {
                   <div className="flex items-center justify-between gap-2 mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
                     <button
                       onClick={() => handleEditOpen(deal)}
-                      className="btn btn-outline-primary btn-sm"
                       title="Edit Deal"
+                      className="flex items-center justify-center w-9 h-9 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-400 dark:border-blue-700 dark:text-blue-400 dark:hover:bg-blue-900/30 transition"
                     >
                       <Pencil size={15} />
                     </button>
                     <button
                       onClick={() => setUploadDeal(deal)}
-                      className="btn btn-outline-secondary btn-sm"
                       title="Upload Image"
+                      className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition"
                     >
                       <ImageIcon size={15} />
                     </button>
                     <button
                       onClick={() => setDeleteId(deal.id)}
-                      className="btn btn-outline-danger btn-sm"
                       title="Delete Deal"
+                      className="flex items-center justify-center w-9 h-9 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-400 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/30 transition"
                     >
                       <Trash2 size={15} />
                     </button>

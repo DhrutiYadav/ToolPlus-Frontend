@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAdminOrders, updateOrderStatus, deleteAdminOrder } from "../../services/adminService";
+import {
+  getAdminOrders,
+  updateOrderStatus,
+  deleteAdminOrder,
+} from "../../services/adminService";
 import AdminLoadingSpinner from "../../components/AdminLoadingSpinner";
 import AdminDataTable from "../../components/AdminDataTable";
 import AdminStatusBadge from "../../components/AdminStatusBadge";
@@ -8,7 +12,19 @@ import AdminSearchBar from "../../components/AdminSearchBar";
 import AdminPagination from "../../components/AdminPagination";
 import AdminConfirmDialog from "../../components/AdminConfirmDialog";
 import { toast } from "react-toastify";
-import { Eye, Trash2, Download, CheckSquare, X, Receipt, Clock, CreditCard, User, Box, Check } from "lucide-react";
+import {
+  Eye,
+  Trash2,
+  Download,
+  CheckSquare,
+  X,
+  Receipt,
+  Clock,
+  CreditCard,
+  User,
+  Box,
+  Check,
+} from "lucide-react";
 import { cancelOrder } from "../../services/orderService";
 
 function AdminOrders() {
@@ -23,7 +39,11 @@ function AdminOrders() {
   const [actionType, setActionType] = useState(null); // 'bulkDelete' | 'bulkStatus'
 
   // Queries
-  const { data: fetchedOrders = [], isLoading, error } = useQuery({
+  const {
+    data: fetchedOrders = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["adminOrders"],
     queryFn: getAdminOrders,
   });
@@ -36,18 +56,21 @@ function AdminOrders() {
 
       const previousOrders = queryClient.getQueryData(["adminOrders"]) || [];
 
-      console.log("Before", previousOrders.find((order) => String(order.id) === String(id))?.status);
+      console.log(
+        "Before",
+        previousOrders.find((order) => String(order.id) === String(id))?.status,
+      );
       console.log("Selected", status);
 
       queryClient.setQueryData(["adminOrders"], (currentOrders = []) =>
         currentOrders.map((order) =>
-          String(order.id) === String(id) ? { ...order, status } : order
-        )
+          String(order.id) === String(id) ? { ...order, status } : order,
+        ),
       );
 
-      const updatedOrder = (queryClient.getQueryData(["adminOrders"]) || []).find(
-        (order) => String(order.id) === String(id)
-      );
+      const updatedOrder = (
+        queryClient.getQueryData(["adminOrders"]) || []
+      ).find((order) => String(order.id) === String(id));
       console.log("After Update", updatedOrder?.status);
 
       return { previousOrders };
@@ -76,7 +99,12 @@ function AdminOrders() {
   });
 
   if (isLoading) return <AdminLoadingSpinner fullPage={true} />;
-  if (error) return <div className="text-rose-500 font-bold p-6">Failed to load platform orders.</div>;
+  if (error)
+    return (
+      <div className="text-rose-500 font-bold p-6">
+        Failed to load platform orders.
+      </div>
+    );
 
   const orders = fetchedOrders;
 
@@ -94,9 +122,14 @@ function AdminOrders() {
   // Pagination Logic
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedOrders = filteredOrders.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
-  const viewOrder = orders.find((order) => String(order.id) === String(selectedOrderId)) || null;
+  const viewOrder =
+    orders.find((order) => String(order.id) === String(selectedOrderId)) ||
+    null;
 
   const handleStatusChange = (orderId, newStatus) => {
     statusMutation.mutate({ id: orderId, status: newStatus });
@@ -105,7 +138,9 @@ function AdminOrders() {
   const handleApproveRefund = async (orderId) => {
     if (window.confirm("Are you sure you want to approve this refund?")) {
       try {
-        await import("../../services/orderService").then(m => m.approveRefund(orderId));
+        await import("../../services/orderService").then((m) =>
+          m.approveRefund(orderId),
+        );
         queryClient.invalidateQueries({ queryKey: ["adminOrders"] });
         toast.success("Refund approved successfully");
       } catch {
@@ -116,7 +151,9 @@ function AdminOrders() {
 
   //write Cancel Refund function
   const handleCancelRefund = async (orderId) => {
-    if (window.confirm("Are you sure you want to cancel this refund request?")) {
+    if (
+      window.confirm("Are you sure you want to cancel this refund request?")
+    ) {
       try {
         await cancelOrder(orderId);
         queryClient.invalidateQueries({ queryKey: ["adminOrders"] });
@@ -150,27 +187,43 @@ function AdminOrders() {
   };
 
   const columns = [
-    { 
-      header: "Order ID", 
+    {
+      header: "Order ID",
       accessor: "id",
-      render: (row) => <span className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">#{row.id}</span>
+      render: (row) => (
+        <span className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
+          #{row.id}
+        </span>
+      ),
     },
     {
       header: "Customer",
       render: (row) => (
         <div>
-          <p className="font-bold text-slate-900 dark:text-white">{row.userName || row.userEmail?.split("@")[0]}</p>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{row.userEmail}</p>
+          <p className="font-bold text-slate-900 dark:text-white">
+            {row.userName || row.userEmail?.split("@")[0]}
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {row.userEmail}
+          </p>
         </div>
       ),
     },
-    { 
-      header: "Deal Title", 
-      render: (row) => <span className="font-semibold text-slate-800 dark:text-slate-200 truncate max-w-50 block">{row.dealTitle}</span> 
+    {
+      header: "Deal Title",
+      render: (row) => (
+        <span className="font-semibold text-slate-800 dark:text-slate-200 truncate max-w-50 block">
+          {row.dealTitle}
+        </span>
+      ),
     },
     {
       header: "Price",
-      render: (row) => <span className="font-bold text-slate-800 dark:text-slate-200">${row.price?.toFixed(2)}</span>,
+      render: (row) => (
+        <span className="font-bold text-slate-800 dark:text-slate-200">
+          ${row.price?.toFixed(2)}
+        </span>
+      ),
     },
     {
       header: "Status Selection",
@@ -179,7 +232,11 @@ function AdminOrders() {
           value={row.status}
           onChange={(e) => handleStatusChange(row.id, e.target.value)}
           className="text-xs border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-slate-50 dark:bg-slate-800 font-bold text-slate-700 dark:text-slate-300"
-          disabled={row.status === "RefundRequested" || row.status === "Refunded" || row.status === "Cancelled"}
+          disabled={
+            row.status === "RefundRequested" ||
+            row.status === "Refunded" ||
+            row.status === "Cancelled"
+          }
         >
           <option value="Pending">Pending</option>
           <option value="AwaitingPayment">Awaiting Payment</option>
@@ -198,7 +255,11 @@ function AdminOrders() {
     },
     {
       header: "Date",
-      render: (row) => <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{new Date(row.createdAt).toLocaleDateString()}</span>,
+      render: (row) => (
+        <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+          {new Date(row.createdAt).toLocaleDateString()}
+        </span>
+      ),
     },
     {
       header: "Actions",
@@ -208,14 +269,14 @@ function AdminOrders() {
             <>
               <button
                 onClick={() => handleApproveRefund(row.id)}
-                className="btn btn-outline-success btn-sm"
+                className="inline-flex items-center justify-center rounded-lg border border-emerald-500 px-2.5 py-1.5 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-colors duration-200"
                 title="Approve Refund"
               >
                 <Check size={15} />
               </button>
               <button
                 onClick={() => handleCancelRefund(row.id)}
-                className="btn btn-outline-secondary btn-sm ml-2"
+                className="ml-2 inline-flex items-center justify-center rounded-lg border border-slate-400 px-2.5 py-1.5 text-slate-600 hover:bg-slate-500 hover:text-white transition-colors duration-200"
                 title="Cancel Refund"
               >
                 <X size={15} />
@@ -224,14 +285,14 @@ function AdminOrders() {
           )}
           <button
             onClick={() => setSelectedOrderId(row.id)}
-            className="btn btn-outline-secondary btn-sm"
+            className="inline-flex items-center justify-center rounded-lg border border-slate-400 px-2.5 py-1.5 text-slate-600 hover:bg-slate-500 hover:text-white transition-colors duration-200"
             title="View Details"
           >
             <Eye size={15} />
           </button>
           <button
             onClick={() => setDeleteOrder(row)}
-            className="btn btn-outline-danger btn-sm"
+            className="inline-flex items-center justify-center rounded-lg border border-rose-500 px-2.5 py-1.5 text-rose-600 hover:bg-rose-500 hover:text-white transition-colors duration-200"
             title="Delete Order"
           >
             <Trash2 size={15} />
@@ -254,14 +315,14 @@ function AdminOrders() {
             }}
           />
           <div className="flex items-center space-x-3 w-full sm:w-auto">
-            <button 
+            <button
               onClick={() => handleExport("CSV")}
               className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-6 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm whitespace-nowrap"
             >
               <Download size={16} />
               <span>CSV</span>
             </button>
-            <button 
+            <button
               onClick={() => handleExport("Excel")}
               className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-6 py-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 rounded-xl font-bold hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors text-sm whitespace-nowrap"
             >
@@ -297,9 +358,9 @@ function AdminOrders() {
       </div>
 
       {/* Main Grid */}
-      <AdminDataTable 
-        columns={columns} 
-        data={paginatedOrders} 
+      <AdminDataTable
+        columns={columns}
+        data={paginatedOrders}
         emptyMessage="No orders match search parameters."
         selectable={true}
         selectedIds={selectedIds}
@@ -309,7 +370,9 @@ function AdminOrders() {
       {/* Pagination */}
       <div className="flex items-center justify-between pt-2">
         <div className="text-sm text-slate-500 dark:text-slate-400">
-          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredOrders.length)} of {filteredOrders.length} orders
+          Showing {startIndex + 1} to{" "}
+          {Math.min(startIndex + itemsPerPage, filteredOrders.length)} of{" "}
+          {filteredOrders.length} orders
         </div>
         <AdminPagination
           currentPage={currentPage}
@@ -319,15 +382,23 @@ function AdminOrders() {
       </div>
 
       {/* Order Details Drawer */}
-      <div className={`fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 transition-opacity duration-300 ${viewOrder ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-        <div className={`fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${viewOrder ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div
+        className={`fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 transition-opacity duration-300 ${viewOrder ? "opacity-100 visible" : "opacity-0 invisible"}`}
+      >
+        <div
+          className={`fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${viewOrder ? "translate-x-0" : "translate-x-full"}`}
+        >
           {/* Drawer Header */}
           <div className="flex items-center justify-between px-6 py-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Order Details</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">ID: #{viewOrder?.id}</p>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                Order Details
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">
+                ID: #{viewOrder?.id}
+              </p>
             </div>
-            <button 
+            <button
               onClick={() => setSelectedOrderId(null)}
               className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
             >
@@ -338,10 +409,11 @@ function AdminOrders() {
           {/* Drawer Content */}
           {viewOrder && (
             <div className="flex-1 overflow-y-auto p-6 space-y-8 scrollbar-hide">
-              
               {/* Status Section */}
               <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700">
-                <span className="font-bold text-slate-700 dark:text-slate-300">Current Status</span>
+                <span className="font-bold text-slate-700 dark:text-slate-300">
+                  Current Status
+                </span>
                 <AdminStatusBadge status={viewOrder.status} type="order" />
               </div>
 
@@ -352,12 +424,20 @@ function AdminOrders() {
                 </h4>
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6 space-y-3 shadow-sm">
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Name</p>
-                    <p className="font-bold text-slate-900 dark:text-white">{viewOrder.userName || viewOrder.userEmail?.split("@")[0]}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Name
+                    </p>
+                    <p className="font-bold text-slate-900 dark:text-white">
+                      {viewOrder.userName || viewOrder.userEmail?.split("@")[0]}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Email Address</p>
-                    <p className="font-semibold text-slate-700 dark:text-slate-300">{viewOrder.userEmail}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Email Address
+                    </p>
+                    <p className="font-semibold text-slate-700 dark:text-slate-300">
+                      {viewOrder.userEmail}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -369,24 +449,40 @@ function AdminOrders() {
                 </h4>
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6 space-y-3 shadow-sm">
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Product</p>
-                    <p className="font-bold text-slate-900 dark:text-white">{viewOrder.dealTitle}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Product
+                    </p>
+                    <p className="font-bold text-slate-900 dark:text-white">
+                      {viewOrder.dealTitle}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Quantity Purchased</p>
-                    <p className="font-bold text-slate-900 dark:text-white">{viewOrder.quantity} code(s)</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Quantity Purchased
+                    </p>
+                    <p className="font-bold text-slate-900 dark:text-white">
+                      {viewOrder.quantity} code(s)
+                    </p>
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Amount Paid</p>
-                    <p className="font-extrabold text-emerald-600 dark:text-emerald-400 text-lg">${viewOrder.price?.toFixed(2)}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Amount Paid
+                    </p>
+                    <p className="font-extrabold text-emerald-600 dark:text-emerald-400 text-lg">
+                      ${viewOrder.price?.toFixed(2)}
+                    </p>
                   </div>
                   {viewOrder.couponCode && (
                     <div className="border-t border-slate-100 dark:border-slate-800 pt-2.5 mt-2.5">
-                      <p className="text-xs text-slate-500 dark:text-slate-400">Coupon Applied</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        Coupon Applied
+                      </p>
                       <p className="font-mono text-sm font-bold text-orange-500">
                         {viewOrder.couponCode}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Discount Amount</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        Discount Amount
+                      </p>
                       <p className="font-semibold text-rose-500">
                         -${viewOrder.discountAmount?.toFixed(2)}
                       </p>
@@ -402,18 +498,28 @@ function AdminOrders() {
                 </h4>
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
                   <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
-                    <span className="text-sm text-slate-500 dark:text-slate-400">Payment Method</span>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                      Payment Method
+                    </span>
                     <span className="text-sm font-semibold flex items-center text-slate-800 dark:text-slate-200">
                       <CreditCard size={14} className="mr-1.5" /> Credit Card
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
-                    <span className="text-sm text-slate-500 dark:text-slate-400">Purchase Date</span>
-                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">{new Date(viewOrder.createdAt).toLocaleDateString()}</span>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                      Purchase Date
+                    </span>
+                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                      {new Date(viewOrder.createdAt).toLocaleDateString()}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
-                    <span className="text-sm text-slate-500 dark:text-slate-400">Transaction ID</span>
-                    <span className="text-sm font-mono text-slate-800 dark:text-slate-200">TXN-{viewOrder.id}-001</span>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                      Transaction ID
+                    </span>
+                    <span className="text-sm font-mono text-slate-800 dark:text-slate-200">
+                      TXN-{viewOrder.id}-001
+                    </span>
                   </div>
                 </div>
               </div>
@@ -428,17 +534,27 @@ function AdminOrders() {
                     <div className="flex items-center">
                       <div className="absolute left-0 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-4 ring-white dark:ring-slate-900"></div>
                       <div className="ml-6">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white">Order Placed</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{new Date(viewOrder.createdAt).toLocaleString()}</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">
+                          Order Placed
+                        </p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          {new Date(viewOrder.createdAt).toLocaleString()}
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center">
-                      <div className={`absolute left-0 w-2.5 h-2.5 ${viewOrder.status === 'Completed' ? 'bg-emerald-500' : viewOrder.status === 'Cancelled' ? 'bg-rose-500' : 'bg-amber-500'} rounded-full ring-4 ring-white dark:ring-slate-900`}></div>
+                      <div
+                        className={`absolute left-0 w-2.5 h-2.5 ${viewOrder.status === "Completed" ? "bg-emerald-500" : viewOrder.status === "Cancelled" ? "bg-rose-500" : "bg-amber-500"} rounded-full ring-4 ring-white dark:ring-slate-900`}
+                      ></div>
                       <div className="ml-6">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white">Status Updated to {viewOrder.status}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">System Note</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">
+                          Status Updated to {viewOrder.status}
+                        </p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          System Note
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -449,12 +565,12 @@ function AdminOrders() {
 
           {/* Drawer Footer */}
           <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex justify-end">
-             <button 
-               onClick={() => setSelectedOrderId(null)}
-                className="px-12 py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
-             >
-               Close Details
-             </button>
+            <button
+              onClick={() => setSelectedOrderId(null)}
+              className="px-12 py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
+            >
+              Close Details
+            </button>
           </div>
         </div>
       </div>
@@ -476,7 +592,11 @@ function AdminOrders() {
         message={`Are you sure you want to ${actionType === "bulkDelete" ? "permanently delete" : "mark as completed"} ${selectedIds.length} orders?`}
         onConfirm={handleBulkActionConfirm}
         onCancel={() => setActionType(null)}
-        confirmText={actionType === "bulkDelete" ? "Delete All Selected" : "Complete All Selected"}
+        confirmText={
+          actionType === "bulkDelete"
+            ? "Delete All Selected"
+            : "Complete All Selected"
+        }
       />
     </div>
   );
