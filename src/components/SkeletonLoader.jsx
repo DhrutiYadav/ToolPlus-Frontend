@@ -1,7 +1,7 @@
 function SkeletonPulse({ className, style }) {
   return (
     <div
-      className={`rounded-3 skeleton-pulse ${className || ""}`}
+      className={`rounded-3xl skeleton-pulse ${className || ""}`}
       style={{
         background:
           "linear-gradient(90deg, rgba(148,163,184,0.15) 0%, rgba(148,163,184,0.25) 50%, rgba(148,163,184,0.15) 100%)",
@@ -19,8 +19,8 @@ function SkeletonLoader({ type = "deal" }) {
 
   if (type === "dealDetails") {
     return (
-      <div className="row gap-12 py-12">
-        <div className="col-lg-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-12">
+        <div className="lg:col-span-8">
           <div className="mb-6">
             <SkeletonPulse
               className="mb-6"
@@ -56,7 +56,7 @@ function SkeletonLoader({ type = "deal" }) {
             style={{ height: "15px", width: "90%" }}
           />
         </div>
-        <div className="col-lg-4">
+        <div className="lg:col-span-4">
           <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 card-shadow p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors">
             <SkeletonPulse
               className="mb-6"
@@ -86,9 +86,9 @@ function SkeletonLoader({ type = "deal" }) {
 
   if (type === "category") {
     return (
-      <div className="row gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="col-lg-4 col-md-6">
+          <div key={i}>
             <div className="flex flex-col relative min-w-0 break-words h-full shadow-sm border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 p-6 transition-colors">
               <div className="flex items-center mb-6">
                 <SkeletonPulse
@@ -158,9 +158,9 @@ function SkeletonLoader({ type = "deal" }) {
   }
   // Default "deal" list skeleton
   return (
-    <div className="row gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="col-lg-4 col-md-6">
+        <div key={i}>
           <div className="flex flex-col relative min-w-0 break-words h-full shadow-sm border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 transition-colors">
             <SkeletonPulse
               style={{ height: "210px", borderRadius: "16px 16px 0 0" }}

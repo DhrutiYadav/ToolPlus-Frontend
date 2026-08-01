@@ -8,10 +8,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-// Bootstrap Javascript bundle for interactive elements like dropdowns
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-
 import { CartProvider } from "./context/CartContext";
 
 const queryClient = new QueryClient({

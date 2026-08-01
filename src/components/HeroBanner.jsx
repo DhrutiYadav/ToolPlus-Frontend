@@ -89,25 +89,6 @@ function HeroBanner() {
         </motion.span>
 
         <motion.h1
-          // className="
-          //   mt-0
-          //   mb-1
-
-          //   text-[2.85rem]
-          //   sm:text-[3.9rem]
-          //   lg:text-[6.2rem]
-          //   font-extrabold
-          //   tracking-tight
-
-          //   leading-[1.1]
-          //   sm:leading-[1.06]
-          //   lg:leading-[1.02]
-
-          //   text-slate-900
-          //   transition-colors
-          //   dark:text-white
-          // "
-
           className="
             font-display
             font-extrabold

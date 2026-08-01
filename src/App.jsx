@@ -76,7 +76,7 @@ function AppContent() {
       {!isAuthPage && <Navbar />}
 
       {/* Core page views */}
-      <main className="container grow py-6 px-6">
+      <main className="mx-auto w-full max-w-7xl grow px-6 py-6">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
