@@ -10,7 +10,20 @@ import AdminModal from "../../components/AdminModal";
 import AdminConfirmDialog from "../../components/AdminConfirmDialog";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { PlusCircle, Search, Edit2, Trash2, Tag, Percent, DollarSign, Calendar, AlertCircle, Pencil, Copy, Check, ToggleLeft, ToggleRight } from "lucide-react";
+import {
+  PlusCircle,
+  Trash2,
+  Percent,
+  DollarSign,
+  Calendar,
+  AlertCircle,
+  Pencil,
+  Copy,
+  Check,
+  ToggleLeft,
+  ToggleRight,
+  Ticket,
+} from "lucide-react";
 
 function AdminCoupons() {
   const queryClient = useQueryClient();
@@ -30,13 +43,22 @@ function AdminCoupons() {
       isActive: true,
       minimumPurchaseAmount: 0,
       usageLimit: 100,
-    }
+    },
   });
 
-  const { register: registerEdit, handleSubmit: handleSubmitEdit, reset: resetEdit, watch: watchEdit } = useForm();
+  const {
+    register: registerEdit,
+    handleSubmit: handleSubmitEdit,
+    reset: resetEdit,
+    watch: watchEdit,
+  } = useForm();
 
   // Queries
-  const { data: coupons = [], isLoading, error } = useQuery({
+  const {
+    data: coupons = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["adminCoupons"],
     queryFn: couponService.getAllCoupons,
   });
@@ -83,8 +105,10 @@ function AdminCoupons() {
   });
 
   const toggleStatusMutation = useMutation({
-    mutationFn: ({ id, isActive }) => 
-      isActive ? couponService.deactivateCoupon(id) : couponService.activateCoupon(id),
+    mutationFn: ({ id, isActive }) =>
+      isActive
+        ? couponService.deactivateCoupon(id)
+        : couponService.activateCoupon(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminCoupons"] });
       toast.success("Coupon status updated");
@@ -92,8 +116,18 @@ function AdminCoupons() {
     onError: () => toast.error("Failed to update status"),
   });
 
-  if (isLoading) return <div className="p-6"><SkeletonLoader type="table" /></div>;
-  if (error) return <div className="text-rose-500 font-bold p-6">Failed to load platform coupons.</div>;
+  if (isLoading)
+    return (
+      <div className="p-6">
+        <SkeletonLoader type="table" />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-rose-500 font-bold p-6">
+        Failed to load platform coupons.
+      </div>
+    );
 
   // Search filter
   const filteredCoupons = coupons.filter((c) => {
@@ -108,7 +142,10 @@ function AdminCoupons() {
   // Pagination
   const totalPages = Math.ceil(filteredCoupons.length / itemsPerPage) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedCoupons = filteredCoupons.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedCoupons = filteredCoupons.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   const handleCopyCode = (code) => {
     navigator.clipboard.writeText(code);
@@ -119,9 +156,9 @@ function AdminCoupons() {
 
   const formatToBackendDate = (dateStr) => {
     if (!dateStr) return null;
-    
+
     const trimmed = dateStr.trim();
-    
+
     // 1. Check if it already starts with YYYY-MM-DDTHH:mm:ss
     const isoStandardRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/;
     const standardMatch = trimmed.match(isoStandardRegex);
@@ -135,7 +172,7 @@ function AdminCoupons() {
     if (isoMatch) {
       return `${trimmed}:00`;
     }
-    
+
     // 3. Check for DD-MM-YYYY hh:mm AM/PM format (e.g. 16-06-2026 12:00 AM)
     const dmyRegex = /^(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2})\s*(AM|PM)$/i;
     const match = trimmed.match(dmyRegex);
@@ -148,27 +185,27 @@ function AdminCoupons() {
       } else if (upperAmpm === "AM" && hours === 12) {
         hours = 0;
       }
-      const paddedHours = String(hours).padStart(2, '0');
-      const paddedMinutes = String(minutes).padStart(2, '0');
+      const paddedHours = String(hours).padStart(2, "0");
+      const paddedMinutes = String(minutes).padStart(2, "0");
       return `${year}-${month}-${day}T${paddedHours}:${paddedMinutes}:00`;
     }
-    
+
     // Fallback: try parsing with native Date and manually format local components
     try {
       const date = new Date(trimmed);
       if (!isNaN(date.getTime())) {
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
       }
     } catch (e) {
       console.error("Failed to parse date using fallback", e);
     }
-    
+
     return trimmed;
   };
 
@@ -179,13 +216,21 @@ function AdminCoupons() {
       discountType: data.discountType,
       discountValue: Number(data.discountValue),
       minimumPurchaseAmount: Number(data.minimumPurchaseAmount),
-      maximumDiscountAmount: (data.maximumDiscountAmount === "" || data.maximumDiscountAmount === undefined || data.maximumDiscountAmount === null) ? null : Number(data.maximumDiscountAmount),
+      maximumDiscountAmount:
+        data.maximumDiscountAmount === "" ||
+        data.maximumDiscountAmount === undefined ||
+        data.maximumDiscountAmount === null
+          ? null
+          : Number(data.maximumDiscountAmount),
       startDate: formatToBackendDate(data.startDate),
       endDate: formatToBackendDate(data.endDate),
       usageLimit: Number(data.usageLimit),
       isActive: !!data.isActive,
     };
-    console.log("Submitting Create Coupon Payload:", JSON.stringify(payload, null, 2));
+    console.log(
+      "Submitting Create Coupon Payload:",
+      JSON.stringify(payload, null, 2),
+    );
     createMutation.mutate(payload);
   };
 
@@ -199,8 +244,12 @@ function AdminCoupons() {
       discountValue: coupon.discountValue,
       minimumPurchaseAmount: coupon.minimumPurchaseAmount,
       maximumDiscountAmount: coupon.maximumDiscountAmount || "",
-      startDate: coupon.startDate ? new Date(coupon.startDate).toISOString().slice(0, 16) : "",
-      endDate: coupon.endDate ? new Date(coupon.endDate).toISOString().slice(0, 16) : "",
+      startDate: coupon.startDate
+        ? new Date(coupon.startDate).toISOString().slice(0, 16)
+        : "",
+      endDate: coupon.endDate
+        ? new Date(coupon.endDate).toISOString().slice(0, 16)
+        : "",
       usageLimit: coupon.usageLimit,
       isActive: coupon.isActive,
     });
@@ -214,26 +263,37 @@ function AdminCoupons() {
       discountType: data.discountType,
       discountValue: Number(data.discountValue),
       minimumPurchaseAmount: Number(data.minimumPurchaseAmount),
-      maximumDiscountAmount: (data.maximumDiscountAmount === "" || data.maximumDiscountAmount === undefined || data.maximumDiscountAmount === null) ? null : Number(data.maximumDiscountAmount),
+      maximumDiscountAmount:
+        data.maximumDiscountAmount === "" ||
+        data.maximumDiscountAmount === undefined ||
+        data.maximumDiscountAmount === null
+          ? null
+          : Number(data.maximumDiscountAmount),
       startDate: formatToBackendDate(data.startDate),
       endDate: formatToBackendDate(data.endDate),
       usageLimit: Number(data.usageLimit),
       isActive: !!data.isActive,
     };
-    console.log("Submitting Edit Coupon Payload:", JSON.stringify(payload, null, 2));
-    updateMutation.mutate({ 
-      id: editCoupon.id, 
-      data: payload 
+    console.log(
+      "Submitting Edit Coupon Payload:",
+      JSON.stringify(payload, null, 2),
+    );
+    updateMutation.mutate({
+      id: editCoupon.id,
+      data: payload,
     });
   };
 
   // Usage statistics calculations
   const totalCoupons = coupons.length;
-  const activeCoupons = coupons.filter(c => c.isActive).length;
+  const activeCoupons = coupons.filter((c) => c.isActive).length;
   const totalUsed = coupons.reduce((sum, c) => sum + c.usedCount, 0);
-  const avgDiscount = coupons.length > 0 
-    ? (coupons.reduce((sum, c) => sum + c.discountValue, 0) / coupons.length).toFixed(1)
-    : "0";
+  const avgDiscount =
+    coupons.length > 0
+      ? (
+          coupons.reduce((sum, c) => sum + c.discountValue, 0) / coupons.length
+        ).toFixed(1)
+      : "0";
 
   const columns = [
     {
@@ -243,12 +303,16 @@ function AdminCoupons() {
           <span className="font-mono text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700">
             {row.code}
           </span>
-          <button 
+          <button
             onClick={() => handleCopyCode(row.code)}
             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
             title="Copy Coupon Code"
           >
-            {copiedCode === row.code ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+            {copiedCode === row.code ? (
+              <Check size={14} className="text-emerald-500" />
+            ) : (
+              <Copy size={14} />
+            )}
           </button>
         </div>
       ),
@@ -256,10 +320,13 @@ function AdminCoupons() {
     {
       header: "Description",
       render: (row) => (
-        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[200px] block" title={row.description}>
+        <span
+          className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[200px] block"
+          title={row.description}
+        >
           {row.description || "No description"}
         </span>
-      )
+      ),
     },
     {
       header: "Discount",
@@ -267,11 +334,18 @@ function AdminCoupons() {
         const isPercent = row.discountType === "Percentage";
         return (
           <div className="flex items-center text-sm font-bold text-slate-900 dark:text-white">
-            {isPercent ? <Percent size={14} className="mr-1 text-orange-500" /> : <DollarSign size={14} className="mr-0.5 text-orange-500" />}
-            <span>{row.discountValue}{isPercent ? "%" : ""}</span>
+            {isPercent ? (
+              <Percent size={14} className="mr-1 text-orange-500" />
+            ) : (
+              <DollarSign size={14} className="mr-0.5 text-orange-500" />
+            )}
+            <span>
+              {row.discountValue}
+              {isPercent ? "%" : ""}
+            </span>
           </div>
         );
-      }
+      },
     },
     {
       header: "Min Spend",
@@ -279,7 +353,7 @@ function AdminCoupons() {
         <span className="text-sm text-slate-600 dark:text-slate-400 font-semibold">
           ${row.minimumPurchaseAmount?.toFixed(2)}
         </span>
-      )
+      ),
     },
     {
       header: "Usage (Used / Limit)",
@@ -292,14 +366,14 @@ function AdminCoupons() {
               <span>Limit {row.usageLimit}</span>
             </div>
             <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
-              <div 
-                className={`h-full rounded-full transition-all duration-500 ${percent === 100 ? 'bg-rose-500' : percent > 75 ? 'bg-amber-500' : 'bg-orange-500'}`} 
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${percent === 100 ? "bg-rose-500" : percent > 75 ? "bg-amber-500" : "bg-orange-500"}`}
                 style={{ width: `${percent}%` }}
               />
             </div>
           </div>
         );
-      }
+      },
     },
     {
       header: "Validity",
@@ -321,30 +395,45 @@ function AdminCoupons() {
                 <AlertCircle size={10} className="mr-0.5" /> Expired
               </span>
             ) : isUpcoming ? (
-              <span className="text-[10px] font-bold text-blue-500">Upcoming</span>
+              <span className="text-[10px] font-bold text-blue-500">
+                Upcoming
+              </span>
             ) : (
-              <span className="text-[10px] font-bold text-emerald-500">Active Campaign</span>
+              <span className="text-[10px] font-bold text-emerald-500">
+                Active Campaign
+              </span>
             )}
           </div>
         );
-      }
+      },
     },
     {
       header: "Status",
       render: (row) => (
         <button
-          onClick={() => toggleStatusMutation.mutate({ id: row.id, isActive: row.isActive })}
+          onClick={() =>
+            toggleStatusMutation.mutate({ id: row.id, isActive: row.isActive })
+          }
           className="flex items-center space-x-1.5 focus:outline-none"
           title="Click to toggle status"
         >
-          <AdminStatusBadge status={row.isActive ? "Active" : "Inactive"} type="coupon" />
+          <AdminStatusBadge
+            status={row.isActive ? "Active" : "Inactive"}
+            type="coupon"
+          />
           {row.isActive ? (
-            <ToggleRight className="text-emerald-500 hover:text-emerald-600 transition-colors cursor-pointer" size={20} />
+            <ToggleRight
+              className="text-emerald-500 hover:text-emerald-600 transition-colors cursor-pointer"
+              size={20}
+            />
           ) : (
-            <ToggleLeft className="text-slate-400 hover:text-slate-500 transition-colors cursor-pointer" size={20} />
+            <ToggleLeft
+              className="text-slate-400 hover:text-slate-500 transition-colors cursor-pointer"
+              size={20}
+            />
           )}
         </button>
-      )
+      ),
     },
     {
       header: "Actions",
@@ -352,21 +441,21 @@ function AdminCoupons() {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => handleEditOpen(row)}
-            className="btn btn-outline-primary btn-sm"
             title="Edit Coupon"
+            className="inline-flex items-center justify-center rounded-lg border border-blue-500 px-3 py-2 text-blue-500 transition-colors hover:bg-blue-500 hover:text-white"
           >
             <Pencil size={15} />
           </button>
           <button
             onClick={() => setDeleteId(row.id)}
-            className="btn btn-outline-danger btn-sm"
             title="Delete Coupon"
+            className="inline-flex items-center justify-center rounded-lg border border-red-500 px-3 py-2 text-red-500 transition-colors hover:bg-red-500 hover:text-white"
           >
             <Trash2 size={15} />
           </button>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   return (
@@ -378,8 +467,12 @@ function AdminCoupons() {
             <Ticket size={24} />
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Total Coupons</p>
-            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">{totalCoupons}</h3>
+            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              Total Coupons
+            </p>
+            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">
+              {totalCoupons}
+            </h3>
           </div>
         </div>
 
@@ -388,8 +481,12 @@ function AdminCoupons() {
             <Check size={24} />
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Active Campaigns</p>
-            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">{activeCoupons}</h3>
+            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              Active Campaigns
+            </p>
+            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">
+              {activeCoupons}
+            </h3>
           </div>
         </div>
 
@@ -398,8 +495,12 @@ function AdminCoupons() {
             <Calendar size={24} />
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Total Redemptions</p>
-            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">{totalUsed}</h3>
+            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              Total Redemptions
+            </p>
+            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">
+              {totalUsed}
+            </h3>
           </div>
         </div>
 
@@ -408,8 +509,12 @@ function AdminCoupons() {
             <Percent size={24} />
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Avg Discount Value</p>
-            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">{avgDiscount}% / $</h3>
+            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              Avg Discount Value
+            </p>
+            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5">
+              {avgDiscount}% / $
+            </h3>
           </div>
         </div>
       </div>
@@ -430,7 +535,7 @@ function AdminCoupons() {
           }}
           className="flex items-center justify-center space-x-2 px-12 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-500/20 w-full sm:w-auto"
         >
-          <Plus size={18} />
+          <PlusCircle size={18} />
           <span>New Coupon</span>
         </button>
       </div>
@@ -447,7 +552,9 @@ function AdminCoupons() {
       {filteredCoupons.length > 0 && (
         <div className="flex items-center justify-between pt-2">
           <div className="text-sm text-slate-500 dark:text-slate-400">
-            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredCoupons.length)} of {filteredCoupons.length} coupons
+            Showing {startIndex + 1} to{" "}
+            {Math.min(startIndex + itemsPerPage, filteredCoupons.length)} of{" "}
+            {filteredCoupons.length} coupons
           </div>
           <AdminPagination
             currentPage={currentPage}
@@ -467,7 +574,9 @@ function AdminCoupons() {
         <form onSubmit={handleSubmit(handleCreateSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Coupon Code</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Coupon Code
+              </label>
               <input
                 type="text"
                 placeholder="e.g. SUMMER50"
@@ -476,7 +585,9 @@ function AdminCoupons() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Discount Type</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Discount Type
+              </label>
               <select
                 {...register("discountType", { required: true })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
@@ -488,7 +599,9 @@ function AdminCoupons() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Description</label>
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+              Description
+            </label>
             <input
               type="text"
               placeholder="e.g. Save $50 on any purchase above $200"
@@ -499,27 +612,39 @@ function AdminCoupons() {
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Discount Value</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Discount Value
+              </label>
               <input
                 type="number"
                 step="0.01"
                 placeholder="10"
-                {...register("discountValue", { required: true, valueAsNumber: true })}
+                {...register("discountValue", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Min Purchase</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Min Purchase
+              </label>
               <input
                 type="number"
                 step="0.01"
                 placeholder="0"
-                {...register("minimumPurchaseAmount", { required: true, valueAsNumber: true })}
+                {...register("minimumPurchaseAmount", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Max Cap ($)</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Max Cap ($)
+              </label>
               <input
                 type="number"
                 step="0.01"
@@ -532,7 +657,9 @@ function AdminCoupons() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Start Date</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Start Date
+              </label>
               <input
                 type="datetime-local"
                 {...register("startDate", { required: true })}
@@ -540,7 +667,9 @@ function AdminCoupons() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">End Date</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                End Date
+              </label>
               <input
                 type="datetime-local"
                 {...register("endDate", { required: true })}
@@ -551,11 +680,16 @@ function AdminCoupons() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Usage Limit</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Usage Limit
+              </label>
               <input
                 type="number"
                 placeholder="100"
-                {...register("usageLimit", { required: true, valueAsNumber: true })}
+                {...register("usageLimit", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
               />
             </div>
@@ -566,7 +700,12 @@ function AdminCoupons() {
                 {...register("isActive")}
                 className="w-4 h-4 text-orange-500 border-slate-300 rounded focus:ring-orange-500 dark:border-slate-700"
               />
-              <label htmlFor="isActive" className="ml-2 text-sm font-bold text-slate-700 dark:text-slate-300">Is Coupon Active</label>
+              <label
+                htmlFor="isActive"
+                className="ml-2 text-sm font-bold text-slate-700 dark:text-slate-300"
+              >
+                Is Coupon Active
+              </label>
             </div>
           </div>
 
@@ -595,10 +734,15 @@ function AdminCoupons() {
         title="Edit Coupon"
         size="md"
       >
-        <form onSubmit={handleSubmitEdit(handleEditSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmitEdit(handleEditSubmit)}
+          className="space-y-4"
+        >
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Coupon Code</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Coupon Code
+              </label>
               <input
                 type="text"
                 {...registerEdit("code", { required: true })}
@@ -606,7 +750,9 @@ function AdminCoupons() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Discount Type</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Discount Type
+              </label>
               <select
                 {...registerEdit("discountType", { required: true })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
@@ -618,7 +764,9 @@ function AdminCoupons() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Description</label>
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+              Description
+            </label>
             <input
               type="text"
               {...registerEdit("description")}
@@ -628,25 +776,37 @@ function AdminCoupons() {
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Discount Value</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Discount Value
+              </label>
               <input
                 type="number"
                 step="0.01"
-                {...registerEdit("discountValue", { required: true, valueAsNumber: true })}
+                {...registerEdit("discountValue", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Min Purchase</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Min Purchase
+              </label>
               <input
                 type="number"
                 step="0.01"
-                {...registerEdit("minimumPurchaseAmount", { required: true, valueAsNumber: true })}
+                {...registerEdit("minimumPurchaseAmount", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Max Cap ($)</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Max Cap ($)
+              </label>
               <input
                 type="number"
                 step="0.01"
@@ -659,7 +819,9 @@ function AdminCoupons() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Start Date</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Start Date
+              </label>
               <input
                 type="datetime-local"
                 {...registerEdit("startDate", { required: true })}
@@ -667,7 +829,9 @@ function AdminCoupons() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">End Date</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                End Date
+              </label>
               <input
                 type="datetime-local"
                 {...registerEdit("endDate", { required: true })}
@@ -678,10 +842,15 @@ function AdminCoupons() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Usage Limit</label>
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                Usage Limit
+              </label>
               <input
                 type="number"
-                {...registerEdit("usageLimit", { required: true, valueAsNumber: true })}
+                {...registerEdit("usageLimit", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 className="w-full px-6 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm text-slate-900 dark:text-white transition-all font-semibold"
               />
             </div>
@@ -692,7 +861,12 @@ function AdminCoupons() {
                 {...registerEdit("isActive")}
                 className="w-4 h-4 text-orange-500 border-slate-300 rounded focus:ring-orange-500 dark:border-slate-700"
               />
-              <label htmlFor="isActiveEdit" className="ml-2 text-sm font-bold text-slate-700 dark:text-slate-300">Is Coupon Active</label>
+              <label
+                htmlFor="isActiveEdit"
+                className="ml-2 text-sm font-bold text-slate-700 dark:text-slate-300"
+              >
+                Is Coupon Active
+              </label>
             </div>
           </div>
 

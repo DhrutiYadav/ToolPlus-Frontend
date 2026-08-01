@@ -68,11 +68,12 @@ const CartItem = ({ item, onUpdateQuantity, onRemove, isUpdating }) => {
                 </button>
               </div>
               <button
-                className="btn btn-sm btn-link text-rose-500 dark:text-rose-400 p-0 ml-2 no-underline hover:text-rose-600 dark:hover:text-rose-300 transition-colors"
                 onClick={() => onRemove(item.id)}
                 disabled={isUpdating}
+                className="ml-3 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-rose-500 transition-colors hover:bg-rose-50 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-50 dark:text-rose-400 dark:hover:bg-rose-900/20 dark:hover:text-rose-300"
               >
-                <i className="bi bi-trash ml-1"></i> Remove
+                <Trash2 size={16} />
+                <span>Remove</span>
               </button>
             </div>
           </div>
