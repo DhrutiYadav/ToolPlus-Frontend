@@ -5,6 +5,14 @@ import Pagination from "../components/Pagination";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getCategories } from "../services/categoryService";
 import { searchDeals, getDealsByCategoryId } from "../services/dealService";
+import {
+  Search,
+  X,
+  Filter,
+  LayoutGrid,
+  List,
+  CircleX,
+} from "lucide-react";
 
 function Deals() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -284,7 +292,7 @@ ${
         onClick={handleClearFilters}
         className="w-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 font-semibold"
       >
-        <i className="bi bi-x-circle mr-2"></i>Clear All Filters
+        <CircleX size={18} className="mr-2 inline" />Clear All Filters
       </button>
     </div>
   );
@@ -307,7 +315,7 @@ ${
                 className="text-slate-500 hover:text-slate-700 dark:text-slate-400 p-0 transition-colors"
                 onClick={() => setShowMobileFilters(false)}
               >
-                <i className="bi bi-x-lg text-lg"></i>
+                <X size={22} />
               </button>
             </div>
             <FilterPanel />
@@ -334,11 +342,10 @@ ${
           <div className="lg:col-span-5">
             <div className="flex items-center rounded-2xl border border-slate-700 bg-slate-800 overflow-hidden transition-all duration-200 focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/20">
               <span className="pl-5 pr-3 text-slate-400 dark:text-slate-500">
-                <i className="bi bi-search"></i>
+                <Search size={18} />
               </span>
               <input
                 type="text"
-                // className="flex-1 bg-transparent px-2 outline-none py-2 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-colors focus:ring-0"
                 className="
                   flex-1
                   bg-transparent
@@ -399,7 +406,7 @@ ${
               className="rounded-full border border-slate-300 px-5 py-3 lg:hidden font-semibold"
               onClick={() => setShowMobileFilters(true)}
             >
-              <i className="bi bi-funnel mr-1"></i>Filters
+              <Filter size={18} className="mr-1 inline" />Filters
             </button>
 
             {/* View toggle buttons */}
@@ -418,7 +425,7 @@ ${
                 onClick={() => setViewMode("grid")}
                 title="Grid view"
               >
-                <i className="bi bi-grid-3x3-gap-fill"></i>
+                <LayoutGrid size={18} />
               </button>
               <button
                 type="button"
@@ -430,7 +437,7 @@ ${
                 onClick={() => setViewMode("list")}
                 title="List view"
               >
-                <i className="bi bi-list-ul"></i>
+                <List size={18} />
               </button>
             </div>
           </div>
