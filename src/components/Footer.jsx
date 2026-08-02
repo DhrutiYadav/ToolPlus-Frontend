@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../styles/Footer.css";
+import {
+  Mail,
+  CheckCircle2,
+  Send,
+} from "lucide-react";
+
+import {
+  FaGithub,
+  FaLinkedin,
+  FaYoutube,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -29,7 +41,7 @@ function Footer() {
             <div className="lg:w-1/2">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-11 h-11 bg-orange-100 dark:bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center">
-                  <i className="bi bi-envelope-heart-fill text-xl"></i>
+                  <Mail className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-extrabold text-xl text-slate-900 dark:text-white mb-1">
@@ -45,7 +57,7 @@ function Footer() {
             <div className="lg:w-1/2 w-full">
               {subscribed ? (
                 <div className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded-full px-6 py-3 flex items-center gap-2">
-                  <i className="bi bi-check-circle-fill"></i>
+                  <CheckCircle2 className="w-5 h-5" />
                   <span className="font-semibold">
                     You're subscribed! Look out for great deals.
                   </span>
@@ -63,7 +75,7 @@ function Footer() {
                     type="submit"
                     className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-10 py-3 rounded-full flex items-center gap-2 transition-all shadow-sm hover:shadow-md whitespace-nowrap"
                   >
-                    <i className="bi bi-send-fill"></i>
+                    <Send className="w-5 h-5" />
                     Subscribe
                   </button>
                 </form>
@@ -126,7 +138,7 @@ function Footer() {
                 title="GitHub"
                 aria-label="GitHub"
               >
-                <i className="bi bi-github"></i>
+                <FaGithub className="w-5 h-5" />
               </a>
               <a
                 href="#"
@@ -134,7 +146,7 @@ function Footer() {
                 title="Twitter / X"
                 aria-label="Twitter"
               >
-                <i className="bi bi-twitter-x"></i>
+                <FaXTwitter className="w-5 h-5" />
               </a>
               <a
                 href="#"
@@ -142,7 +154,7 @@ function Footer() {
                 title="LinkedIn"
                 aria-label="LinkedIn"
               >
-                <i className="bi bi-linkedin"></i>
+                <FaLinkedin className="w-5 h-5" />
               </a>
               <a
                 href="#"
@@ -150,7 +162,7 @@ function Footer() {
                 title="YouTube"
                 aria-label="YouTube"
               >
-                <i className="bi bi-youtube"></i>
+                <FaYoutube className="w-5 h-5" />
               </a>
             </div>
           </div>
