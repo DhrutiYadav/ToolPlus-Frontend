@@ -22,15 +22,17 @@ function HeroBanner() {
       className="
         relative
         mx-auto
-        mt-2
-        mb-5
-        max-w-[1450px]
+        mt-1
+        mb-2
+        max-w-[1000px]
+        min-h-[450px]
         flex
         items-center
+        lg:items-center
         justify-between
-        gap-8
-        xl:gap-12
-        2xl:gap-16
+        gap-4
+        lg:gap-8
+        xl:gap-10
         overflow-hidden
         rounded-[20px]
         border
@@ -39,25 +41,25 @@ function HeroBanner() {
         from-orange-50
         via-white
         to-orange-50
-        py-8
+        py-3
         shadow-sm
         dark:border-slate-700
         dark:from-slate-900
         dark:via-slate-800
         dark:to-slate-900
-        px-6
-        sm:px-8
-        lg:px-14
-        xl:px-20
-        2xl:px-24
-        lg:py-10
-        xl:py-12
+        px-5
+        sm:px-5
+        lg:px-7
+        xl:px-8
+        2xl:px-10
+        lg:py-3
+        xl:py-4
       "
     >
       <motion.div
         className="relative z-10 w-full
-          max-w-[900px]
-          xl:max-w-[980px]"
+          max-w-[600px]
+          xl:max-w-[620px]"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -91,24 +93,25 @@ function HeroBanner() {
         <motion.h1
           className="
             font-display
-            font-extrabold
-            tracking-tight
+            font-black
+            tracking-[-0.04em]
             text-slate-900
-          dark:text-white
-            leading-[1.02]
-            mb-5
-            text-[3rem]
-            sm:text-[4rem]
-            lg:text-[6rem]
-            xl:text-[6.75rem]
-            2xl:text-[7.25rem]
+            dark:text-white
+            leading-[1.03]
+            mb-3
+
+            text-[2.4rem]
+            sm:text-[2.9rem]
+            md:text-[3.3rem]
+            lg:text-[3.3rem]
+            xl:text-[3.5rem]
+            2xl:text-[3.7rem]
             "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          Discover Amazing Tools
-          <br />
+          <span className="block">Discover Amazing Tools</span>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-rose-500">
             Without Monthly Fees
           </span>
@@ -117,19 +120,19 @@ function HeroBanner() {
         <motion.p
           className="
             mt-0
-            mb-2
-            max-w-[700px]
-
-            text-[14px]
-            leading-6
+            mb-1
+            max-w-[620px]
+            lg:max-w-[650px]
+            text-[12px]
+            leading-5
 
             font-normal
 
             text-slate-500
             dark:text-slate-400
 
-            lg:text-[16px]
-            lg:leading-7
+            lg:text-[15px]
+            lg:leading-6
           "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -142,7 +145,7 @@ function HeroBanner() {
         {/* Hero Search Bar */}
         <motion.form
           onSubmit={handleHeroSearch}
-          className="w-full max-w-full lg:max-w-[520px]"
+          className="w-full max-w-full lg:max-w-[380px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
@@ -155,8 +158,8 @@ function HeroBanner() {
               border
               border-slate-300/70
               bg-white/95
-              h-12
-              sm:h-[52px]
+              h-10
+              sm:h-11
               px-4
               sm:px-5
               gap-3
@@ -221,11 +224,11 @@ function HeroBanner() {
                 bg-orange-500
                 hover:bg-orange-600
                 h-8
-                sm:h-9
-                min-w-[100px]
-                sm:min-w-[120px]
-                px-5
-                sm:px-7
+                sm:h-8
+                min-w-[82px]
+                sm:min-w-[90px]
+                px-4
+                sm:px-4
                 text-sm
                 text-white
                 font-semibold
@@ -242,13 +245,13 @@ function HeroBanner() {
 
         {/* Trust Badges */}
         <motion.div
-          className="mb-3 flex
+          className="mb-2 flex
             flex-wrap
             justify-center
             lg:justify-start
             gap-2
             sm:gap-3
-            mt-4"
+            mt-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -262,13 +265,12 @@ function HeroBanner() {
           ].map((badge, i) => (
             <div
               key={i}
-              className="flex items-center bg-white dark:bg-slate-800 px-3
-                sm:px-4 py-1 sm:py-1.5 gap-1.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
+              className="flex items-center bg-white dark:bg-slate-800 px-2.5 py-0.5 gap-1 rounded-full shadow-sm border border-slate-100 dark:border-slate-700"
             >
-              <span className="flex items-center gap-1.5 text-[15px]">
+              <span className="flex items-center gap-1 text-[11px]">
                 {badge.icon}
               </span>
-              <span className="font-semibold !text-slate-700 dark:!text-slate-300 text-[14px]">
+              <span className="font-semibold !text-slate-700 dark:!text-slate-300 text-[12px]">
                 {badge.text}
               </span>
             </div>
@@ -276,10 +278,10 @@ function HeroBanner() {
         </motion.div>
 
         <motion.div
-          className="mt-4
+          className="mt-3
             flex
             flex-wrap
-            gap-3
+            gap-2.5
             sm:gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -293,9 +295,10 @@ function HeroBanner() {
               justify-center
               rounded-xl
               bg-blue-600
-              px-6
-              sm:px-7
-              py-2
+              px-5
+              sm:px-6
+              py-1.5
+              text-[12.5px]
               text-sm
               sm:text-base
               font-semibold
@@ -325,8 +328,8 @@ function HeroBanner() {
               backdrop-blur-sm
               px-6
               sm:px-7
-              py-2.5
-              text-sm
+              py-1.5
+              text-[12.5px]
               sm:text-base
               font-semibold
               text-slate-700
@@ -361,8 +364,9 @@ function HeroBanner() {
           items-center
           justify-center
           flex-1
-          lg:max-w-[42%]
-          lg:-translate-y-3 xl:-translate-y-4
+          lg:max-w-[34%]
+          lg:-translate-y-7
+          xl:-translate-y-9
         "
         initial={{ opacity: 0, scale: 0.9, x: 50 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -372,9 +376,9 @@ function HeroBanner() {
           className="
             hero-illustration
             drop-shadow-2xl
-            w-[360px]
-            xl:w-[420px]
-            2xl:w-[470px]
+            w-[250px]
+            xl:w-[285px]
+            2xl:w-[320px]
             shrink-0
           "
         >
@@ -629,6 +633,7 @@ function HeroBanner() {
       {/* "As Seen On" Strip */}
       <div
         className="
+        mt-3
           absolute
           bottom-0
           left-0
@@ -636,18 +641,18 @@ function HeroBanner() {
           w-full
           flex-wrap
           items-center
-          gap-2.5
+          gap-2
           border-t
           border-slate-200/60
           bg-white/40
           px-6
-          py-2
+          py-1
           backdrop-blur-md
           dark:border-slate-700/50
           dark:bg-slate-900/40
           "
       >
-        <span className="text-slate-400 dark:text-slate-500 text-[11px] font-semibold uppercase tracking-[0.18em] mr-2">
+        <span className="text-slate-400 dark:text-slate-500 text-[10px] font-semibold uppercase tracking-[0.18em] mr-2">
           As seen on
         </span>
         {["Product Hunt", "TechCrunch", "Forbes", "Indie Hackers"].map(
@@ -659,8 +664,8 @@ function HeroBanner() {
                 border
                 border-slate-200
                 bg-white/70
-                px-2.5
-                py-0.5
+                px-2
+                py-[3px]
                 text-xs
                 font-semibold
                 text-slate-500

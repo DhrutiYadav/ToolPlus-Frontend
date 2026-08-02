@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap");
-@import "bootstrap/dist/css/bootstrap.min.css";
 @import "tailwindcss"; /* Enable class-based dark mode in Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *)); /* Fix Tailwind CSS v4 vs Bootstrap 5 collapse class collision */
 
@@ -239,29 +238,12 @@ html.dark .sidebar-item:hover {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-} /* ====================== DARK MODE COMPONENT FIXES ====================== */ /* Fix white cards in dark mode */
-.bg-white {
-  background-color: #1e2937 !important;
-}
+} 
+/* ====================== DARK MODE COMPONENT FIXES ====================== */ /* Fix white cards in dark mode */
+
 .dark .bg-white {
   background-color: #1e2937 !important;
 }
-.dark .bg-slate-50,
-.dark .bg-slate-100,
-.dark .bg-slate-800 {
-  background-color: #1e2937 !important;
-} /* Text overrides */
-.dark .text-slate-900,
-.dark .text-slate-800,
-.dark .text-slate-700,
-.dark .text-slate-600 {
-  color: #e2e8f0 !important;
-}
-.dark .text-slate-500,
-.dark .text-slate-400 {
-  color: #94a3b8 !important;
-} /* Borders */
-.dark .border-slate-100,
-.dark .border-slate-200 {
-  border-color: #334155 !important;
+.dark .bg-white{
+    background:#1e2937!important;
 }

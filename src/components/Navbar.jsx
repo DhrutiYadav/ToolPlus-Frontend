@@ -67,14 +67,14 @@ function Navbar() {
 
             {/* Desktop Horizontal Logo - Light */}
             <img
-              src="/logo/logo-horizontal.png"
+              src="/logo/logo-horizontal-removebg.png"
               alt="ToolPlus"
               className="hidden h-9 md:block dark:hidden"
             />
 
             {/* Desktop Horizontal Logo - Dark */}
             <img
-              src="/logo/dark-horizontal-logo.png"
+              src="/logo/dark-horizontal-logo-removebg.png"
               alt="ToolPlus"
               className="hidden h-9 md:dark:block"
             />
