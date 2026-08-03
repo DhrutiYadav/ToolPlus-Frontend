@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { renderStars } from "../services/reviewService";
+import StarRating from "./StarRating";
 import "../styles/DealCard.css";
+import { ShoppingCart, Zap, Trophy, Flame, Clock3 } from "lucide-react";
 
 function DealCard({ deal }) {
   const {
@@ -87,7 +88,7 @@ function DealCard({ deal }) {
             </span>
           )}
           {categoryName && (
-            <span className="inline-block text-[0.75em] leading-none text-center whitespace-nowrap align-baseline text-white bg-dark/80 backdrop-blur-sm absolute bottom-0 left-0 m-6 px-6 py-1.5 rounded-full uppercase font-semibold border border-white/10">
+            <span className="inline-block text-[0.75em] leading-none text-center whitespace-nowrap align-baseline text-white bg-slate-900/80 backdrop-blur-sm absolute bottom-0 left-0 m-6 px-6 py-1.5 rounded-full uppercase font-semibold border border-white/10">
               {categoryName}
             </span>
           )}
@@ -97,18 +98,20 @@ function DealCard({ deal }) {
           {/* Premium Badges */}
           <div className="flex gap-2 mb-2 flex-wrap">
             {savingsPercent > 80 && (
-              <span className="deal-badge deal-badge-featured">
-                <i className="bi bi-lightning-charge-fill mr-1"></i>Featured
+              <span className="deal-badge deal-badge-featured flex items-center gap-1">
+                <Zap size={14} />
+                Featured
               </span>
             )}
             {averageRating >= 4.5 && reviewCount > 0 && (
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-2.5 py-1 text-[0.7rem] font-bold tracking-[0.2px] text-white shadow-[0_2px_8px_rgba(59,130,246,0.3)]">
-                <i className="bi bi-trophy-fill mr-1"></i>Best Seller
+              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-2.5 py-1 text-[0.7rem] font-bold tracking-[0.2px] text-white shadow-[0_2px_8px_rgba(59,130,246,0.3)]">
+                <Trophy size={13} />
+                Best Seller
               </span>
             )}
             {stock <= 10 && stock > 0 && (
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-2.5 py-1 text-[0.7rem] font-bold tracking-[0.2px] text-white shadow-[0_2px_8px_rgba(245,158,11,0.3)]">
-                <i className="bi bi-fire mr-1"></i>
+              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-2.5 py-1 text-[0.7rem] font-bold tracking-[0.2px] text-white shadow-[0_2px_8px_rgba(245,158,11,0.3)]">
+                <Flame size={13} />
                 Limited
               </span>
             )}
@@ -132,7 +135,7 @@ function DealCard({ deal }) {
                   : "text-slate-300 dark:text-slate-600 mr-2 flex items-center gap-1"
               }
             >
-              {renderStars(averageRating || 0)}
+              <StarRating rating={averageRating || 0} />
             </div>
             <span className="text-slate-900 dark:text-white font-bold text-sm">
               {(averageRating || 0).toFixed(1)}
@@ -164,13 +167,14 @@ function DealCard({ deal }) {
 
             {/* Urgency indicator */}
             {daysLeft !== null ? (
-              <div className="deal-urgency-badge mb-2">
-                <i className="bi bi-clock mr-1"></i>
+              <div className="deal-urgency-badge mb-2 flex items-center gap-1">
+                <Clock3 size={14} />
                 {daysLeft === 0 ? "Expires today!" : `${daysLeft} days left`}
               </div>
             ) : (
-              <div className="deal-urgency-badge-limited mb-2">
-                <i className="bi bi-clock mr-1"></i>Limited Time
+              <div className="deal-urgency-badge-limited mb-2 flex items-center gap-1">
+                <Clock3 size={14} />
+                Limited Time
               </div>
             )}
 
@@ -193,10 +197,10 @@ function DealCard({ deal }) {
 
             <Link
               to={`/deals/${id}`}
-              className="deal-cta-btn w-full rounded-full h-[48px] flex items-center justify-center font-bold text-white"
+              className="deal-cta-btn w-full rounded-full h-[48px] flex items-center justify-center gap-2 font-bold text-white"
             >
+              <ShoppingCart size={18} />
               <span className="deal-cta-text">Get Lifetime Deal</span>
-              <span className="deal-cta-arrow ml-2">→</span>
             </Link>
           </div>
         </div>
