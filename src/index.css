@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap");
-@import "tailwindcss"; /* Enable class-based dark mode in Tailwind v4 */
-@custom-variant dark (&:where(.dark, .dark *)); /* Fix Tailwind CSS v4 vs Bootstrap 5 collapse class collision */
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================== DESIGN TOKENS ============================== */
 :root {
@@ -45,7 +45,9 @@ html.dark {
     0 12px 24px -4px rgba(0, 0, 0, 0.45), 0 4px 10px -4px rgba(0, 0, 0, 0.25);
   --shadow-xl:
     0 20px 40px -8px rgba(0, 0, 0, 0.5), 0 8px 16px -4px rgba(0, 0, 0, 0.3);
-} /* ============================== BASE STYLES ============================== */
+}
+
+/* ============================== BASE STYLES ============================== */
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-light) !important;
@@ -74,7 +76,9 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
-} /* ============================== TYPOGRAPHY ============================== */
+}
+
+/* ============================== TYPOGRAPHY ============================== */
 .text-dashboard-title {
   font-weight: 700;
   font-size: 2rem;
@@ -97,7 +101,9 @@ h6 {
 .text-description {
   font-size: 0.925rem;
   line-height: 1.65;
-} /* ============================== CUSTOM SCROLLBAR ============================== */
+}
+
+/* ============================== CUSTOM SCROLLBAR ============================== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -120,7 +126,9 @@ html.dark ::-webkit-scrollbar-thumb {
 }
 html.dark ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
-} /* ============================== GLOBAL UTILITIES ============================== */
+}
+
+/* ============================== GLOBAL UTILITIES ============================== */
 .fw-extrabold {
   font-weight: 800;
 }
@@ -132,7 +140,8 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 }
 .hover-primary:hover {
   color: var(--primary) !important;
-} 
+}
+
 /* ============================== CARDS & HOVERS ============================== */
 .hover-lift {
   transition:
@@ -148,7 +157,9 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 }
 .deal-card-container:hover .deal-card-img {
   transform: scale(1.06);
-} /* Quick Actions */
+}
+
+/* Quick Actions */
 .quick-action-card:hover .action-icon {
   animation: bounce 0.6s ease;
 }
@@ -160,14 +171,18 @@ html.dark ::-webkit-scrollbar-thumb:hover {
   50% {
     transform: translateY(-6px);
   }
-} /* ============================== SIDEBAR ============================== */
+}
+
+/* ============================== SIDEBAR ============================== */
 .sidebar-item {
   transition: all 0.2s ease;
 }
 html.dark .sidebar-item:hover {
   background-color: rgba(var(--primary-rgb), 0.08);
   box-shadow: inset 3px 0 0 var(--primary);
-} /* ============================== TABLES ============================== */
+}
+
+/* ============================== TABLES ============================== */
 
 /* ============================== ANIMATIONS ============================== */
 @keyframes skeletonPulse {
@@ -222,7 +237,9 @@ html.dark .sidebar-item:hover {
   animation: wave 2.5s ease-in-out infinite;
   display: inline-block;
   transform-origin: 70% 70%;
-} /* ============================== RESPONSIVE & ACCESSIBILITY ============================== */
+}
+
+/* ============================== RESPONSIVE & ACCESSIBILITY ============================== */
 @media (max-width: 767.98px) {
   .text-dashboard-title {
     font-size: 1.75rem !important;
@@ -238,12 +255,13 @@ html.dark .sidebar-item:hover {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-} 
+}
+
 /* ====================== DARK MODE COMPONENT FIXES ====================== */ /* Fix white cards in dark mode */
 
 .dark .bg-white {
   background-color: #1e2937 !important;
 }
-.dark .bg-white{
-    background:#1e2937!important;
+.dark .bg-white {
+  background: #1e2937 !important;
 }

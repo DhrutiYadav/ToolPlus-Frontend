@@ -6,6 +6,7 @@ import SkeletonLoader from "../components/SkeletonLoader";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { changePassword } from "../api/profileApi";
+import { UserRound, ShieldCheck, ShoppingBag, PackageX } from "lucide-react";
 
 function Profile() {
   const { user } = useAuth();
@@ -110,9 +111,21 @@ function Profile() {
   // );
 
   const tabs = [
-    { key: "profile", label: "Profile Settings", icon: "bi-person-fill" },
-    { key: "security", label: "Security", icon: "bi-shield-lock-fill" },
-    { key: "orders", label: "Order History", icon: "bi-bag-fill" },
+    {
+      key: "profile",
+      label: "Profile Settings",
+      icon: <UserRound size={20} />,
+    },
+    {
+      key: "security",
+      label: "Security",
+      icon: <ShieldCheck size={20} />,
+    },
+    {
+      key: "orders",
+      label: "Order History",
+      icon: <ShoppingBag size={20} />,
+    },
   ];
 
   const getOrderStatusBadge = (status) => {
@@ -211,9 +224,7 @@ function Profile() {
                   {(profile?.name || "U")[0].toUpperCase()}
                 </span>
               </div>
-              <h5
-                className="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-1 transition-colors"
-              >
+              <h5 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-1 transition-colors">
                 {profile?.name || "Member"}
               </h5>
               <span className="text-slate-500 text-sm dark:text-slate-400 transition-colors mb-2 block">
@@ -234,7 +245,7 @@ function Profile() {
             </div>
 
             <div
-              className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+              className="flex flex-col relative min-w-0 border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
               dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
               backdrop-blur-2xl
               bg-white/95
@@ -272,7 +283,7 @@ function Profile() {
                         }
                         `}
                     >
-                      <i className={`bi ${tab.icon} mr-4`}></i>
+                      <span className="mr-4 flex items-center">{tab.icon}</span>
                       {tab.label}
                     </button>
                   );
@@ -286,7 +297,8 @@ function Profile() {
             {/* Tab: Profile Info */}
             {activeTab === "profile" && (
               <div
-                className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+                className="flex flex-col relative min-w-0 border border-slate-100 dark:border-slate-800
+                shadow-[0_25px_60px_rgba(0,0,0,0.12)]
                 dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
                 backdrop-blur-2xl
                 bg-white/95
@@ -335,7 +347,6 @@ function Profile() {
                         transition-all
                         focus:border-orange-500
                         focus:ring-2
-                        ring-
                         ring-orange-500/30
                         "
                       value={name}
@@ -429,7 +440,7 @@ function Profile() {
             {/* Tab: Security */}
             {activeTab === "security" && (
               <div
-                className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+                className="flex flex-col relative min-w-0 border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
                 dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
                 backdrop-blur-2xl
                 bg-white/95
@@ -608,7 +619,8 @@ function Profile() {
             {/* Tab: My Orders */}
             {activeTab === "orders" && (
               <div
-                className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.12)]
+                className="flex flex-col relative min-w-0 border border-slate-100 dark:border-slate-800
+                shadow-[0_25px_60px_rgba(0,0,0,0.12)]
                 dark:shadow-[0_30px_80px_rgba(0,0,0,0.35)]
                 backdrop-blur-2xl
                 bg-white/95
@@ -641,10 +653,10 @@ function Profile() {
                 </div>
                 {orders.length === 0 ? (
                   <div className="text-center py-12">
-                    <i
-                      className="bi bi-bag-x text-slate-300 dark:text-slate-700"
-                      style={{ fontSize: "3rem" }}
-                    ></i>
+                    <PackageX
+                      size={48}
+                      className="text-slate-300 dark:text-slate-700 mx-auto"
+                    />
                     <p className="text-slate-500 dark:text-slate-400 mt-6 mb-0">
                       You haven't placed any orders yet.
                     </p>

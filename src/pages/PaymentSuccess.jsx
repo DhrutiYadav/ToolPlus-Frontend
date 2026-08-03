@@ -2,7 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../styles/PaymentSuccess.css";
-
+import {
+  CheckCircle2,
+  PackageX,
+  MessageCircle,
+  ShoppingBag,
+} from "lucide-react";
 // Confetti piece component
 const ConfettiPiece = ({ style }) => (
   <div className="confetti-piece" style={style}></div>
@@ -70,11 +75,14 @@ const PaymentSuccess = () => {
 
   if (!state.orderId) {
     return (
-      <div className="container py-12 text-center min-h-screen flex flex-col items-center justify-center">
-        <div className="flex flex-col relative min-w-0 break-words shadow-lg border-0 bg-white dark:bg-slate-900 transition-colors p-12 rounded-2xl payment-empty-card">
+      <div className="mx-auto w-full max-w-7xl py-12 text-center min-h-screen flex flex-col items-center justify-center px-4">
+        <div className="flex flex-col relative min-w-0 shadow-lg bg-white dark:bg-slate-900 transition-colors p-12 rounded-2xl payment-empty-card">
           <div className="mb-6">
             <div className="bg-slate-100 dark:bg-slate-800 rounded-full inline-flex items-center justify-center transition-colors payment-icon-circle">
-              <i className="bi bi-bag-x payment-icon-medium payment-empty-icon"></i>
+              <PackageX
+                size={48}
+                className="payment-icon-medium payment-empty-icon"
+              />
             </div>
           </div>
           <h1 className="font-bold text-slate-900 dark:text-white mb-6">
@@ -117,11 +125,14 @@ const PaymentSuccess = () => {
         </div>
       )}
 
-      <div className="flex flex-col relative min-w-0 break-words shadow-lg border-0 bg-white dark:bg-slate-900 transition-colors p-12 rounded-2xl payment-card">
+      <div className="flex flex-col relative min-w-0 shadow-lg bg-white dark:bg-slate-900 transition-colors p-12 rounded-2xl payment-card">
         {/* Success icon */}
         <div className="mb-6">
           <div className="bg-emerald-100 dark:bg-emerald-900/30 rounded-full inline-flex items-center justify-center transition-colors payment-icon-circle">
-            <i className="bi bi-check-circle-fill text-emerald-500 payment-icon-large"></i>
+            <CheckCircle2
+              size={72}
+              className="text-emerald-500 payment-icon-large"
+            />
           </div>
         </div>
 
@@ -255,7 +266,8 @@ const PaymentSuccess = () => {
             className="inline-flex items-center gap-2 rounded-full bg-green-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-green-600"
             onClick={() => handleShare("whatsapp")}
           >
-            <i className="bi bi-whatsapp"></i> WhatsApp
+            <MessageCircle size={18} />
+            <span>WhatsApp</span>
           </button>
         </div>
 
@@ -264,7 +276,8 @@ const PaymentSuccess = () => {
             to="/orders"
             className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-blue-700"
           >
-            <i className="bi bi-bag-check mr-2"></i>View Orders
+            <ShoppingBag size={18} />
+            <span>View Orders</span>
           </Link>
           <Link
             to="/deals"

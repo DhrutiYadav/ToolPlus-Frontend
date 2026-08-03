@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -32,12 +38,20 @@ import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminReports from "./pages/admin/AdminReports";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AppContent() {
   const location = useLocation();
-  const isAuthPage = ["/login", "/register", "/forgot-password", "/reset-password"].some(path => location.pathname === path || location.pathname.startsWith(`${path}/`));
+  const isAuthPage = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+  ].some(
+    (path) =>
+      location.pathname === path || location.pathname.startsWith(`${path}/`),
+  );
   const isAdminPage = location.pathname.startsWith("/admin");
 
   if (isAdminPage) {
@@ -52,11 +66,14 @@ function AppContent() {
           }
         >
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="dashboard" element={
-            <ErrorBoundary>
-              <AdminDashboard />
-            </ErrorBoundary>
-          } />
+          <Route
+            path="dashboard"
+            element={
+              <ErrorBoundary>
+                <AdminDashboard />
+              </ErrorBoundary>
+            }
+          />
           <Route path="users" element={<AdminUsers />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="reviews" element={<AdminReviews />} />
