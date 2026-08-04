@@ -260,13 +260,10 @@ const Cart = () => {
             {[1, 2].map((n) => (
               <div
                 key={n}
-                className="flex flex-col relative min-w-0 break-words mb-6 border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors"
+                className="flex flex-col relative min-w-0 break-words mb-6 border border-slate-100 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 transition-colors"
               >
                 <div className="flex-1 p-4 flex items-center">
-                  <div
-                    className="placeholder col-2 rounded bg-slate-200 dark:bg-slate-700 transition-colors"
-                    style={{ height: "80px", width: "80px" }}
-                  ></div>
+                  <div className="h-20 w-20 rounded bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
                   <div className="ml-4 flex-1">
                     <div className="h-5 w-2/3 rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-2"></div>
                     <div className="h-4 w-1/2 rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-2"></div>
@@ -277,11 +274,11 @@ const Cart = () => {
             ))}
           </div>
           <div className="lg:col-span-4">
-            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm placeholder-glow bg-white dark:bg-slate-900 transition-colors">
+            <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 transition-colors">
               <div className="flex-1 p-6">
-                <h5 className="placeholder col-6 mb-6"></h5>
+                <div className="h-6 w-1/2 rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-6"></div>
                 <div className="h-4 w-1/4 rounded bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
-                <p className="placeholder col-12 mb-6"></p>
+                <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700 animate-pulse mb-6"></div>
                 <div className="h-10 w-full rounded-lg bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
               </div>
             </div>
