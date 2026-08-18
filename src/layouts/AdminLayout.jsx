@@ -338,7 +338,7 @@ function AdminLayout() {
                                   fetchNotifications();
                                   window.dispatchEvent(new Event('notificationsUpdated'));
                                 } catch (error) {
-                                  console.error(error);
+                                  console.error('Error marking all as read:', error);
                                 }
                               }
                             }}

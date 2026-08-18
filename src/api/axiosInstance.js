@@ -5,6 +5,8 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
+let refreshPromise = null;
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -15,7 +17,7 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
@@ -28,38 +30,35 @@ api.interceptors.response.use(
       toast.error("You do not have permission to perform this action.");
     }
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const refreshToken =
-          localStorage.getItem("refreshToken");
+        if (!refreshPromise) {
+          const refreshToken = localStorage.getItem("refreshToken");
 
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
-          {
-            refreshToken,
-          }
-        );
+          refreshPromise = axios
+            .post(
+              `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
+              {
+                refreshToken,
+              },
+            )
+            .then((response) => {
+              const newAccessToken = response.data.accessToken;
+              const newRefreshToken = response.data.refreshToken;
 
-        const newAccessToken =
-          response.data.accessToken;
+              localStorage.setItem("token", newAccessToken);
+              localStorage.setItem("refreshToken", newRefreshToken);
 
-        const newRefreshToken =
-          response.data.refreshToken;
+              return newAccessToken;
+            })
+            .finally(() => {
+              refreshPromise = null;
+            });
+        }
 
-        localStorage.setItem(
-          "token",
-          newAccessToken
-        );
-
-        localStorage.setItem(
-          "refreshToken",
-          newRefreshToken
-        );
+        const newAccessToken = await refreshPromise;
 
         originalRequest.headers.Authorization =
           `Bearer ${newAccessToken}`;
@@ -76,7 +75,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
