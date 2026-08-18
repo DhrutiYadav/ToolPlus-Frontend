@@ -209,4 +209,4 @@ function DealCard({ deal }) {
   );
 }
 
-export default DealCard;
+export default React.memo(DealCard);

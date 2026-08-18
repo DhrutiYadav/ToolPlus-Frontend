@@ -86,7 +86,7 @@ function AdminLayout() {
       fetchNotifications();
       window.dispatchEvent(new Event('notificationsUpdated'));
     } catch (error) {
-      console.error('Error marking all as read:', error);
+      console.error("Failed to mark notification as read:", error);
     }
   };
 
