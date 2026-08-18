@@ -1,204 +1,33 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import DealCard from "../components/DealCard";
 import Pagination from "../components/Pagination";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getCategories } from "../services/categoryService";
 import { searchDeals, getDealsByCategoryId } from "../services/dealService";
-import {
-  Search,
-  X,
-  Filter,
-  LayoutGrid,
-  List,
-  CircleX,
-} from "lucide-react";
+import { Search, X, Filter, LayoutGrid, List, CircleX } from "lucide-react";
 
-function Deals() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const categoryParam = searchParams.get("category");
-  const searchParam = searchParams.get("search");
-  const pageParam = parseInt(searchParams.get("page")) || 1;
-
-  const [deals, setDeals] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(categoryParam || "");
-  const [searchTerm, setSearchTerm] = useState(searchParam || "");
-  const [currentPage, setCurrentPage] = useState(pageParam);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("default");
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'list'
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
-
-  // Sidebar filter state
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState(
-    categoryParam || "",
-  );
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [minRating, setMinRating] = useState(0);
-
-  const pageSize = 6;
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        setCategories(data || []);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    setSelectedCategory(categoryParam || "");
-    setSelectedCategoryFilter(categoryParam || "");
-  }, [categoryParam]);
-  useEffect(() => {
-    setSearchTerm(searchParam || "");
-  }, [searchParam]);
-  useEffect(() => {
-    setCurrentPage(pageParam);
-  }, [pageParam]);
-
-  useEffect(() => {
-    const fetchDeals = async () => {
-      setLoading(true);
-      try {
-        let filtered = [];
-
-        if (selectedCategory || selectedCategoryFilter) {
-          const catId = selectedCategoryFilter || selectedCategory;
-          const allCatDeals = await getDealsByCategoryId(catId);
-          filtered = allCatDeals || [];
-        } else {
-          const response = await searchDeals(
-            searchTerm.trim(),
-            currentPage,
-            pageSize,
-          );
-          filtered = response.items || [];
-          setTotalPages(Math.max(1, Math.ceil(response.totalCount / pageSize)));
-          setTotalCount(response.totalCount || filtered.length);
-
-          filtered = applyLocalFilters(filtered);
-          filtered = sortDeals(filtered, sortBy);
-          setDeals(filtered);
-          setLoading(false);
-          return;
-        }
-
-        if (searchTerm.trim()) {
-          const term = searchTerm.toLowerCase();
-          filtered = filtered.filter(
-            (d) =>
-              d.title.toLowerCase().includes(term) ||
-              (d.description && d.description.toLowerCase().includes(term)) ||
-              (d.shortDescription &&
-                d.shortDescription.toLowerCase().includes(term)),
-          );
-        }
-
-        filtered = applyLocalFilters(filtered);
-        filtered = sortDeals(filtered, sortBy);
-
-        setTotalCount(filtered.length);
-        setTotalPages(Math.max(1, Math.ceil(filtered.length / pageSize)));
-        const startIdx = (currentPage - 1) * pageSize;
-        setDeals(filtered.slice(startIdx, startIdx + pageSize));
-      } catch (error) {
-        console.error("Error fetching deals:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDeals();
-  }, [
-    selectedCategory,
-    selectedCategoryFilter,
-    searchTerm,
-    currentPage,
-    sortBy,
-    minPrice,
-    maxPrice,
-    minRating,
-  ]);
-
-  const applyLocalFilters = (list) => {
-    let result = [...list];
-    if (minPrice !== "")
-      result = result.filter((d) => d.discountPrice >= parseFloat(minPrice));
-    if (maxPrice !== "")
-      result = result.filter((d) => d.discountPrice <= parseFloat(maxPrice));
-    if (minRating > 0)
-      result = result.filter((d) => (d.averageRating || 0) >= minRating);
-    return result;
-  };
-
-  const sortDeals = (dealList, sortType) => {
-    const list = [...dealList];
-    if (sortType === "price-low")
-      return list.sort((a, b) => a.discountPrice - b.discountPrice);
-    if (sortType === "price-high")
-      return list.sort((a, b) => b.discountPrice - a.discountPrice);
-    if (sortType === "savings")
-      return list.sort(
-        (a, b) =>
-          b.originalPrice -
-          b.discountPrice -
-          (a.originalPrice - a.discountPrice),
-      );
-    if (sortType === "highest-rated")
-      return list.sort(
-        (a, b) => (b.averageRating || 0) - (a.averageRating || 0),
-      );
-    if (sortType === "alphabetical")
-      return list.sort((a, b) => a.title.localeCompare(b.title));
-    return list;
-  };
-
-  const handleClearFilters = () => {
-    setSelectedCategoryFilter("");
-    setSelectedCategory("");
-    setMinPrice("");
-    setMaxPrice("");
-    setMinRating(0);
-    setSearchTerm("");
-    setCurrentPage(1);
-    setSearchParams({});
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    setCurrentPage(1);
-    const params = {};
-    if (selectedCategoryFilter) params.category = selectedCategoryFilter;
-    if (searchTerm) params.search = searchTerm;
-    setSearchParams(params);
-  };
-
-  const handlePageChange = (pageNum) => {
-    setCurrentPage(pageNum);
-    const params = {};
-    if (selectedCategoryFilter) params.category = selectedCategoryFilter;
-    if (searchTerm) params.search = searchTerm;
-    if (pageNum > 1) params.page = pageNum;
-    setSearchParams(params);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const FilterPanel = () => (
+function FilterPanel({
+  categories,
+  selectedCategoryFilter,
+  setSelectedCategoryFilter,
+  minPrice,
+  setMinPrice,
+  maxPrice,
+  setMaxPrice,
+  minRating,
+  setMinRating,
+  handleClearFilters,
+}) {
+  return (
     <div className="flex flex-col gap-6">
       {/* Category Filter */}
       <div>
         <h6 className="font-bold text-slate-900 dark:text-white text-sm mb-6 uppercase tracking-wider transition-colors">
           Category
         </h6>
+
         <div className="flex flex-col gap-2">
           <label className="flex items-center gap-2 cursor-pointer group">
             <input
@@ -208,10 +37,12 @@ function Deals() {
               onChange={() => setSelectedCategoryFilter("")}
               className="h-4 w-4 accent-orange-500 mt-0"
             />
+
             <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors hover:text-orange-400">
               All Categories
             </span>
           </label>
+
           {categories.map((cat) => (
             <label
               key={cat.id}
@@ -224,9 +55,11 @@ function Deals() {
                 onChange={() => setSelectedCategoryFilter(cat.id.toString())}
                 className="h-4 w-4 accent-orange-500 mt-0"
               />
+
               <span className="text-slate-700 dark:text-slate-300 text-sm transition-colors group-hover:text-orange-400">
                 {cat.name}
               </span>
+
               <span className="ml-auto rounded-full bg-slate-700 px-2 py-0.5 text-[11px] font-medium text-slate-300">
                 ({cat.dealCount || 0})
               </span>
@@ -240,6 +73,7 @@ function Deals() {
         <h6 className="font-bold text-slate-900 dark:text-white text-sm mb-6 uppercase tracking-wider transition-colors">
           Price Range
         </h6>
+
         <div className="flex gap-2">
           <input
             type="number"
@@ -248,6 +82,7 @@ function Deals() {
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
           />
+
           <input
             type="number"
             className="flex-1 rounded-lg border border-slate-300 bg-white dark:bg-slate-800 px-3 py-2 outline-none text-slate-900 dark:text-white dark:border-slate-700 transition-colors"
@@ -263,6 +98,7 @@ function Deals() {
         <h6 className="font-bold text-slate-900 dark:text-white text-sm mb-6 uppercase tracking-wider transition-colors">
           Min Rating
         </h6>
+
         <div className="flex gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -280,6 +116,7 @@ ${
             </button>
           ))}
         </div>
+
         {minRating > 0 && (
           <small className="text-slate-500 dark:text-slate-400 mt-1 block">
             {minRating}+ stars
@@ -292,10 +129,201 @@ ${
         onClick={handleClearFilters}
         className="w-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 font-semibold"
       >
-        <CircleX size={18} className="mr-2 inline" />Clear All Filters
+        <CircleX size={18} className="mr-2 inline" />
+        Clear All Filters
       </button>
     </div>
   );
+}
+
+function Deals() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const searchParam = searchParams.get("search");
+  const pageParam = parseInt(searchParams.get("page")) || 1;
+
+  const [searchTerm, setSearchTerm] = useState(searchParam || "");
+  const [sortBy, setSortBy] = useState("default");
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'list'
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Sidebar filter state
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState(
+    categoryParam || "",
+  );
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [minRating, setMinRating] = useState(0);
+
+  const currentPage = pageParam;
+
+  const pageSize = 6;
+
+  const applyLocalFilters = (list) => {
+    let result = [...list];
+
+    if (minPrice !== "") {
+      result = result.filter((d) => d.discountPrice >= parseFloat(minPrice));
+    }
+
+    if (maxPrice !== "") {
+      result = result.filter((d) => d.discountPrice <= parseFloat(maxPrice));
+    }
+
+    if (minRating > 0) {
+      result = result.filter((d) => (d.averageRating || 0) >= minRating);
+    }
+
+    return result;
+  };
+
+  const sortDeals = (dealList, sortType) => {
+    const list = [...dealList];
+
+    if (sortType === "price-low") {
+      return list.sort((a, b) => a.discountPrice - b.discountPrice);
+    }
+
+    if (sortType === "price-high") {
+      return list.sort((a, b) => b.discountPrice - a.discountPrice);
+    }
+
+    if (sortType === "savings") {
+      return list.sort(
+        (a, b) =>
+          b.originalPrice -
+          b.discountPrice -
+          (a.originalPrice - a.discountPrice),
+      );
+    }
+
+    if (sortType === "highest-rated") {
+      return list.sort(
+        (a, b) => (b.averageRating || 0) - (a.averageRating || 0),
+      );
+    }
+
+    if (sortType === "alphabetical") {
+      return list.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    return list;
+  };
+
+  const {
+    data: dealData = {
+      deals: [],
+      totalCount: 0,
+      totalPages: 1,
+    },
+    isLoading: loading,
+  } = useQuery({
+    queryKey: [
+      "deals",
+      categoryParam,
+      selectedCategoryFilter,
+      searchTerm,
+      currentPage,
+      sortBy,
+      minPrice,
+      maxPrice,
+      minRating,
+    ],
+    queryFn: async () => {
+      let filtered;
+
+      if (categoryParam || selectedCategoryFilter) {
+        const catId = selectedCategoryFilter || categoryParam;
+
+        const allCatDeals = await getDealsByCategoryId(catId);
+
+        filtered = allCatDeals || [];
+      } else {
+        const response = await searchDeals(
+          searchTerm.trim(),
+          currentPage,
+          pageSize,
+        );
+
+        filtered = response.items || [];
+
+        const totalCount = response.totalCount || filtered.length;
+
+        filtered = applyLocalFilters(filtered);
+        filtered = sortDeals(filtered, sortBy);
+
+        return {
+          deals: filtered,
+          totalCount,
+          totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+        };
+      }
+
+      if (searchTerm.trim()) {
+        const term = searchTerm.toLowerCase();
+
+        filtered = filtered.filter(
+          (d) =>
+            d.title.toLowerCase().includes(term) ||
+            (d.description && d.description.toLowerCase().includes(term)) ||
+            (d.shortDescription &&
+              d.shortDescription.toLowerCase().includes(term)),
+        );
+      }
+
+      filtered = applyLocalFilters(filtered);
+      filtered = sortDeals(filtered, sortBy);
+
+      const totalCount = filtered.length;
+
+      const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+      const startIdx = (currentPage - 1) * pageSize;
+
+      const paginatedDeals = filtered.slice(startIdx, startIdx + pageSize);
+
+      return {
+        deals: paginatedDeals,
+        totalCount,
+        totalPages,
+      };
+    },
+    retry: false,
+  });
+
+  const { deals, totalCount, totalPages } = dealData;
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+    retry: false,
+  });
+
+  const handleClearFilters = () => {
+    setSelectedCategoryFilter("");
+    setMinPrice("");
+    setMaxPrice("");
+    setMinRating(0);
+    setSearchTerm("");
+    setSearchParams({});
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const params = {};
+    if (selectedCategoryFilter) params.category = selectedCategoryFilter;
+    if (searchTerm) params.search = searchTerm;
+    setSearchParams(params);
+  };
+
+  const handlePageChange = (pageNum) => {
+    const params = {};
+    if (selectedCategoryFilter) params.category = selectedCategoryFilter;
+    if (searchTerm) params.search = searchTerm;
+    if (pageNum > 1) params.page = pageNum;
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="deals-page py-6">
@@ -318,7 +346,18 @@ ${
                 <X size={22} />
               </button>
             </div>
-            <FilterPanel />
+            <FilterPanel
+              categories={categories}
+              selectedCategoryFilter={selectedCategoryFilter}
+              setSelectedCategoryFilter={setSelectedCategoryFilter}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              minRating={minRating}
+              setMinRating={setMinRating}
+              handleClearFilters={handleClearFilters}
+            />
           </div>
         </div>
       )}
@@ -406,7 +445,8 @@ ${
               className="rounded-full border border-slate-300 px-5 py-3 lg:hidden font-semibold"
               onClick={() => setShowMobileFilters(true)}
             >
-              <Filter size={18} className="mr-1 inline" />Filters
+              <Filter size={18} className="mr-1 inline" />
+              Filters
             </button>
 
             {/* View toggle buttons */}
@@ -448,7 +488,18 @@ ${
         {/* Sidebar Filters — Desktop */}
         <div className="hidden lg:block  lg:col-span-3">
           <div className="flex flex-col relative min-w-0 break-words border border-slate-100 dark:border-slate-800 shadow-sm p-6 rounded-2xl bg-white dark:bg-slate-900 transition-colors sticky top-24">
-            <FilterPanel />
+            <FilterPanel
+              categories={categories}
+              selectedCategoryFilter={selectedCategoryFilter}
+              setSelectedCategoryFilter={setSelectedCategoryFilter}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              minRating={minRating}
+              setMinRating={setMinRating}
+              handleClearFilters={handleClearFilters}
+            />
           </div>
         </div>
 
@@ -461,7 +512,9 @@ ${
                 <span className="text-orange-500 font-extrabold text-2xl">
                   {totalCount}
                 </span>
-                <span className="uppercase tracking-wide text-xs text-slate-400 ml-2">Results Found</span>
+                <span className="uppercase tracking-wide text-xs text-slate-400 ml-2">
+                  Results Found
+                </span>
               </p>
             </div>
           )}

@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import CategoryCard from "../components/CategoryCard";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { getCategories, searchCategories } from "../services/categoryService";
 
 function Categories() {
-  const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      try {
-        let data;
-        if (searchTerm.trim()) {
-          data = await searchCategories(searchTerm.trim());
-        } else {
-          data = await getCategories();
-        }
-        setCategories(data || []);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm.trim());
+    }, 300);
 
-    const delayDebounceFn = setTimeout(() => {
-      fetchCategories();
-    }, 300); // Debounce typing
-
-    return () => clearTimeout(delayDebounceFn);
+    return () => clearTimeout(timer);
   }, [searchTerm]);
+
+  const { data: categories = [], isLoading: loading } = useQuery({
+    queryKey: ["categories", debouncedSearchTerm],
+    queryFn: () =>
+      debouncedSearchTerm
+        ? searchCategories(debouncedSearchTerm)
+        : getCategories(),
+  });
 
   return (
     <div className="categories-page py-12">

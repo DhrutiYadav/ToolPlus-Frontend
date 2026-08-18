@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import HeroBanner from "../components/HeroBanner";
@@ -49,29 +50,23 @@ const CountUpStat = ({ end, suffix = "", duration = 2, trigger }) => {
 };
 
 function Home() {
-  const [categories, setCategories] = useState([]);
-  const [deals, setDeals] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [statsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef(null);
 
-  useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        const [categoriesData, dealsData] = await Promise.all([
-          getCategories(),
-          getDeals(),
-        ]);
-        setCategories((categoriesData || []).slice(0, 3));
-        setDeals((dealsData || []).slice(0, 6));
-      } catch (error) {
-        console.error("Error fetching home page data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchHomeData();
-  }, []);
+  const { data: categoriesData = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
+  const { data: dealsData = [], isLoading: dealsLoading } = useQuery({
+    queryKey: ["deals"],
+    queryFn: getDeals,
+  });
+
+  const categories = categoriesData.slice(0, 3);
+  const deals = dealsData.slice(0, 6);
+
+  const loading = categoriesLoading || dealsLoading;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
