@@ -25,7 +25,7 @@ function HeroBanner() {
         mt-1
         mb-2
         max-w-[1000px]
-        min-h-[450px]
+        min-h-[calc(95svh-100px)]
         flex
         items-center
         lg:items-center
